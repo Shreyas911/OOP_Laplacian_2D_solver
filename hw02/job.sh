@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -N 1
-#SBATCH -n 48
+#SBATCH -n 1
 #SBATCH -o pi.script.log
 #SBATCH -e error.%j.out
 #SBATCH -J PI_ESTIMATION
