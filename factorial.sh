@@ -13,5 +13,5 @@ done
 if [ $# = 1 ] && [[ $1 =~ $REGEX ]]; then
 	echo "The factorial of the number $1 is $factorial"
 else
-	echo "ERROR: This script is supposed to find factorials. Please provide only one argument which is a whole number."
+	echo "ERROR: This script is supposed to find factorials. Please provide only one whole number argument."
 fi
