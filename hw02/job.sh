@@ -11,4 +11,11 @@
 #SBATCH --mail-user=shreyasg911@gmail.com
 #SBATCH --mail-type=begin
 
-ibrun ./pi.sh
+TIMEFORMAT=%R ## Change time format to give only real time value
+ibrun time ./pi.sh 10
+ibrun time ./pi.sh 100
+ibrun time ./pi.sh 500
+ibrun time ./pi.sh 1000
+ibrun time ./pi.sh 5000
+ibrun time ./pi.sh 10000
+ibrun time ./pi.sh 50000
