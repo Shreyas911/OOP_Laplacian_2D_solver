@@ -1,5 +1,5 @@
 # !/bin/bash
-N=(5000)
+N=(10 100 500 1000 5000 10000 50000)
 PI=$(echo "scale =10; 3.14159265358979323846" | bc -l)
 
 declare -a erel=( $(for i in {1..${#N[@]}}; do echo 0; done) )
@@ -17,10 +17,7 @@ for n in `seq 0 $((${#N[@]}-1))`; do
 		 	COUNTER=$(( $COUNTER+1 ))
 		fi
 	done
-
 	piestimate[n]=$(echo "scale=10; 4*$COUNTER/${N[n]}" | bc -l)
 	erel[n]=$(echo "scale=10; sqrt((($PI-${piestimate[n]})/$PI)^2)" | bc -l)
+	echo "${N[n]} $COUNTER ${piestimate[n]} ${erel[n]}"
 done
-echo
-echo ${piestimate[@]}
-echo ${erel[@]}
