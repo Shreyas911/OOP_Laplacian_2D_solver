@@ -1,6 +1,6 @@
 # !/bin/bash
 
-
+# Print the first pyramid
 for i in `seq 1 5`; do
 	for ((j = 1; j<=$((5-$i));j++)); do
 		echo -n " " 
@@ -10,6 +10,7 @@ for i in `seq 1 5`; do
 	done
 	echo 
 done
+# Print the second pyramid
 for i in `seq 1 5`; do
 	for ((j = 1; j<=$((5-$i));j++)); do
 		echo -n " " 
