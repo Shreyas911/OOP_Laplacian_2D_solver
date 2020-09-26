@@ -11,7 +11,9 @@
 #SBATCH --mail-user=shreyasg911@gmail.com
 #SBATCH --mail-type=begin
 
-TIMEFORMAT=%R ## Change time format to give only real time value
+TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow
+
+### Output stores stdout of ./pi.sh and stderr of time
 { time ibrun ./pi.sh 10 >> output ;} 2>> output
 { time ibrun ./pi.sh 100 >> output ;} 2>> output
 { time ibrun ./pi.sh 500 >> output ;} 2>> output
