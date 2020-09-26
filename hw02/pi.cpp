@@ -11,24 +11,22 @@ using namespace std;
 int main ()
 {
 	srand(time(NULL)); 
-	int N[3] = {100,1000,10000};
+	int N;
+	cin>>N;
 	double x,y,d; 
-	int n = sizeof(N)/sizeof(N[0]);
 	int counter = 0;
-	double piestimate[n],erel[n];
+	double piestimate,erel;
 
-	for (int i = 0;i < n; i++){
-		counter = 0;
-		for (int j = 0;j < N[i]; j++){
-			x = double(rand()%32767)/double(32767);
-			y = double(rand()%32767)/double(32767);
-			d = x*x + y*y;
-			if(d<=1.0){
-				counter++;
-			}	
-		}
-		piestimate[i] = double(4*counter)/double(N[i]);
-		erel[i] = fabs(piestimate[i] - PI)/PI;
-		cout<<piestimate[i]<<" "<<erel[i]<<endl;
+	counter = 0;
+	for (int j = 0;j < N; j++){
+		x = double(rand())/double(RAND_MAX);
+		y = double(rand())/double(RAND_MAX);
+		d = x*x + y*y;
+		if(d<=1.0){
+			counter++;
+		}	
+	piestimate = double(4*counter)/double(N);
+	erel = fabs(piestimate - PI)/PI;
 	}
+	cout<<N<<" "<<counter<<" "<<N-counter<<" "<<piestimate<<" "<<erel<<" ";
 }
