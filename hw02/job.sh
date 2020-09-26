@@ -6,7 +6,7 @@
 #SBATCH -J PI_ESTIMATION
 #SBATCH -p skx-normal
 #SBATCH -A cse38018
-#SBATCH -t 00:20:00
+#SBATCH -t 00:40:00
 
 #SBATCH --mail-user=shreyasg911@gmail.com
 #SBATCH --mail-type=begin
