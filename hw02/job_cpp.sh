@@ -3,7 +3,7 @@
 #SBATCH -n 1
 #SBATCH -o job.log
 #SBATCH -e error.%j.out
-#SBATCH -J PI_ESTIMATION
+#SBATCH -J PI_ESTIMATION_CPP
 #SBATCH -p skx-normal
 #SBATCH -A cse38018
 #SBATCH -t 00:40:00
