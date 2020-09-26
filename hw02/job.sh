@@ -12,10 +12,10 @@
 #SBATCH --mail-type=begin
 
 TIMEFORMAT=%R ## Change time format to give only real time value
-{ time ./pi.sh 10 > output ;} 2> output
-{ time ./pi.sh 10 > output ;} 2> output
-{ time ./pi.sh 10 > output ;} 2> output
-{ time ./pi.sh 10 > output ;} 2> output
-{ time ./pi.sh 10 > output ;} 2> output
-{ time ./pi.sh 10 > output ;} 2> output
-{ time ./pi.sh 10 > output ;} 2> output
+{ time ./pi.sh 10 > output ;} 2>> output
+{ time ./pi.sh 10 > output ;} 2>> output
+{ time ./pi.sh 10 > output ;} 2>> output
+{ time ./pi.sh 10 > output ;} 2>> output
+{ time ./pi.sh 10 > output ;} 2>> output
+{ time ./pi.sh 10 > output ;} 2>> output
+{ time ./pi.sh 10 > output ;} 2>> output
