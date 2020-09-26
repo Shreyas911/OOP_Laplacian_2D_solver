@@ -14,10 +14,10 @@
 TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow
 
 ### Output stores stdout of ./pi.sh and stderr of time
-{ time ./pi.sh 10 >> output ;} 2>> pi.script.log
-{ time ./pi.sh 100 >> output ;} 2>> pi.script.log
-{ time ./pi.sh 500 >> output ;} 2>> pi.script.log
-{ time ./pi.sh 1000 >> output ;} 2>> pi.script.log
-{ time ./pi.sh 5000 >> output ;} 2>> pi.script.log
-{ time ./pi.sh 10000 >> output ;} 2>> pi.script.log
-{ time ./pi.sh 50000 >> output ;} 2>> pi.script.log
+{ time ./pi.sh 10 >> pi.script.log ;} 2>> pi.script.log
+{ time ./pi.sh 100 >> pi.script.log ;} 2>> pi.script.log
+{ time ./pi.sh 500 >> pi.script.log ;} 2>> pi.script.log
+{ time ./pi.sh 1000 >> pi.script.log ;} 2>> pi.script.log
+{ time ./pi.sh 5000 >> pi.script.log ;} 2>> pi.script.log
+{ time ./pi.sh 10000 >> pi.script.log ;} 2>> pi.script.log
+{ time ./pi.sh 50000 >> pi.script.log ;} 2>> pi.script.log
