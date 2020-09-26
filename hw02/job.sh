@@ -19,4 +19,3 @@ TIMEFORMAT=%R ## Change time format to give only real time value
 { { ibrun time ./pi.sh 5000 > output ; } 2>> output
 { { ibrun time ./pi.sh 10000 > output ; } 2>> output
 { { ibrun time ./pi.sh 50000 > output ; } 2>> output
-
