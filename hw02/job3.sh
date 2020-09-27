@@ -16,7 +16,6 @@ module load launcher
 export LAUNCHER_SCHED=interleaved
 export LAUNCHER_PLUGIN_DIR=$LAUNCHER_DIR/plugins
 export LAUNCHER_RMI=SLURM
-export LAUNCHER_WORKDIR=.
 
 
 TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow

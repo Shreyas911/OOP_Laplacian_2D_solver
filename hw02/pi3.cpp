@@ -11,7 +11,7 @@ using namespace std;
 int main ()
 {
 	srand(time(NULL)); 
-	int N=2000;
+	int N=20000000;
 	double x,y,d; 
 	int counter = 0;
 	double piestimate,erel;
