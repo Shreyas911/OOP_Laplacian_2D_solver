@@ -27,5 +27,5 @@ int main ()
 	piestimate = double(4*counter)/double(N);
 	erel = fabs(piestimate - PI)/PI;
 	}
-	cout<<N<<" "<<counter<<" "<<N-counter<<" "<<piestimate<<" "<<erel<<" ";
+	cout<<N<<" "<<counter<<" "<<N-counter<<" "<<piestimate<<" "<<erel<<endl;
 }
