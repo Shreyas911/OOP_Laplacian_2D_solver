@@ -6,9 +6,7 @@
 #SBATCH -J PI_PARALLEL
 #SBATCH -p skx-normal
 #SBATCH -A cse38018
-#SBATCH -t 00:40:00
-#SBATCH --mail-user=shreyasg911@gmail.com
-#SBATCH --mail-type=begin
+#SBATCH -t 00:05:00
 
 
 #setup launcher environment
@@ -18,6 +16,7 @@ module load launcher
 export LAUNCHER_SCHED=interleaved
 export LAUNCHER_PLUGIN_DIR=$LAUNCHER_DIR/plugins
 export LAUNCHER_RMI=SLURM
+export LAUNCHER_WORKDIR=.
 
 
 TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow

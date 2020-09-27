@@ -6,10 +6,7 @@
 #SBATCH -J PI_ESTIMATION_CPP
 #SBATCH -p skx-normal
 #SBATCH -A cse38018
-#SBATCH -t 00:40:00
-
-#SBATCH --mail-user=shreyasg911@gmail.com
-#SBATCH --mail-type=begin
+#SBATCH -t 00:05:00
 
 TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow
 

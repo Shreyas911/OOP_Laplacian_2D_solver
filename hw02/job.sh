@@ -8,9 +8,6 @@
 #SBATCH -A cse38018
 #SBATCH -t 00:40:00
 
-#SBATCH --mail-user=shreyasg911@gmail.com
-#SBATCH --mail-type=begin
-
 TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow
 
 ### Output stores stdout of ./pi.sh and stderr of time
