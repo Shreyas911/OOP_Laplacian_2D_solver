@@ -11,8 +11,7 @@ using namespace std;
 int main ()
 {
 	srand(time(NULL)); 
-	int N;
-	cin>>N;
+	int N=2000;
 	double x,y,d; 
 	int counter = 0;
 	double piestimate,erel;
@@ -26,6 +25,7 @@ int main ()
 			counter++;
 		}	
 	piestimate = double(4*counter)/double(N);
+	erel = fabs(piestimate - PI)/PI;
 	}
-	cout<<piestimate;
+	cout<<N<<" "<<counter<<" "<<N-counter<<" "<<piestimate<<" "<<erel<<" ";
 }
