@@ -57,7 +57,7 @@ while [ 1 ];do
     erel=$(echo "scale=20; sqrt((($pi_average-$PI)/$PI)^2)" | bc -l)
 	
     # Print output in desired format
-	echo "$iter $(($iter*960000000)) $num_i $pi_average $pi_average_2 $erel">>iter.log
+	echo "$iter $(($iter*960000000)) $num_i $pi_average_2 $erel">>iter.log
 done
 
 # Remove the temporary log file
