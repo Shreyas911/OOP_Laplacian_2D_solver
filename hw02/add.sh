@@ -12,5 +12,5 @@ i2=$(echo "$2"| grep -oE "^[+-]?[0-9]+")
 if [ $# = 2 ] && [[ $1 =~ $REGEX ]] && [[ "$2" =~ $REGEX ]] ; then
 	echo "The sum of the numbers $1 and $2 is $(( $i1 + $i2 ))"
 else
-	echo "ERROR: This script is supposed to add two integers, please provide two command line arguments that are integers."
+	echo "ERROR: This script is supposed to add two integers, please provide two command line arguments that are integers. You can use formats such as 1.00, +1.000, -3, -3.000, etc."
 fi
