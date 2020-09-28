@@ -46,3 +46,4 @@
 ./a.out >> iter.log
 ./a.out >> iter.log
 ./a.out >> iter.log
+./a.out >> iter.log
