@@ -17,8 +17,10 @@ if [ $# = 1 ] && [[ $1 =~ $REGEX ]]; then
 		i=`expr $i - 1`
 	done
 
+	### Print the value of factorial
 	echo "The factorial of the number $1 is $factorial"
 
 else
+	### Print error message
 	echo "ERROR: This script is supposed to find factorials. Please provide only one argument which is a whole number."
 fi
