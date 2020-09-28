@@ -8,9 +8,9 @@
 #SBATCH -A cse38018
 #SBATCH -t 00:40:00
 
-TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow
+TIMEFORMAT=%R ## Change time format to give only real time value
 
-### Output stores stdout of ./pi.sh and stderr of time
+### Output stores stdout of ./pi.sh and stderr of time since the time command gives it's output to stderr.
 { time ./pi.sh 10 >> pi.script.log ;} 2>> pi.script.log
 { time ./pi.sh 100 >> pi.script.log ;} 2>> pi.script.log
 { time ./pi.sh 500 >> pi.script.log ;} 2>> pi.script.log
