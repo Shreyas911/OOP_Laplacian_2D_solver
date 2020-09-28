@@ -6,7 +6,7 @@ REGEX=^[+]?[0-9]+[\.]?0*$
 ### Initialize factorial
 factorial=1
 
-### ignore + sign before the numbers and the decimal point after in input
+### ignore + sign before the numbers and the decimal point and zeros after in input
 i=$(echo "$1"| grep -oE "[0-9]+" | head -1)
 
 ### Loop only if the input was a valid whole number and the number of inputs were 1
