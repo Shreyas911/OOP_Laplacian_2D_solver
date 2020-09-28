@@ -27,3 +27,4 @@ echo 10000 > input
 { { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log
 echo 50000 > input
 { { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log  
+rm input
