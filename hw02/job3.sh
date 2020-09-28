@@ -33,7 +33,11 @@ pi_average=0
 N_i_average=0
 pi_iter_value=0
 
-while [[ $(echo "scale=10; $erel > $epsilon" | bc -l) ]];do
+while [ 1 ];do
+
+	if [[ $(echo "scale=10; $erel < $epsilon" | bc -l) = 1 ]]; then
+		break
+	fi
 	#empty the iter.log file
 	> iter.log
 	#run the launcher
@@ -44,6 +48,6 @@ while [[ $(echo "scale=10; $erel > $epsilon" | bc -l) ]];do
         pi_average=$(echo "scale=10; ($pi_average*($iter-1)+$pi_iter_value)/$iter" | bc -l)
         erel=$(echo "scale=20; sqrt((($pi_average-$PI)/$PI)^2)" | bc -l)
 	echo "$iter $pi_iter_value $pi_average $erel">>temp1
-	$(echo "scale=10; $erel > $epsilon" | bc -l)>>temp1
+	echo "scale=10; $erel > $epsilon" | bc -l >>temp1
 done
 
