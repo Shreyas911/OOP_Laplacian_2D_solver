@@ -12,18 +12,18 @@ TIMEFORMAT=%R ## Change time format to give only real time value, got this from 
 
 ### Output stores stdout of ./pi.sh and stderr of time
 
-g++ pi.cpp -o ./a.out 
+g++ pi.cpp -o ./b.out 
 echo 10 > input
-{ { time ibrun ./a.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
+{ { time ibrun ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
 echo 100 > input
-{ { time ibrun ./a.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
+{ { time ibrun ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
 echo 500 > input
-{ { time ibrun ./a.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
+{ { time ibrun ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
 echo 1000 > input
-{ { time ibrun ./a.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
+{ { time ibrun ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
 echo 5000 > input
-{ { time ibrun ./a.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
+{ { time ibrun ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
 echo 10000 > input
-{ { time ibrun ./a.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log
+{ { time ibrun ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log
 echo 50000 > input
-{ { time ibrun ./a.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log  
+{ { time ibrun ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log  
