@@ -7,7 +7,7 @@ N=$1
 PI=$(echo "scale =10; 3.14159265358979323846" | bc -l)
 
 ### Count points inside the circle
-COUNTER=0
+N_i=0
 
 for i in `seq $N`;do
 	### Randomly generate x and y between 0 and 1.
@@ -16,13 +16,13 @@ for i in `seq $N`;do
 	d1=$(echo "scale=10; $x * $x" | bc -l)
 	d2=$(echo "scale=10; $y * $y" | bc -l)
 	d=$(echo "scale=10; $d1 + $d2" | bc -l)
-	### If inside cicle, increase COUNTER
+	### If inside cicle, increase N_i
 	if [[ $(echo "scale = 10; $d <= 1.0 " | bc -l) = 1 ]]; then
-	 	COUNTER=$(( $COUNTER+1 ))
+	 	N_i=$(( $N_i+1 ))
 	fi
-	piestimate=$(echo "scale=10; 4*$COUNTER/${N[n]}" | bc -l)
+	piestimate=$(echo "scale=10; 4*$N_i/${N[n]}" | bc -l)
 	erel=$(echo "scale=10; sqrt((($PI-$piestimate)/$PI)^2)" | bc -l)
 done
 
 ### Printing in the required format, the time appending is done by job.sh
-echo -n "$N $COUNTER $(($N-$COUNTER)) $piestimate $erel "
+echo -n "$N $N_i $(($N-$N_i)) $piestimate $erel "
