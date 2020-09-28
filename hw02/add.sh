@@ -8,7 +8,7 @@ REGEX=^[-+]?[0-9]+[\.]?0*$
 i1=$(echo "$1"| grep -oE "^[+-]?[0-9]+")
 i2=$(echo "$2"| grep -oE "^[+-]?[0-9]+")
 
-### If number of arguments = 2 and both are integers then add them.
+### If number of arguments = 2 and both are integers (+1.000 is an integer too) then add them.
 if [ $# = 2 ] && [[ $1 =~ $REGEX ]] && [[ "$2" =~ $REGEX ]] ; then
 	echo "The sum of the numbers $1 and $2 is $(( $i1 + $i2 ))"
 else
