@@ -9,7 +9,7 @@ factorial=1
 ### ignore + sign before the numbers and the decimal point after in input
 i=$(echo "$1"| grep -oE "[0-9]+" | head -1)
 
-### Loop only if the input was a valid whole number
+### Loop only if the input was a valid whole number and the number of inputs were 1
 if [ $# = 1 ] && [[ $1 =~ $REGEX ]]; then
 
 	### This loop will not run for 0, so we directly have factorial = 1
