@@ -8,6 +8,8 @@
 #SBATCH -A cse38018
 #SBATCH -t 00:10:00
 
+#Buit in bash variable that automatically updates after initialization
+SECONDS=0
 # Actual value of PI
 PI=$(echo "scale =10; 3.14159265358979323846" | bc -l)
 
@@ -56,7 +58,7 @@ while [ 1 ];do
     pi_average_2=$(echo "scale=10; 4*$num_i/$(($iter*960000000))" | bc -l)
     erel=$(echo "scale=20; sqrt((($pi_average_2-$PI)/$PI)^2)" | bc -l)
 	# Print output in desired format
-	echo "$iter $(($iter*960000000)) $num_i $pi_average_2 $erel">>iter.log
+	echo "$iter $(($iter*960000000)) $num_i $pi_average_2 $erel $SECONDS">>iter.log
 done
 
 # Remove the temporary log file
