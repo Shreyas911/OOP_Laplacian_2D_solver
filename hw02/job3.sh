@@ -23,7 +23,7 @@ export LAUNCHER_RMI=SLURM
 #define the file with the commands to run in parallel
 export LAUNCHER_JOB_FILE=./jobfile
 
-# Delete temp.log if it exists and then create a new one
+# Delete temp*.log files if they exist and then create a new one
 for((i = 1; i<=48;i++)); do
 if [ -e "temp${i}.log" ]; then
   rm "temp${i}.log"
@@ -55,12 +55,14 @@ while [ 1 ];do
 	#run the launcher
 	$LAUNCHER_DIR/paramrun
 	# update iteration number and find new value of pi_average and relative error
-    iter=$(($iter+1))
-    pi_iter_value=$(awk 'BEGIN{z=0;}{z = z + $4;}END{z = z/48.0;print z;}' temp*.log| bc -l)
-    num_i=$(($num_i+$(awk 'BEGIN{z=0;}{z = z + $2;}END{print z;}' temp*.log| bc -l)))
-    pi_average=$(echo "scale=10; ($pi_average*($iter-1)+$pi_iter_value)/$iter" | bc -l)
-    pi_average_2=$(echo "scale=10; 4*$num_i/$(($iter*960000000))" | bc -l)
-    erel=$(echo "scale=20; sqrt((($pi_average_2-$PI)/$PI)^2)" | bc -l)
+    	#Each core outputs to a different file to prevent race conditions.
+	# awk will read from all temp* files at once, which is cool.
+	iter=$(($iter+1))
+	pi_iter_value=$(awk 'BEGIN{z=0;}{z = z + $4;}END{z = z/48.0;print z;}' temp*.log| bc -l)
+    	num_i=$(($num_i+$(awk 'BEGIN{z=0;}{z = z + $2;}END{print z;}' temp*.log| bc -l)))
+    	pi_average=$(echo "scale=10; ($pi_average*($iter-1)+$pi_iter_value)/$iter" | bc -l)
+    	pi_average_2=$(echo "scale=10; 4*$num_i/$(($iter*960000000))" | bc -l)
+	erel=$(echo "scale=20; sqrt((($pi_average_2-$PI)/$PI)^2)" | bc -l)
 	# Print output in desired format
 	echo "$iter $(($iter*960000000)) $num_i $pi_average_2 $erel $SECONDS">>iter.log
 done
