@@ -24,10 +24,12 @@ export LAUNCHER_RMI=SLURM
 export LAUNCHER_JOB_FILE=./jobfile
 
 # Delete temp.log if it exists and then create a new one
-if [ -e temp.log ]; then
-  rm temp.log
+for((i = 1; i<=48;i++)); do
+if [ -e "temp${i}.log" ]; then
+  rm "temp${i}.log"
 fi
-touch temp.log
+touch "temp${i}.log"
+done
 
 TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow
 
@@ -46,14 +48,16 @@ while [ 1 ];do
 	if [[ $(echo "scale=10; $erel < $epsilon" | bc -l) = 1 ]]; then
 		break
 	fi
-	#empty the temp.log file before running the launcher again
-	> temp.log
+	#empty the temp.log files before running the launcher again
+	for((i = 1; i<=48;i++)); do
+		>temp${i}.log
+	done
 	#run the launcher
 	$LAUNCHER_DIR/paramrun
 	# update iteration number and find new value of pi_average and relative error
     iter=$(($iter+1))
-    pi_iter_value=$(awk 'BEGIN{z=0;}{z = z + $4;}END{z = z/48.0;print z;}' temp.log| bc -l)
-    num_i=$(($num_i+$(awk 'BEGIN{z=0;}{z = z + $2;}END{print z;}' temp.log| bc -l)))
+    pi_iter_value=$(awk 'BEGIN{z=0;}{z = z + $4;}END{z = z/48.0;print z;}' temp*.log| bc -l)
+    num_i=$(($num_i+$(awk 'BEGIN{z=0;}{z = z + $2;}END{print z;}' temp*.log| bc -l)))
     pi_average=$(echo "scale=10; ($pi_average*($iter-1)+$pi_iter_value)/$iter" | bc -l)
     pi_average_2=$(echo "scale=10; 4*$num_i/$(($iter*960000000))" | bc -l)
     erel=$(echo "scale=20; sqrt((($pi_average_2-$PI)/$PI)^2)" | bc -l)
@@ -62,4 +66,4 @@ while [ 1 ];do
 done
 
 # Remove the temporary log file
-rm temp.log
+rm temp*
