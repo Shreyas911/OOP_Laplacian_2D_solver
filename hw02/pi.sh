@@ -1,5 +1,13 @@
 # !/bin/bash
 
+### To check if we have whole numbers as input
+REGEX=^[0-9]+$
+
+if [ ! $# = 1 ] || [[ ! $1 =~ $REGEX ]] || [ $1 = 0 ]; then
+	echo "ERROR: Please give only one positive integer as input."
+	exit
+fi
+
 ### Total number of points
 N=$1
 
