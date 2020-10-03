@@ -10,21 +10,17 @@
 
 TIMEFORMAT=%R ## Change time format to give only real time value, got this from stack overflow
 
+## Create empty pi.compiled.log file
+>pi.compiled.log
+
+
 ### Output stores stdout of ./pi.sh and stderr of time
 
 g++ pi.cpp -o ./b.out 
-echo 10 > input
-{ { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
-echo 100 > input
-{ { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
-echo 500 > input
-{ { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
-echo 1000 > input
-{ { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
-echo 5000 > input
-{ { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log 
-echo 10000 > input
-{ { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log
-echo 50000 > input
-{ { time ./b.out >> pi.compiled.log;} < input ;} 2>> pi.compiled.log  
-rm input
+{ time ./b.out 10  >> pi.compiled.log;} 2>> pi.compiled.log
+{ time ./b.out 100  >> pi.compiled.log;} 2>> pi.compiled.log
+{ time ./b.out 500  >> pi.compiled.log;} 2>> pi.compiled.log
+{ time ./b.out 1000  >> pi.compiled.log;} 2>> pi.compiled.log
+{ time ./b.out 5000  >> pi.compiled.log;} 2>> pi.compiled.log
+{ time ./b.out 10000  >> pi.compiled.log;} 2>> pi.compiled.log
+{ time ./b.out 50000  >> pi.compiled.log;} 2>> pi.compiled.log
