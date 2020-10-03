@@ -1,7 +1,7 @@
 # !/bin/bash
 
 ### To check if we have whole numbers as input
-REGEX=^[+]?[0-9]+[\.]?0*$
+REGEX=^[0-9]+$
 
 ### Initialize factorial
 factorial=1
