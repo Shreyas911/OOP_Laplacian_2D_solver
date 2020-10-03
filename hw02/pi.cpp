@@ -7,11 +7,15 @@
 #define PI 3.14159265358979323846
 using namespace std;
 
-int main ()
-{
+int main(int argc, char *argv[]) {
+    // Input verification
+    // atoi returns integer part of input and 0 if not a numeric input
+    if (argc != 2 || atoi(argv[1]) <= 0) {
+    	cerr << "ERROR: Give a positiver integer input for number of samples. " << endl;
+    	return 1;
+    }
 	srand(time(NULL)); 
-	int N;
-	cin>>N;
+	int N = atoi(argv[1]);
 	double x,y,d;
 	//Counter for number of points inside circle. 
 	int N_i = 0; 
