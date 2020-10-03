@@ -9,7 +9,8 @@
 #SBATCH -t 00:40:00
 
 TIMEFORMAT=%R ## Change time format to give only real time value
-
+## Empty pi.script.log before run
+>pi.script.log
 ### Output stores stdout of ./pi.sh and stderr of time since the time command gives it's output to stderr.
 { time ./pi.sh 10 >> pi.script.log ;} 2>> pi.script.log
 { time ./pi.sh 100 >> pi.script.log ;} 2>> pi.script.log
