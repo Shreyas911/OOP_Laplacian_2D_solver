@@ -9,10 +9,15 @@
 
 using namespace std;
 
-int main ()
-{
-	srand(time(NULL)); 
-	int N=20000000; // this is equal to (960000000/48)
+int main(int argc, char *argv[]) {
+    	// Input verification
+    	// atoi returns integer part of input and 0 if not a numeric input
+    	if (argc != 2 || atoi(argv[1]) <= 0) {
+    	cerr << "ERROR: Give a positiver integer input for number of samples. " << endl;
+       	return 1; 
+     	}
+   	srand(time(NULL));
+  	int N = atoi(argv[1]);
 	double x,y,d; 
 	int N_i = 0; //Number of points inside the circle
 	double piestimate,erel;

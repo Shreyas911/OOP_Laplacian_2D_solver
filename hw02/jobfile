@@ -1,48 +1,48 @@
-./a.out >> temp1.log
-./a.out >> temp2.log
-./a.out >> temp3.log
-./a.out >> temp4.log
-./a.out >> temp5.log
-./a.out >> temp6.log
-./a.out >> temp7.log
-./a.out >> temp8.log
-./a.out >> temp9.log
-./a.out >> temp10.log
-./a.out >> temp11.log
-./a.out >> temp12.log
-./a.out >> temp13.log
-./a.out >> temp14.log
-./a.out >> temp15.log
-./a.out >> temp16.log
-./a.out >> temp17.log
-./a.out >> temp18.log
-./a.out >> temp19.log
-./a.out >> temp20.log
-./a.out >> temp21.log
-./a.out >> temp22.log
-./a.out >> temp23.log
-./a.out >> temp24.log
-./a.out >> temp25.log
-./a.out >> temp26.log
-./a.out >> temp27.log
-./a.out >> temp28.log
-./a.out >> temp29.log
-./a.out >> temp30.log
-./a.out >> temp31.log
-./a.out >> temp32.log
-./a.out >> temp33.log
-./a.out >> temp34.log
-./a.out >> temp35.log
-./a.out >> temp36.log
-./a.out >> temp37.log
-./a.out >> temp38.log
-./a.out >> temp39.log
-./a.out >> temp40.log
-./a.out >> temp41.log
-./a.out >> temp42.log
-./a.out >> temp43.log
-./a.out >> temp44.log
-./a.out >> temp45.log
-./a.out >> temp46.log
-./a.out >> temp47.log
-./a.out >> temp48.log
+./a.out 20000000 >> temp1.log
+./a.out 20000000 >> temp2.log
+./a.out 20000000 >> temp3.log
+./a.out 20000000 >> temp4.log
+./a.out 20000000 >> temp5.log
+./a.out 20000000 >> temp6.log
+./a.out 20000000 >> temp7.log
+./a.out 20000000 >> temp8.log
+./a.out 20000000 >> temp9.log
+./a.out 20000000 >> temp10.log
+./a.out 20000000 >> temp11.log
+./a.out 20000000 >> temp12.log
+./a.out 20000000 >> temp13.log
+./a.out 20000000 >> temp14.log
+./a.out 20000000 >> temp15.log
+./a.out 20000000 >> temp16.log
+./a.out 20000000 >> temp17.log
+./a.out 20000000 >> temp18.log
+./a.out 20000000 >> temp19.log
+./a.out 20000000 >> temp20.log
+./a.out 20000000 >> temp21.log
+./a.out 20000000 >> temp22.log
+./a.out 20000000 >> temp23.log
+./a.out 20000000 >> temp24.log
+./a.out 20000000 >> temp25.log
+./a.out 20000000 >> temp26.log
+./a.out 20000000 >> temp27.log
+./a.out 20000000 >> temp28.log
+./a.out 20000000 >> temp29.log
+./a.out 20000000 >> temp30.log
+./a.out 20000000 >> temp31.log
+./a.out 20000000 >> temp32.log
+./a.out 20000000 >> temp33.log
+./a.out 20000000 >> temp34.log
+./a.out 20000000 >> temp35.log
+./a.out 20000000 >> temp36.log
+./a.out 20000000 >> temp37.log
+./a.out 20000000 >> temp38.log
+./a.out 20000000 >> temp39.log
+./a.out 20000000 >> temp40.log
+./a.out 20000000 >> temp41.log
+./a.out 20000000 >> temp42.log
+./a.out 20000000 >> temp43.log
+./a.out 20000000 >> temp44.log
+./a.out 20000000 >> temp45.log
+./a.out 20000000 >> temp46.log
+./a.out 20000000 >> temp47.log
+./a.out 20000000 >> temp48.log
