@@ -43,6 +43,9 @@ pi_iter_value=0 #pi value for this iteration
 
 echo "# iter num_samples num_i pi relative_error time_accum">>iter.log
 
+## empty iter.log file
+>iter.log
+
 while [ 1 ];do
 
 	if [[ $(echo "scale=10; $erel < $epsilon" | bc -l) = 1 ]]; then
