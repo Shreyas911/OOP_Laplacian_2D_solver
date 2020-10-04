@@ -1,7 +1,7 @@
 # !/bin/bash
 
 
-### Used to check if we have an integer expression, we emphasize that 1 = +1 = +1.00 i.e. all three are integers for us.
+### Used to check if we have an integer expression, we emphasize that 1 = +1 i.e. both are integers for us.
 REGEX=^[+-]?[0-9]+$
 
 ### If number of arguments = 2 and both are integers then add them.
