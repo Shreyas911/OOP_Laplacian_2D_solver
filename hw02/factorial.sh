@@ -3,11 +3,9 @@
 ### To check if we have whole numbers as input
 REGEX=^[0-9]+$
 
-### Initialize factorial
+### Initialize factorial and the loop variable
 factorial=1
-
-### ignore + sign before the numbers and the decimal point and zeros after in input
-i=$(echo "$1"| grep -oE "[0-9]+" | head -1)
+i=$1
 
 ### Loop only if the input was a valid whole number and the number of inputs were 1
 if [ $# = 1 ] && [[ $1 =~ $REGEX ]]; then
