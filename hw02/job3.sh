@@ -13,7 +13,7 @@ SECONDS=0
 # Actual value of PI
 PI=$(echo "scale =10; 3.14159265358979323846" | bc -l)
 #Compile C++ code
-g++ pi3.cpp -o ./a.out 
+g++ pi.cpp -o ./b.out 
 #setup launcher environment
 module purge
 module load TACC
