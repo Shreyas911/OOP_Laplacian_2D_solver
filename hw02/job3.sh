@@ -42,10 +42,11 @@ pi_average=0 #Average value over all iterations
 num_i=0 #Total number of points inside circle across all iterations
 pi_iter_value=0 #pi value for this iteration
 
-echo "# iter num_samples num_i pi relative_error time_accum">>iter.log
-
 ## empty iter.log file
 >iter.log
+
+
+echo "# iter num_samples num_i pi relative_error time_accum">>iter.log
 
 while [ 1 ];do
 
