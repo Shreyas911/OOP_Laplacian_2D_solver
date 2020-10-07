@@ -1,0 +1,1 @@
+double func(double t);
