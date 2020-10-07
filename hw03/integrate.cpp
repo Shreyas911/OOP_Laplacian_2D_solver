@@ -22,13 +22,13 @@ int main(int argc, char *argv[]) {
 		double integral = integral_trapezoidal(1, N);
 		double erel = abs(integral - erf_tab)/integral;
 
-		cout << integral << " " << erel << endl;
+		cout << N << " " << integral << " " << erel << " ";
 	}       
 	else{
 
                 double integral = integral_simpson(1, N);
                 double erel = abs(integral - erf_tab)/integral;
 
-                cout << integral << " " << erel << endl;
+                cout << N << " " << integral << " " << erel << " ";
         }                       
 }
