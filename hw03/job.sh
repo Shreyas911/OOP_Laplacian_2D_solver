@@ -15,8 +15,8 @@ TIMEFORMAT=%R ## Change time format to give only real time value, got this from 
 >results_simpson.log
 
 ## Create headings in log files
-echo "N integral_computed e_rel time" >> results_trapezoidal.log
-echo "N integral_computed e_rel time" >> results_simpson.log
+echo "#N integral_computed e_rel time" >> results_trapezoidal.log
+echo "#N integral_computed e_rel time" >> results_simpson.log
 
 ## Output stores stdout of integrate and stderr of time
 
