@@ -6,5 +6,12 @@ OBJ  := $(patsubst %.cpp,%.o,$(SRC))
 
 $(EXEC): $(OBJ)
 	$(CC) -o $@ $^
-%.o: %.cpp %.h
+%.o: %.cpp
 	$(CC) $(CPPFLAGS) -c $< -o $@
+
+integrate.o trapezoidal.o: trapezoidal.h
+integrate.o simpson.o: simpson.h
+
+# Useful phony targets
+clean:
+	$(RM) $(OBJ) $(EXEC)
