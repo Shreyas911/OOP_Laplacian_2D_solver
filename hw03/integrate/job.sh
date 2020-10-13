@@ -22,7 +22,7 @@ echo "#N integral_computed e_rel time" >> results_simpson.log
 
 make integrate
 
-{ time ./integrate 1 5  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
+{ time ./integrate 1 6  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 10  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 50  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 100  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
@@ -33,7 +33,7 @@ make integrate
 { time ./integrate 1 5000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 10000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 
-{ time ./integrate 2 5  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 6  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 10  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 50  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 100  >> results_simpson.log;} 2>> results_simpson.log
