@@ -22,27 +22,27 @@ echo "#N integral_computed e_rel time" >> results_simpson.log
 
 make integrate
 
+{ time ./integrate 1 5  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 10  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 50  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 100  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
+{ time ./integrate 1 200  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 500  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 1000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
+{ time ./integrate 1 2000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 5000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 10000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
-{ time ./integrate 1 50000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
-{ time ./integrate 1 100000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
-{ time ./integrate 1 1000000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 
+{ time ./integrate 2 10  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 10  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 50  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 100  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 200  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 500  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 1000  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 2000  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 5000  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 10000  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 50000  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 100000  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 1000000  >> results_simpson.log;} 2>> results_simpson.log
 
 ## Plot results using a script
 gnuplot plot.script

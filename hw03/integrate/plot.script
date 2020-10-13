@@ -4,12 +4,12 @@ set title "trapezoidal method compared to expected convergence rate"
 set xlabel "N"
 set ylabel "e_rel"
 set logscale xy
-set xrange [10:1000000]
-set output 'trapezoidal_plot.png'; plot 'results_trapezoidal.log' using 1:3 title 'e_rel vs N' with lines, 1/x**2 with lines 
+set xrange [5:10000]
+set output 'trapezoidal_plot.png'; plot 'results_trapezoidal.log' using 1:3 title 'e_rel vs N points' with points, 'results_trapezoidal.log' using 1:3 title 'e_rel vs N' with lines, 1/x**2 with lines 
 
 set title "simpson method compared to expected convergence rate"
 set xlabel "N"
 set ylabel "e_rel"
 set logscale xy
-set xrange [10:1000000]
-set output 'simpson_plot.png'; plot 'results_simpson.log' using 1:3 title 'e_rel vs N' with lines, 1/x with lines
+set xrange [5:10000]
+set output 'simpson_plot.png'; plot 'results_simpson.log' using 1:3 title 'e_rel vs N points' with points, plot 'results_simpson.log' using 1:3 title 'e_rel vs N' with lines, 1/x with lines
