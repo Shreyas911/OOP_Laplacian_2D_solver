@@ -46,3 +46,6 @@ make integrate
 
 ## Plot results using a script
 gnuplot plot.script
+
+## Clean the make build
+make clean
