@@ -1,6 +1,8 @@
 #include <cmath>
 #include "func.h"
 
+// Integrate function defined in func.h by trapezoidal method. x is limit of integra
+// tion i.e. the interval [0,x] and n is the number of points used.
 double integral_trapezoidal(double x, int n){
 	
 	double integral = 0;

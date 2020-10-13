@@ -1,6 +1,7 @@
 #include <cmath>
 #include "func.h"
 
+// Integrate function defined in func.h by simpson method. x is limit of integration i.e. the interval [0,x] and n is the number of points used. Simpson method requires even number of points.
 double integral_simpson(double x, int n){
 
         double integral = 0;
