@@ -1,1 +1,0 @@
-double func(double t);
