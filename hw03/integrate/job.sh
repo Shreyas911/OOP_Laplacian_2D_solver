@@ -39,11 +39,12 @@ make integrate
 { time ./integrate 2 51  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 101  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 201  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 251  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 301  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 401  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 501  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 651  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 851  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 1001  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 601  >> results_simpson.log;} 2>> results_simpson.log
+
 ## Plot results using a script
 gnuplot plot.script
 
