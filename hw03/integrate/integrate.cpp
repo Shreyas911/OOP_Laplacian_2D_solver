@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
 	// Input verification
 	// atoi returns integer part of input and 0 if not a numeric input
 	if (argc != 3 || atoi(argv[2]) <= 0 || (atoi(argv[1]) != 1 & atoi(argv[1]) != 2)) {
-		cerr << "ERROR: First input should be 1 or 2 for Trapezoidal and Simpson's rule respectively. The second input should be a positive integer for the number of points" << endl;
+		cerr << "ERROR: First input should be 1 or 2 for Trapezoidal and Simpson's rule respectively. The second input should be a positive integer for the number of points. Simpson's rule works properly only for odd number of points and even number of intervals." << endl;
 	return 1;
 	}
 	
