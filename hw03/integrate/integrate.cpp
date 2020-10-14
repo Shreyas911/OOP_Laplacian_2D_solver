@@ -2,7 +2,7 @@
 #include <cmath>
 #include "trapezoidal.h"
 #include "simpson.h"
-
+#include <iomanip>
 #define erf_tab 0.84270079295
 
 using namespace std;
@@ -22,13 +22,13 @@ int main(int argc, char *argv[]) {
 		double integral = integral_trapezoidal(1, N);
 		double erel = abs(integral - erf_tab)/integral;
 
-		cout << N << " " << integral << " " << erel << " ";
+		cout << N << " " << setprecision(10) << integral << " " << setprecision(10) << erel << " ";
 	}       
 	else{
 
                 double integral = integral_simpson(1, N);
                 double erel = abs(integral - erf_tab)/integral;
 
-                cout << N << " " << integral << " " << erel << " ";
+                cout << N << " " << setprecision(10) << integral << " " << setprecision(10) << erel << " ";
         }                       
 }
