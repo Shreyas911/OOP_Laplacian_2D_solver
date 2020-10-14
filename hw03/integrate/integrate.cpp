@@ -20,14 +20,14 @@ int main(int argc, char *argv[]) {
 	if (atoi(argv[1]) == 1){
 
 		double integral = integral_trapezoidal(1, N);
-		double erel = abs(integral - erf_tab)/integral;
+		double erel = abs(integral - erf_tab)/erf_tab;
 
 		cout << N << " " << setprecision(10) << integral << " " << setprecision(10) << erel << " ";
 	}       
 	else{
 
                 double integral = integral_simpson(1, N);
-                double erel = abs(integral - erf_tab)/integral;
+                double erel = abs(integral - erf_tab)/erf_tab;
 
                 cout << N << " " << setprecision(10) << integral << " " << setprecision(10) << erel << " ";
         }                       
