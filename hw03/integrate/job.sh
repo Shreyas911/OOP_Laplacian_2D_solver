@@ -33,17 +33,17 @@ make integrate
 { time ./integrate 1 5000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 { time ./integrate 1 10000  >> results_trapezoidal.log;} 2>> results_trapezoidal.log
 
-{ time ./integrate 2 6  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 10  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 50  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 100  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 200  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 500  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 1000  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 2000  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 5000  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 10000  >> results_simpson.log;} 2>> results_simpson.log
-
+## Simpson needs even number of intervals, i.e. odd number of points
+{ time ./integrate 2 5  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 11  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 51  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 101  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 201  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 401  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 501  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 651  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 851  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 1001  >> results_simpson.log;} 2>> results_simpson.log
 ## Plot results using a script
 gnuplot plot.script
 
