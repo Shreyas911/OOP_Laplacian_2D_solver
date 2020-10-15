@@ -35,8 +35,12 @@ make integrate
 
 ## Simpson needs even number of intervals, i.e. odd number of points
 { time ./integrate 2 5  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 7  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 9  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 11  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 21  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 31  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 41  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 51  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 71  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 91  >> results_simpson.log;} 2>> results_simpson.log
