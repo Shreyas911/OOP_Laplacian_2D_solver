@@ -36,14 +36,14 @@ make integrate
 ## Simpson needs even number of intervals, i.e. odd number of points
 { time ./integrate 2 5  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 11  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 31  >> results_simpson.log;} 2>> results_simpson.log
 { time ./integrate 2 51  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 101  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 201  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 251  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 301  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 401  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 501  >> results_simpson.log;} 2>> results_simpson.log
-{ time ./integrate 2 601  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 71  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 91  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 111  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 131  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 161  >> results_simpson.log;} 2>> results_simpson.log
+{ time ./integrate 2 191  >> results_simpson.log;} 2>> results_simpson.log
 
 ## Plot results using a script
 gnuplot plot.script
