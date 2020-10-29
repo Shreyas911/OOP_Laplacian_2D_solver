@@ -592,6 +592,8 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \end{enumerate}
         \end{itemize}
     \item \textbf{Iterative solvers}
+    
+    Here is the pseudo-code for dense matrix solvers (the actual implementation might be for sparse matrices or not, this is not decided yet).
         \begin{enumerate}
             \item \textbf{Jacobi}
             \begin{lstlisting}[language=fortran,mathescape=true]
@@ -665,32 +667,32 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
         \end{enumerate}
     \item \textbf{Estimate of memory requirements}
     
-    We assume that our matrices have been cleverly stored taking into consideration their nice, sparse structure.
+    We assume that our matrices are stored as normal, dense matrices (assuming that our iterative solvers have generic, dense implementations).
     \begin{itemize}
         \item Second order approximation
         \begin{itemize}
             \item 1D
             \begin{table}[H] % Raw data.
             \centering{
-            \begin{tabular}{|c|c|c|c|}
+            \begin{tabular}{|c|c|c|}
             \hline
-            \texttt{Variable} & \texttt{Dimension} & \texttt{Memory} & \texttt{Comments}\\
+            \texttt{Variable} & \texttt{Dimension} & \texttt{Memory}\\
             \hline
-            \texttt{T}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}&\\
+            \texttt{T}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}\\
             \hline
-            \texttt{q}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}&\\
+            \texttt{q}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}\\
             \hline
-            \texttt{A}&\texttt{(N+1)}$\times$\texttt{(N+1)}&\texttt{8}$\times$\texttt{3}&\\
+            \texttt{A}&\texttt{(N+1)}$\times$\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
             \hline
-            \texttt{N}&\texttt{1}&\texttt{4}&\\
+            \texttt{N}&\texttt{1}&\texttt{4}\\
             \hline
-            \texttt{L}&\texttt{1}&\texttt{8}&\\
+            \texttt{L}&\texttt{1}&\texttt{8}\\
             \hline
-            $\Delta$\texttt{x}&\texttt{1}&\texttt{8}&\\
+            $\Delta$\texttt{x}&\texttt{1}&\texttt{8}\\
             \hline
-            \texttt{k}&\texttt{1}&\texttt{8}&\\
+            \texttt{k}&\texttt{1}&\texttt{8}\\
             \hline
-            &\texttt{Total} &\texttt{4(4N+17)}&\\ 
+            &\texttt{Total} &\texttt{8(N+2)}$^2$\texttt{+20}\\ 
             \hline
             \end{tabular}}\\
             \end{table}   
@@ -698,29 +700,27 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
 
             \begin{table}[H] % Raw data.
             \centering{
-            \begin{tabular}{|c|c|c|c|}
+            \begin{tabular}{|c|c|c|}
             \hline
-            \texttt{Variable} & \texttt{Dimension} & \texttt{Memory} & \texttt{Comments}\\
+            \texttt{Variable} & \texttt{Dimension} & \texttt{Memory}\\
             \hline
-            \texttt{T}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(N+1)}&\\
+            \texttt{T}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
             \hline
-            \texttt{q}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(N+1)}&\\
+            \texttt{q}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
             \hline
-            \texttt{A}&\texttt{(N+1)}\texttt{(N+1)}$\times$\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{5}&\\
+            \texttt{A}&\texttt{(N+1)}\texttt{(N+1)}$\times$\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^4$\\
             \hline
-            \texttt{N}&\texttt{1}&\texttt{4}&\\
+            \texttt{N}&\texttt{1}&\texttt{4}\\
             \hline
-            \texttt{N}&\texttt{1}&\texttt{4}&\\
+            \texttt{L}&\texttt{1}&\texttt{8}\\
             \hline
-            \texttt{L}&\texttt{1}&\texttt{8}&\\
+            $\Delta$\texttt{x}&\texttt{1}&\texttt{8}\\
             \hline
-            $\Delta$\texttt{x}&\texttt{1}&\texttt{8}&\\
+            $\Delta$\texttt{y}&\texttt{1}&\texttt{8}\\
             \hline
-            $\Delta$\texttt{y}&\texttt{1}&\texttt{8}&\\
+            \texttt{k}&\texttt{1}&\texttt{8}\\
             \hline
-            \texttt{k}&\texttt{1}&\texttt{8}&\\
-            \hline
-            &\texttt{Total} &\texttt{16(N+1)(N+1)+80}&\\ 
+            &\texttt{Total} &\texttt{8}\texttt{(N+1)}$^4$+\texttt{16}\texttt{(N+1)}$^2$+\texttt{36}\\ 
             \hline
             \end{tabular}}\\
             \end{table} 
@@ -729,62 +729,58 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
         \item Fourth order approximation
         \begin{itemize}
             \item 1D
-
             \begin{table}[H] % Raw data.
             \centering{
-            \begin{tabular}{|c|c|c|c|}
+            \begin{tabular}{|c|c|c|}
             \hline
-            \texttt{Variable} & \texttt{Dimension} & \texttt{Memory} & \texttt{Comments}\\
+            \texttt{Variable} & \texttt{Dimension} & \texttt{Memory}\\
             \hline
-            \texttt{T}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}&\\
+            \texttt{T}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}\\
             \hline
-            \texttt{q}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}&\\
+            \texttt{q}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}\\
             \hline
-            \texttt{A}&\texttt{(N+1)}$\times$\texttt{(N+1)}&\texttt{8}$\times$\texttt{5}&\\
+            \texttt{A}&\texttt{(N+1)}$\times$\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
             \hline
-            \texttt{N}&\texttt{1}&\texttt{4}&\\
+            \texttt{N}&\texttt{1}&\texttt{4}\\
             \hline
-            \texttt{L}&\texttt{1}&\texttt{8}&\\
+            \texttt{L}&\texttt{1}&\texttt{8}\\
             \hline
-            $\Delta$\texttt{x}&\texttt{1}&\texttt{8}&\\
+            $\Delta$\texttt{x}&\texttt{1}&\texttt{8}\\
             \hline
-            \texttt{k}&\texttt{1}&\texttt{8}&\\
+            \texttt{k}&\texttt{1}&\texttt{8}\\
             \hline
-            &\texttt{Total} &\texttt{4(4N+21)}&\\ 
+            &\texttt{Total} &\texttt{8(N+2)}$^2$\texttt{+20}\\ 
             \hline
-            \end{tabular}}\\
-            \end{table}  
-            \item 2D
-            
-            \begin{table}[H] % Raw data.
-            \centering{
-            \begin{tabular}{|c|c|c|c|}
-            \hline
-            \texttt{Variable} & \texttt{Dimension} & \texttt{Memory} & \texttt{Comments}\\
-            \hline
-            \texttt{T}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(N+1)}&\\
-            \hline
-            \texttt{q}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(N+1)}&\\
-            \hline
-            \texttt{A}&\texttt{(N+1)}\texttt{(N+1)}$\times$\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{9}&\\
-            \hline
-            \texttt{N}&\texttt{1}&\texttt{4}&\\
-            \hline
-            \texttt{N}&\texttt{1}&\texttt{4}&\\
-            \hline
-            \texttt{L}&\texttt{1}&\texttt{8}&\\
-            \hline
-            $\Delta$\texttt{x}&\texttt{1}&\texttt{8}&\\
-            \hline
-            $\Delta$\texttt{y}&\texttt{1}&\texttt{8}&\\
-            \hline
-            \texttt{k}&\texttt{1}&\texttt{8}&\\
-            \hline
-            &\texttt{Total} &\texttt{16(N+1)(N+1)+120}&\\ 
-            \hline
-
             \end{tabular}}\\
             \end{table}   
+            \item 2D
+
+            \begin{table}[H] % Raw data.
+            \centering{
+            \begin{tabular}{|c|c|c|}
+            \hline
+            \texttt{Variable} & \texttt{Dimension} & \texttt{Memory}\\
+            \hline
+            \texttt{T}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
+            \hline
+            \texttt{q}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
+            \hline
+            \texttt{A}&\texttt{(N+1)}\texttt{(N+1)}$\times$\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^4$\\
+            \hline
+            \texttt{N}&\texttt{1}&\texttt{4}\\
+            \hline
+            \texttt{L}&\texttt{1}&\texttt{8}\\
+            \hline
+            $\Delta$\texttt{x}&\texttt{1}&\texttt{8}\\
+            \hline
+            $\Delta$\texttt{y}&\texttt{1}&\texttt{8}\\
+            \hline
+            \texttt{k}&\texttt{1}&\texttt{8}\\
+            \hline
+            &\texttt{Total} &\texttt{8}\texttt{(N+1)}$^4$+\texttt{16}\texttt{(N+1)}$^2$+\texttt{36}\\ 
+            \hline
+            \end{tabular}}\\
+            \end{table}    
         \end{itemize}
     \end{itemize}
 \end{itemize}
