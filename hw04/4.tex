@@ -24,8 +24,8 @@ Shreyas Gaikwad (sg49969)}
 \begin{itemize}
     \item \textbf{Governing Equations}
         \begin{align}
-            -k\nabla^2 T(x,y) &= q(x,y) &\:\text{in}\: \Omega \label{eq1}\\
-            T&= T_b &\text{on}\: \partial\Omega \nonumber 
+            -k\nabla^2 T(x,y) &= q(x,y) \:\text{ in }\: \Omega \label{eq1}\\
+            T(x,y) &= T_{masa} (x,y) \text{ on }\: \partial\Omega \nonumber 
         \end{align}
         where,
         \begin{align*}
@@ -35,25 +35,27 @@ Shreyas Gaikwad (sg49969)}
             q &\:\text{ is the heat source term}\\
             k &\:\text{ is the thermal conductivity}
         \end{align*}
-        We have the Dirichlet boundary conditions on the boundary. 
+        We have the Dirichlet boundary conditions.
         
     \item \textbf{Assumptions}
         \begin{itemize}
             \item The thermal conductivity is assumed to be constant.
             \item We assume a square domain $\Omega = \{\:(x,y) : x \in [0,L], y \in [0,L]\:\}$ for the 2D case. For 1D, it will obviously be a line $\Omega = \{\:(x,y) : x \in [0,L]\:\}$
             \item Dirichlet boundary condition is assumed at the boundaries
-            \item For the fourth order scheme, we assume that the values at the points adjacent to the boundary points are known. This is to reduce the cumbersome effort required to come up with different schemes at the boundary.
+            \item For the fourth order scheme, we assume that the values at the points adjacent to the boundary points are known from the \texttt{MASA} solution. This is to reduce the cumbersome effort required to come up with different schemes at the boundary.
+            \item For the 2D case we assume symmetrical discretization i.e. the number of grid points in both directions are the same and $\Delta x = \Delta y = h$.
         \end{itemize}
     \item \textbf{Nomenclature for discretization}
     Our numerical methods are all node based (as will be reiterated later).
         \begin{itemize}
             \item 1D We have $(N+1)$ points $\{x_0,x_1,x_2,\hdots x_N\}$ in the x-direction with $x_i=i\Delta x$, where $\Delta x = L/N$
                 
-            \item 2D We have $(N+1)$ points $\{x_0,x_1,x_2,\hdots x_N\}$ in the x-direction with $x_i=i\Delta x$, where $\Delta x = L/N$ and $(J+1)$ points $\{y_0,y_1,y_2,\hdots y_J\}$ in the y-direction with $y_j=j\Delta y$, where $\Delta j = L/J$. Hence, we have a $(N+1) \times (J+1)$ grid. 
+            \item 2D We have $(N+1)$ points $\{x_0,x_1,x_2,\hdots x_N\}$ in the x-direction with $x_i=i\Delta x$, where $\Delta x = L/N = h$ and $(N+1)$ points $\{y_0,y_1,y_2,\hdots y_N\}$ in the y-direction with $y_j=j\Delta y$, where $\Delta y = L/N = h$. Hence, we have a $(N+1) \times (N+1)$ grid. 
             
             \item $i$ is always associated with the indexing in x-direction and $j$ is always associated with the indexing in y-direction.
             
             \item $T(x_i,y_j)$ is given the shorthand notation $T(i,j)$ and $q(x_i,y_j)$ is given the shorthand notation $q(i,j)$
+            \item The composite index for 2D grid is given by $k = i + (N+1)j$.
         \end{itemize}
     \item \textbf{Numerical Method}
     
@@ -71,18 +73,16 @@ Shreyas Gaikwad (sg49969)}
                 \item 1D
                 \begin{align}
                 \begin{cases}    -k\left(\frac{T(i+1)-2T(i)+T(i-1)}{\Delta x^2}\right) + \mathcal{O}(\Delta x^2) = q(i), \:\: i \:\in \{1,2,3,\hdots, N-1\}\\
-                    T(0) = T_b \:\text{ and }\: T(N) = T_b \label{eq2}
+                    T(0) = T_{masa} (0) \:\text{ and }\: T(N) = T_{masa} (L) \label{eq2}
                 \end{cases}
                 \end{align}
                 
                 \item 2D
                 \begin{align}
-                \begin{cases}    -k\left(\frac{T(i+1,j)-2T(i,j)+T(i-1,j)}{\Delta x^2}\right) -k\left(\frac{T(i,j+1)-2T(i,j)+T(i,j-1)}{\Delta y^2}\right) \\
-                +\mathcal{O}(\Delta x^2) + \mathcal{O}(\Delta y^2)= q(i,j),\:\: i \:\in \{1,2,3,\hdots, N-1\}\:\:j \:\in \{1,2,3,\hdots, J-1\}\\\\
-                T(0,j) = T_b \:\text{ for }\: j\in\{0, 1, 2, \hdots , J\}\\
-                T(i,0) = T_b \:\text{ for }\: i\in\{0, 1, 2, \hdots , N\}\\
-                T(N,j) = T_b \:\text{ for }\: j\in\{0, 1, 2, \hdots , J\}\\
-                T(i,J) = T_b \:\text{ for }\: i\in\{0, 1, 2, \hdots , N\} \label{eq3}
+                \begin{cases}    -k\left(\frac{T(i+1,j)-2T(i,j)+T(i-1,j)}{h^2}\right) -k\left(\frac{T(i,j+1)-2T(i,j)+T(i,j-1)}{h^2}\right) \\
+                +\mathcal{O}(h^2)= q(i,j),\:\: i \:\in \{1,2,3,\hdots, N-1\}\:\:j \:\in \{1,2,3,\hdots, N-1\}\\\\
+                T(i,j) = T_{masa} (x_i,y_j) \:\text{ for }\: i \:\in \{0,N\},\:j\in\{0, 1, 2, \hdots , N\}\\
+                T(i,j) = T_{masa} (x_i,y_j) \:\text{ for }\: i \:\in \{0, 1, 2, \hdots , N\},\:j\in\{0,N\} \label{eq3}
                 \end{cases}
                 \end{align}
                 
@@ -95,30 +95,22 @@ Shreyas Gaikwad (sg49969)}
             \end{align*}            
             \textbf{Discretized heat equation}
             
-            Near the boundaries, we have to use the second order approximation because a fourth order approximation cannot be defined.
+            We have Dirichlet boundary conditions at both the boundary points and adjacent to boundary points.
             \begin{enumerate}
                 \item 1D
                 \begin{align}
                 \begin{cases}
-                    -k\left(\frac{T(i+1)-2T(i)+T(i-1)}{\Delta x^2}\right) + \mathcal{O}(\Delta x^2) = q(i), \:\: i \:\in \{1,N-1\}\\
                     -k\left(\frac{-T(i-2) + 16 T(i-1) - 30 T(i) + 16 T(i+1) - T(i+2)}{12 \Delta x^2}\right)+ \mathcal{O}(\Delta x^4) = q(i), \:\: i \:\in \{2,3,\hdots, N-2\}\\
-                    T(0) = T_b \:\text{ and }\: T(N) = T_b \label{eq4}
+                    T(i) = T_{masa} (x_i), \:\: i \:\in \{0,1,N-1,N\} \label{eq4}
                 \end{cases}
                 \end{align}
                 \item 2D
                 
                 \begin{align}
                 \begin{cases}
-                    -k\left(\frac{T(i-1,j) -2T(i,j) + T(i+1,j)}{ \Delta x^2}\right) + \mathcal{O}(\Delta x^2)\\ 
-                   -k\left(\frac{T(i,j-1) -2T(i,j) + T(i,j+1)}{ \Delta y^2}\right) + \mathcal{O}(\Delta y^2)= q(i,j),\\ \:\: i \:\in \{1,N-1\}, j \:\:\in \{1,J-1\}\\\\
-                    -k\left(\frac{T(i-1,j) -2T(i,j) + T(i+1,j)}{ \Delta x^2}\right) + \mathcal{O}(\Delta x^2)\\  -k\left(\frac{-T(i,j-2) + 16 T(i,j-1) - 30 T(i,j) + 16 T(i,j+1) - T(i,j+2)}{12 \Delta y^2}\right)+ \mathcal{O}(\Delta y^4) = q(i,j),\\ \:\: i \:\in \{1,N-1\}, j \:\:\in \{2,\hdots, J-2\}\\\\
-                    -k\left(\frac{-T(i-2,j) + 16 T(i-1,j) - 30 T(i,j) + 16 T(i+1,j) - T(i+2,j)}{12 \Delta x^2}\right) + \mathcal{O}(\Delta x^4)\\
-                   -k\left(\frac{T(i,j-1) -2T(i,j) + T(i,j+1)}{ \Delta y^2}\right) + \mathcal{O}(\Delta y^2)= q(i,j),\\ \:\: i \:\in \{2,\hdots, N-2\}, j \:\:\in \{1,J-1\}\\\\        
-                    -k\left(\frac{-T(i-2,j) + 16 T(i-1,j) - 30 T(i,j) + 16 T(i+1,j) - T(i+2,j)}{12 \Delta x^2}\right) + \mathcal{O}(\Delta x^4)\\ -k\left(\frac{-T(i,j-2) + 16 T(i,j-1) - 30 T(i,j) + 16 T(i,j+1) - T(i,j+2)}{12 \Delta y^2}\right)+ \mathcal{O}(\Delta y^4) = q(i,j),\\ \:\: i \:\in \{2,\hdots, N-2\}, j \:\:\in \{2,\hdots, J-2\}\\\\
-                    T(0,j) = T_b \:\text{ for }\: j\in\{0, 1, 2, \hdots , J\}\\
-                    T(i,0) = T_b \:\text{ for }\: i\in\{0, 1, 2, \hdots , N\}\\
-                    T(N,j) = T_b \:\text{ for }\: j\in\{0, 1, 2, \hdots , J\}\\
-                    T(i,J) = T_b \:\text{ for }\: i\in\{0, 1, 2, \hdots , N\} \label{eq5}
+                    -k\left(\frac{-T(i-2,j) + 16 T(i-1,j) - 30 T(i,j) + 16 T(i+1,j) - T(i+2,j)}{12 h^2}\right)\\ -k\left(\frac{-T(i,j-2) + 16 T(i,j-1) - 30 T(i,j) + 16 T(i,j+1) - T(i,j+2)}{12 h^2}\right)+ \mathcal{O}(h^4) = q(i,j),\\ \:\: i \:\in \{2,\hdots, N-2\}, j \:\:\in \{2,\hdots, N-2\}\\\\
+                    T(i,j) = T_{masa} (x_i,y_j) \:\text{ for }\: i \:\in \{0,1,N-1,N\},\:j\in\{0, 1, 2, \hdots , N\}\\
+                    T(i,j) = T_{masa} (x_i,y_j) \:\text{ for }\: i \:\in \{0, 1, 2, \hdots , N\},\:j\in\{0,1,N-1,N\}\label{eq5}
                 \end{cases}
                 \end{align}
             \end{enumerate}
@@ -129,7 +121,7 @@ Shreyas Gaikwad (sg49969)}
     \begin{enumerate}
         \item 1D
         
-        \begin{tikzpicture}[scale=0.4, vertices/.style={draw, fill=black, circle, inner sep=0.5pt}]
+        \hspace{2cm}\begin{tikzpicture}[scale=0.4, vertices/.style={draw, fill=black, circle, inner sep=0.5pt}]
         \node[vertices, label={$x_0$}] (a) at (0,0) {};
         \node[vertices, label={$x_1$}] (b) at (3,0) {};
         \node[vertices, label={$x_2$}] (c) at (6,0) {};
@@ -146,7 +138,7 @@ Shreyas Gaikwad (sg49969)}
         \path (3,2.3) -- (6,2.3) node[pos=0.5]  {$\Delta x$};
         \end{tikzpicture}
         \item 2D
-        
+       \end{enumerate}     
         \begin{tikzpicture}[scale=0.4, vertices/.style={draw, fill=black, circle, inner sep=0.5pt}]
         \node[vertices, label={$(x_0,y_0)$}] (a) at (0,0) {};
         \node[vertices, label={$(x_1,y_0)$}] (b) at (5,0) {};
@@ -176,19 +168,19 @@ Shreyas Gaikwad (sg49969)}
         \node[vertices, label={$(x_{N-1},y_j)$}] (w) at (30,20) {};
         \node[vertices, label={$(x_{N},y_j)$}] (x) at (35,20) {};        
 
-        \node[vertices, label={$(x_0,y_{J-1})$}] (y) at (0,30) {};
-        \node[vertices, label={$(x_1,y_{J-1})$}] (z) at (5,30) {};
-        \node[vertices, label={$(x_2,y_{J-1})$}] (aa) at (10,30) {};
-        \node[vertices, label={$(x_i,y_{J-1})$}] (ab) at (20,30) {};
-        \node[vertices, label={$(x_{N-1},y_{J-1})$}] (ac) at (30,30) {};
-        \node[vertices, label={$(x_{N},y_{J-1})$}] (ad) at (35,30) {};  
+        \node[vertices, label={$(x_0,y_{N-1})$}] (y) at (0,30) {};
+        \node[vertices, label={$(x_1,y_{N-1})$}] (z) at (5,30) {};
+        \node[vertices, label={$(x_2,y_{N-1})$}] (aa) at (10,30) {};
+        \node[vertices, label={$(x_i,y_{N-1})$}] (ab) at (20,30) {};
+        \node[vertices, label={$(x_{N-1},y_{N-1})$}] (ac) at (30,30) {};
+        \node[vertices, label={$(x_{N},y_{N-1})$}] (ad) at (35,30) {};  
         
-        \node[vertices, label={$(x_0,y_J)$}] (ae) at (0,35) {};
-        \node[vertices, label={$(x_1,y_J)$}] (af) at (5,35) {};
-        \node[vertices, label={$(x_2,y_J)$}] (ag) at (10,35) {};
-        \node[vertices, label={$(x_i,y_J)$}] (ah) at (20,35) {};
-        \node[vertices, label={$(x_{N-1},y_J)$}] (ai) at (30,35) {};
-        \node[vertices, label={$(x_{N},y_J)$}] (aj) at (35,35) {}; 
+        \node[vertices, label={$(x_0,y_N)$}] (ae) at (0,35) {};
+        \node[vertices, label={$(x_1,y_N)$}] (af) at (5,35) {};
+        \node[vertices, label={$(x_2,y_N)$}] (ag) at (10,35) {};
+        \node[vertices, label={$(x_i,y_N)$}] (ah) at (20,35) {};
+        \node[vertices, label={$(x_{N-1},y_N)$}] (ai) at (30,35) {};
+        \node[vertices, label={$(x_{N},y_N)$}] (aj) at (35,35) {}; 
         \foreach \to/\from in
         {a/c,g/i,m/o,s/u,y/aa,ae/ag,a/m,b/n,c/o,y/ae,z/af,aa/ag,e/f,k/l,q/r,w/x,ac/ad,ai/aj,f/r,e/q,ac/ai,ad/aj,d/p,ab/ah} \draw [-] (\to)--(\from);
         \foreach \to/\from in
@@ -203,12 +195,12 @@ Shreyas Gaikwad (sg49969)}
         \draw[|<->|] (15,5) to (15,10);
         \path (0,-1.3) -- (35,-1.3) node[pos=0.5]  {$L$};
         \path (-3,0) -- (-3,35) node[pos=0.5]  {$L$};
-        \path (5,15.7) -- (10,15.7) node[pos=0.5]  {$\Delta x$};
-        \path (30,15.7) -- (35,15.7) node[pos=0.5]  {$\Delta x$};
-        \path (14.0,30) -- (14.0,35) node[pos=0.5]  {$\Delta y$};
-        \path (14.0,5) -- (14.0,10) node[pos=0.5]  {$\Delta y$};
+        \path (5,15.7) -- (10,15.7) node[pos=0.5]  {$\Delta x=h$};
+        \path (30,15.7) -- (35,15.7) node[pos=0.5]  {$\Delta x=h$};
+        \path (14.0,30) -- (14.0,35) node[pos=0.5]  {$\Delta y=h$};
+        \path (14.0,5) -- (14.0,10) node[pos=0.5]  {$\Delta y=h$};
         \end{tikzpicture}
-    \end{enumerate}
+
 
 
     \item \textbf{Linear system of Equations}
@@ -219,13 +211,13 @@ Shreyas Gaikwad (sg49969)}
                 
                 We first define the following vectors
                 \begin{align*}
-                    \mathbf{q} &= \left[\frac{k}{\Delta x^2} T_b ,q(1) ,\hdots, q(N-1),\frac{k}{\Delta x^2} T_b \right]^T\\
+                    \mathbf{q} &= \left[ T_{masa}(0) , \frac{\Delta x^2}{k}q(1) ,\hdots, \frac{\Delta x^2}{k}q(N-1),T_{masa}(L) \right]^T\\
                     \mathbf{T} &= [T(0) ,\hdots, T(N)]^T
                 \end{align*}
             
                 We now define a $(N+1)\times(N+1)$ tridiagonal matrix $\mathbf{A}$ such that,
                 \begin{align*}
-                    \mathbf{A} &= \frac{k}{\Delta x^2}\begin{bmatrix} 
+                    \mathbf{A} &= \begin{bmatrix} 
                     1 \\
                     -1 & 2 & -1  \\
                     & -1 & 2 & -1  \\
@@ -247,9 +239,10 @@ Shreyas Gaikwad (sg49969)}
                     \d & \d & \d  \\
                     & \d & \d & \d  \\
                     && \d & \d & \d\\
-                    &&& \d & \d & \d\\
+                    &&& \ddots & \ddots & \ddots\\
                     &&&& \d & \d & \d\\
-                    &&&&&& \d\\
+                    &&&&& \d & \d & \d\\
+                    &&&&&&& \d\\
                     \end{bmatrix}
                 \end{align*} 
                 
@@ -257,57 +250,61 @@ Shreyas Gaikwad (sg49969)}
                 
                 \item 2D
                 
-                As an illustration, the elements will be numbered in the following fashion
+                The elements will be numbered in the following fashion
+                \begin{align*}
+                    k = i + (N+1)j, \:i \in [0,\hdots,N] , \:j \in [0,\hdots,N] 
+                \end{align*}
+                Here is an illustration for a $4\times4$ grid i.e. $N=3$,\\
                 
-                \begin{tikzpicture}[scale=0.4, vertices/.style={draw, fill=black, circle, inner sep=0.5pt}]
+                \hspace{2cm}\begin{tikzpicture}[scale=0.8, vertices/.style={draw, fill=black, circle, inner sep=0.5pt}]
 
-        \node[vertices, label={$1$}] (a) at (0,0) {};
-        \node[vertices, label={$2$}] (b) at (3,0) {}; 
-        \node[vertices, label={$3$}] (c) at (6,0) {}; 
-        \node[vertices, label={$4$}] (d) at (9,0) {}; 
-        \node[vertices, label={$5$}] (e) at (0,3) {};
-        \node[vertices, label={$6$}] (f) at (3,3) {}; 
-        \node[vertices, label={$7$}] (g) at (6,3) {}; 
-        \node[vertices, label={$8$}] (h) at (9,3) {};
-        \node[vertices, label={$9$}] (i) at (0,6) {};
-        \node[vertices, label={$10$}] (j) at (3,6) {}; 
-        \node[vertices, label={$11$}] (k) at (6,6) {}; 
-        \node[vertices, label={$12$}] (l) at (9,6) {};
-        \node[vertices, label={$13$}] (m) at (0,9) {};
-        \node[vertices, label={$14$}] (n) at (3,9) {}; 
-        \node[vertices, label={$15$}] (o) at (6,9) {}; 
-        \node[vertices, label={$16$}] (p) at (9,9) {};
+        \node[vertices, label={$k=0$}] (a) at (0,0) {};
+        \node[vertices, label={$k=1$}] (b) at (3,0) {}; 
+        \node[vertices, label={$k=2$}] (c) at (6,0) {}; 
+        \node[vertices, label={$k=3$}] (d) at (9,0) {}; 
+        \node[vertices, label={$k=4$}] (e) at (0,3) {};
+        \node[vertices, label={$k=5$}] (f) at (3,3) {}; 
+        \node[vertices, label={$k=6$}] (g) at (6,3) {}; 
+        \node[vertices, label={$k=7$}] (h) at (9,3) {};
+        \node[vertices, label={$k=8$}] (i) at (0,6) {};
+        \node[vertices, label={$k=9$}] (j) at (3,6) {}; 
+        \node[vertices, label={$k=10$}] (k) at (6,6) {}; 
+        \node[vertices, label={$k=11$}] (l) at (9,6) {};
+        \node[vertices, label={$k=12$}] (m) at (0,9) {};
+        \node[vertices, label={$k=13$}] (n) at (3,9) {}; 
+        \node[vertices, label={$k=14$}] (o) at (6,9) {}; 
+        \node[vertices, label={$k=15$}] (p) at (9,9) {};
         \foreach \to/\from in
         {a/d,a/m,e/h,i/l,m/p,b/n,c/o,d/p} \draw [-] (\to)--(\from);
         \end{tikzpicture}
                 
-                So we can imagine how the matrix is going to look: the terms of second derivative in x-direction will be adjacent to each other, but they terms of the second derivative in y-direction will be offset by N points. This will become clear in the visual representation below.
-                We first define the following $(N+1)(J+1) \times 1$ vectors
+So we can imagine how the matrix is going to look: the terms of second derivative in x-direction will be adjacent to each other, but they terms of the second derivative in y-direction will be offset by N points. This will become clear in the visual representation below.
+                We first define the following $(N+1)^2 \times 1$ vectors
                 \begin{align*}
-                    \mathbf{q}(i+j(N+1)) &= \begin{cases}
-                    q(i,j) \:\text{ if }\: i \in \{1,2,\hdots,N-1\},\: j \in \{1,2,\hdots,J-1\}\\
-                    \frac{k}{\Delta x^2} T_b \:\:\text{otherwise i.e. at boundaries}
+                    \mathbf{q}(k) &= \begin{cases}
+                    \frac{h^2}{k}q(i,j) \:\text{ if }\: i \in \{1,2,\hdots,N-1\},\: j \in \{1,2,\hdots,J-1\}\\
+                     T_{masa}(x_i,y_j) \:\:\text{otherwise i.e. at boundaries}
                     \end{cases}\\
-                    \mathbf{T} &= [T(0) ,T(1),\hdots, T((N+1)(J+1)))]^T
+                    \mathbf{T} &= [T(0) ,T(1),\hdots, T((N+1)^2)]^T
                 \end{align*}
             \end{enumerate}
-            We now define $(N+1)(J+1)\times(N+1)(J+1)$ matrices $\mathbf{A_x}$ (interior x-direction derivatives), $\mathbf{A_y}$ (interior y-direction derivatives) and $\mathbf{A_b}$ (boundary elements) such that, (refer to Appendix \ref{A.1} for the individual sparsity patterns.)
+            We now define $(N+1)^2\times(N+1)^2$ matrices $\mathbf{A_x}$ (interior x-direction derivatives), $\mathbf{A_y}$ (interior y-direction derivatives) and $\mathbf{A_b}$ (dirichlet nodes) such that,
             
             \begin{align*}
                     \mathbf{A_x} = \begin{cases}
                     \mathbf{A_x}(i,i) =
                     \begin{cases}
-                    2\frac{k}{\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    2 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_x}(i,i-1) =
                     \begin{cases}
-                    -\frac{k}{\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    -1 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_x}(i,i+1) =
                     \begin{cases}
-                    -\frac{k}{\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    -1 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}
                     \end{cases}
@@ -319,17 +316,17 @@ Shreyas Gaikwad (sg49969)}
                     \mathbf{A_y} = \begin{cases}
                     \mathbf{A_y}(j,j) =
                     \begin{cases}
-                    2\frac{k}{\Delta y^2} \: \text{ if $j$ corresponds to an interior point}\:\\
+                    2 \: \text{ if $j$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
-                    \mathbf{A_x}(j,j-N) =
+                    \mathbf{A_y}(j,j-N) =
                     \begin{cases}
-                    -\frac{k}{\Delta y^2} \: \text{ if $j$ corresponds to an interior point}\:\\
+                    -1 \: \text{ if $j$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
-                    \mathbf{A_x}(j,j+N) =
+                    \mathbf{A_y}(j,j+N) =
                     \begin{cases}
-                    -\frac{k}{\Delta y^2} \: \text{ if $j$ corresponds to an interior point}\:\\
+                    -1 \: \text{ if $j$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}
                     \end{cases}
@@ -339,7 +336,7 @@ Shreyas Gaikwad (sg49969)}
                     \mathbf{A_b} = \begin{cases}
                     \mathbf{A_b}(i,i) =
                     \begin{cases}
-                    \frac{k}{\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    1 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \end{cases}
@@ -378,6 +375,16 @@ Shreyas Gaikwad (sg49969)}
             \end{align*}
             
             \texttt{Number of non-zero elements on an interior row of the matrix = \textcolor{red}{5}}.\\  
+
+            The repeating interior block of $\mathbf{A}$ is given by,
+                    \begin{align*}
+                    \mathbf{A} = \left[\begin{smallmatrix}
+                    &&1\\ -1&\hdots&-1&4&-1&\hdots&-1\\
+                     &-1&\hdots&-1&4&-1&\hdots&-1\\
+                     &&-1&\hdots&-1&4&-1&\hdots&-1\\
+                    &&&&&&1\\
+                    \end{smallmatrix}\right]
+                \end{align*}
             Now (\ref{eq3}) can be written as,
                 \begin{align*}
                     \mathbf{AT} = \mathbf{q}
@@ -388,15 +395,13 @@ Shreyas Gaikwad (sg49969)}
                 
                 We first define the following vectors
                 \begin{align*}
-                    \mathbf{q} &= \left[\frac{k}{12\Delta x^2} T_b ,\frac{k}{12\Delta x^2} T_{true}(1),q(3) \hdots,q(N-2), \frac{k}{12\Delta x^2} T_{true}(N-1),\frac{k}{12\Delta x^2} T_b\right]^T\\
+                    \mathbf{q} &= \left[T_{masa}(0) ,T_{masa}(x_1),\frac{12\Delta x^2}{k}q(3) \hdots,\frac{12\Delta x^2}{k}q(N-2), T_{masa}(x_{N-1}),T_{masa}(L)\right]^T\\
                     \mathbf{T} &= [T(0) ,\hdots, T(N)]^T
                 \end{align*}
                 
-                Since our purpose is code verification, we assume that $T(1)$ and $T(N-1)$ are known to us from the analytical solution, just to avoid using a different scheme there.
-                
                 We now define a $(N+1)\times(N+1)$ pentadiagonal matrix $\mathbf{A}$ such that (blank elements are 0),
                 \begin{align*}
-                    \mathbf{A} &= \frac{k}{12\Delta x^2}\begin{bmatrix} 
+                    \mathbf{A} &= \begin{bmatrix} 
                     1\\
                     & 1 &   \\
                     1 & -16 & 30 & -16 & 1  \\
@@ -413,7 +418,7 @@ Shreyas Gaikwad (sg49969)}
                 \begin{align*}
                     \mathbf{AT} = \mathbf{q}
                 \end{align*}
-                Note that the first and last row in $\mathbf{A}$ looks different because we accounted for the boundary conditions. Similarly, the second and second-last rows look different because we use a second order approximation close to the boundary. The sparsity pattern of the matrix is given by, 
+                Note that the first and last two rows in $\mathbf{A}$ looks different because we accounted for the Dirichlet conditions. The sparsity pattern of the matrix is given by, 
                 \begin{align*}
                     \mathbf{A} &= \begin{bmatrix} 
                     \d\\
@@ -421,76 +426,79 @@ Shreyas Gaikwad (sg49969)}
                     \d & \d & \d & \d & \d  \\
                     &\d & \d & \d & \d & \d  \\
                     && \d & \d & \d & \d & \d  \\
-                    &&& \d & \d & \d & \d & \d \\
-                    &&&& \d & \d & \d & \d & \d\\
-                    &&&&&&  & \d & \\
-                    &&&&&&&& \d
+                    &&& \ddots & \ddots & \ddots & \ddots & \ddots  \\
+                    &&&& \d & \d & \d & \d & \d \\
+                    &&&&& \d & \d & \d & \d & \d\\
+                    &&&&&&&  & \d & \\
+                    &&&&&&&&& \d
                     \end{bmatrix}
                 \end{align*}
                 \texttt{Number of non-zero elements on an interior row of the matrix = \textcolor{red}{5}}.\\ 
                 \item 2D
-                As an illustration, the elements will be numbered in the following fashion
+                The elements will be numbered in the following fashion
+                \begin{align*}
+                    k = i + (N+1)j, \:i \in [0,\hdots,N] , \:j \in [0,\hdots,N] 
+                \end{align*}
+                Here is an illustration for a $4\times4$ grid i.e. $N=3$,\\
                 
-                \begin{tikzpicture}[scale=0.4, vertices/.style={draw, fill=black, circle, inner sep=0.5pt}]
+                \hspace{2cm}\begin{tikzpicture}[scale=0.8, vertices/.style={draw, fill=black, circle, inner sep=0.5pt}]
 
-        \node[vertices, label={$1$}] (a) at (0,0) {};
-        \node[vertices, label={$2$}] (b) at (3,0) {}; 
-        \node[vertices, label={$3$}] (c) at (6,0) {}; 
-        \node[vertices, label={$4$}] (d) at (9,0) {}; 
-        \node[vertices, label={$5$}] (e) at (0,3) {};
-        \node[vertices, label={$6$}] (f) at (3,3) {}; 
-        \node[vertices, label={$7$}] (g) at (6,3) {}; 
-        \node[vertices, label={$8$}] (h) at (9,3) {};
-        \node[vertices, label={$9$}] (i) at (0,6) {};
-        \node[vertices, label={$10$}] (j) at (3,6) {}; 
-        \node[vertices, label={$11$}] (k) at (6,6) {}; 
-        \node[vertices, label={$12$}] (l) at (9,6) {};
-        \node[vertices, label={$13$}] (m) at (0,9) {};
-        \node[vertices, label={$14$}] (n) at (3,9) {}; 
-        \node[vertices, label={$15$}] (o) at (6,9) {}; 
-        \node[vertices, label={$16$}] (p) at (9,9) {};
+        \node[vertices, label={$k=0$}] (a) at (0,0) {};
+        \node[vertices, label={$k=1$}] (b) at (3,0) {}; 
+        \node[vertices, label={$k=2$}] (c) at (6,0) {}; 
+        \node[vertices, label={$k=3$}] (d) at (9,0) {}; 
+        \node[vertices, label={$k=4$}] (e) at (0,3) {};
+        \node[vertices, label={$k=5$}] (f) at (3,3) {}; 
+        \node[vertices, label={$k=6$}] (g) at (6,3) {}; 
+        \node[vertices, label={$k=7$}] (h) at (9,3) {};
+        \node[vertices, label={$k=8$}] (i) at (0,6) {};
+        \node[vertices, label={$k=9$}] (j) at (3,6) {}; 
+        \node[vertices, label={$k=10$}] (k) at (6,6) {}; 
+        \node[vertices, label={$k=11$}] (l) at (9,6) {};
+        \node[vertices, label={$k=12$}] (m) at (0,9) {};
+        \node[vertices, label={$k=13$}] (n) at (3,9) {}; 
+        \node[vertices, label={$k=14$}] (o) at (6,9) {}; 
+        \node[vertices, label={$k=15$}] (p) at (9,9) {};
         \foreach \to/\from in
         {a/d,a/m,e/h,i/l,m/p,b/n,c/o,d/p} \draw [-] (\to)--(\from);
         \end{tikzpicture}
                 
                 So we can imagine how the matrix is going to look: the terms of second derivative in x-direction will be adjacent to each other, but they terms of the second derivative in y-direction will be offset by N points. This will become clear in the visual representation below.
-                We first define the following $(N+1)(J+1) \times 1$ vectors
+                We first define the following $(N+1)^2 \times 1$ vectors
                 \begin{align*}
-                    \mathbf{q}(i+j(N+1)) &= \begin{cases}
-                    q(i,j) \:\text{ if }\: i \in \{1,2,\hdots,N-1\},\: j \in \{1,2,\hdots,J-1\}\\
-                    \frac{k}{12\Delta x^2} T_b \:\:\text{ at boundaries}\\
-                \frac{k}{12\Delta x^2} T_{true}(i,j) \:\:\text{ i = 1 \text{or} i = N-1 \text{or} j = 1 \text{or} j = J-1 } \\
-                \text{Assumption that these values are known from analytical solution}
+                    \mathbf{q}(k) &= \begin{cases}
+                    \frac{12 h^2}{k} q(i,j) \:\text{ if }\: i \in \{1,2,\hdots,N-1\},\: j \in \{1,2,\hdots,N-1\}\\
+                     T_{masa}(x_i,y_j) \:\text{ otherwise }
                     \end{cases}\\
-                    \mathbf{T} &= [T(0) ,T(1),\hdots, T((N+1)(J+1)))]^T
+                    \mathbf{T} &= [T(0) ,T(1),\hdots, T((N+1)^2)]^T
                 \end{align*}
-            We now define $(N+1)(J+1)\times(N+1)(J+1)$ matrices $\mathbf{A_x}$ (interior x-direction derivatives), $\mathbf{A_y}$ (interior y-direction derivatives) and $\mathbf{A_b}$ (boundary and close to boundary elements) such that, (refer to Appendix \ref{A.2} for the individual sparsity patterns.)
+            We now define $(N+1)^2\times(N+1)^2$ matrices $\mathbf{A_x}$ (interior x-direction derivatives), $\mathbf{A_y}$ (interior y-direction derivatives) and $\mathbf{A_b}$ (boundary and close to boundary elements) such that,
             
         \begin{align*}
                     \mathbf{A_x} = \begin{cases}
                     \mathbf{A_x}(i,i) =
                     \begin{cases}
-                    30\frac{k}{12\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    30 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_x}(i,i-1) =
                     \begin{cases}
-                    -16\frac{k}{12\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    -16 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_x}(i,i+1) =
                     \begin{cases}
-                    -16\frac{k}{12\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    -16 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_x}(i,i+2) =
                     \begin{cases}
-                    \frac{k}{12\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    1 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_x}(i,i-2) =
                     \begin{cases}
-                    \frac{k}{12\Delta x^2} \: \text{ if $i$ corresponds to an interior point}\:\\
+                    1 \: \text{ if $i$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\                    
                     \end{cases}\\
@@ -499,27 +507,27 @@ Shreyas Gaikwad (sg49969)}
                     \mathbf{A_y} = \begin{cases}
                     \mathbf{A_y}(j,j) =
                     \begin{cases}
-                    30\frac{k}{12\Delta y^2} \: \text{ if $j$ corresponds to an interior point}\:\\
+                    30 \: \text{ if $j$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_y}(j,j-N) =
                     \begin{cases}
-                    -16\frac{k}{12\Delta y^2} \: \text{ if $j$ corresponds to an interior point}\:\\
+                    -16 \: \text{ if $j$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_y}(j,j+N) =
                     \begin{cases}
-                    -16\frac{k}{12\Delta y^2} \: \text{ if $j$ corresponds to an interior point}\:\\
+                    -16 \: \text{ if $j$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_y}(j,j+2N) =
                     \begin{cases}
-                    \frac{k}{12\Delta y^2} \: \text{ if $j$ corresponds to an interior point}\:\\
+                    1 \: \text{ if $j$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \mathbf{A_y}(j,j-2N) =
                     \begin{cases}
-                    \frac{k}{12\Delta y^2} \: \text{ if $j$ corresponds to an interior point}\:\\
+                    1 \: \text{ if $j$ corresponds to an interior point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}                    
                     \end{cases}
@@ -528,7 +536,7 @@ Shreyas Gaikwad (sg49969)}
                     \mathbf{A_b} = \begin{cases}
                     \mathbf{A_b}(j,j) =
                     \begin{cases}
-                    \frac{k}{12\Delta x^2} \: \text{ if $j$ is a boundary point or an adjacent to boundary point}\:\\
+                    1 \: \text{ if $j$ is a boundary point or an adjacent to boundary point}\:\\
                     0 \: \text{ otherwise}\:\\
                     \end{cases}\\
                     \end{cases}
@@ -565,6 +573,18 @@ Shreyas Gaikwad (sg49969)}
                 \end{smallmatrix}\right]
             \end{align*} 
             \texttt{Number of non-zero elements on an interior row of the matrix = \textcolor{red}{9}}.\\ 
+            
+            The repeating interior block of $\mathbf{A}$ is given by,
+                    \begin{align*}
+                    \mathbf{A} = \left[\begin{smallmatrix}
+                  &&&&1\\
+                  &&&&&1\\ 1&\hdots&-16&\hdots&1&-16&60&-16&1&\hdots&-16&\hdots& 1\\
+                    &1&\hdots&-16&\hdots&1&-16&60&-16&1&\hdots&-16&\hdots& 1\\
+                    &&1&\hdots&-16&\hdots&1&-16&60&-16&1&\hdots&-16&\hdots& 1\\
+                    &&&&&&&&&1\\
+                    &&&&&&&&&&1\\
+                    \end{smallmatrix}\right]
+                \end{align*}
              Now (\ref{eq5}) can be written as,
                 \begin{align*}
                     \mathbf{AT} = \mathbf{q}
@@ -583,11 +603,13 @@ Shreyas Gaikwad (sg49969)}
             error = 0 !!! Compare to tolerance
             T(1:K) = 0 !!! Initialize entire T array to zero
             
-            do while (iters <= max_iters)
+            do while (iters <= max_iter)
             
                 T_old(:) = T(:)
                 
                 do i = 1,$\hdots$,K
+                    !!! We use only the old values and none of the updated values for the update.
+                    
                     T(i) =  1/A(i,i) * (q(i)-$\Sigma_{j \neq i}^{K}$A(i,j)T_old(j))
                 end do
                 
@@ -617,11 +639,13 @@ Shreyas Gaikwad (sg49969)}
             error = 0 !!! Compare to tolerance
             T(1:K) = 0 !!! Initialize entire T array to zero
             
-            do while (iters <= max_iters)
+            do while (iters <= max_iter)
             
                 T_old(:) = T(:)
                 
                 do i = 1,$\hdots$,K
+                    !!! T_old is not used at all, we use older values for >i and new values for <i.
+                    
                     T(i) =  1/A(i,i) * (q(i)-$\Sigma_{j \neq i}^{K}$A(i,j)T(j))
                 end do
                 
@@ -640,9 +664,12 @@ Shreyas Gaikwad (sg49969)}
             \end{lstlisting}
         \end{enumerate}
     \item \textbf{Estimate of memory requirements}
+    
+    We assume that our matrices have been cleverly stored taking into consideration their nice, sparse structure.
     \begin{itemize}
         \item Second order approximation
         \begin{itemize}
+            \item 1D
             \begin{table}[H] % Raw data.
             \centering{
             \begin{tabular}{|c|c|c|c|}
@@ -675,15 +702,15 @@ Shreyas Gaikwad (sg49969)}
             \hline
             \texttt{Variable} & \texttt{Dimension} & \texttt{Memory} & \texttt{Comments}\\
             \hline
-            \texttt{T}&\texttt{(N+1)}\texttt{(J+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(J+1)}&\\
+            \texttt{T}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(N+1)}&\\
             \hline
-            \texttt{q}&\texttt{(N+1)}\texttt{(J+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(J+1)}&\\
+            \texttt{q}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(N+1)}&\\
             \hline
-            \texttt{A}&\texttt{(N+1)}\texttt{(J+1)}$\times$\texttt{(N+1)}\texttt{(J+1)}&\texttt{8}$\times$\texttt{5}&\\
+            \texttt{A}&\texttt{(N+1)}\texttt{(N+1)}$\times$\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{5}&\\
             \hline
             \texttt{N}&1&4&\\
             \hline
-            \texttt{J}&1&4&\\
+            \texttt{N}&1&4&\\
             \hline
             \texttt{L}&1&8&\\
             \hline
@@ -693,7 +720,7 @@ Shreyas Gaikwad (sg49969)}
             \hline
             \texttt{k}&1&8&\\
             \hline
-            &\texttt{Total} &\texttt{16(N+1)(J+1)+80}&\\ 
+            &\texttt{Total} &\texttt{16(N+1)(N+1)+80}&\\ 
             \hline
             \end{tabular}}\\
             \end{table} 
@@ -735,15 +762,15 @@ Shreyas Gaikwad (sg49969)}
             \hline
             \texttt{Variable} & \texttt{Dimension} & \texttt{Memory} & \texttt{Comments}\\
             \hline
-            \texttt{T}&\texttt{(N+1)}\texttt{(J+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(J+1)}&\\
+            \texttt{T}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(N+1)}&\\
             \hline
-            \texttt{q}&\texttt{(N+1)}\texttt{(J+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(J+1)}&\\
+            \texttt{q}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}\texttt{(N+1)}&\\
             \hline
-            \texttt{A}&\texttt{(N+1)}\texttt{(J+1)}$\times$\texttt{(N+1)}\texttt{(J+1)}&\texttt{8}$\times$\texttt{9}&\\
+            \texttt{A}&\texttt{(N+1)}\texttt{(N+1)}$\times$\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{9}&\\
             \hline
             \texttt{N}&1&4&\\
             \hline
-            \texttt{J}&1&4&\\
+            \texttt{N}&1&4&\\
             \hline
             \texttt{L}&1&8&\\
             \hline
@@ -753,7 +780,7 @@ Shreyas Gaikwad (sg49969)}
             \hline
             \texttt{k}&1&8&\\
             \hline
-            &\texttt{Total} &\texttt{16(N+1)(J+1)+120}&\\ 
+            &\texttt{Total} &\texttt{16(N+1)(N+1)+120}&\\ 
             \hline
 
             \end{tabular}}\\
@@ -762,224 +789,224 @@ Shreyas Gaikwad (sg49969)}
     \end{itemize}
 \end{itemize}
 \bigskip
-\appendix
-\section{Sparsity patterns}\label{A}
-\subsection{2D Second order approximation}\label{A.1}
-        The sparsity pattern of $\mathbf{A_x}$ is given by, (illustration for a $5\times5$ grid)
-         \begin{align*}
-                \mathbf{A_x} &= \left[\begin{smallmatrix} 
-                \\
-                & \\
-                && \\
-                &&& \\
-                &&&& \\
-                &&&&& \\
-                &&&&& \d & \d & \d\\
-                &&&&&& \d & \d & \d\\
-                &&&&&&& \d & \d & \d\\
-                &&&&&&&& \\
-                &&&&&&&&& \\
-                &&&&&&&&&& \d & \d & \d\\ 
-                &&&&&&&&&&& \d & \d & \d\\
-                &&&&&&&&&&&& \d & \d & \d\\
-                &&&&&&&&&&&& \\
-                &&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&& \d & \d & \d\\
-                &&&&&&&&&&&&&&&& \d & \d & \d\\
-                &&&&&&&&&&&&&&&&& \d & \d & \d\\
-                &&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&&&& \\
-                \end{smallmatrix}\right]
-            \end{align*}
-            The sparsity pattern of $\mathbf{A_y}$ is given by, (illustration for a $5\times5$ grid) 
-            \begin{align*}
-                \mathbf{A_y} &= \left[\begin{smallmatrix} 
-                \\
-                & \\
-                && \\
-                &&& \\
-                &&&& \\
-                &&&&& \\
-                & \d &&&&& \d &&&&& \d\\
-                && \d &&&&& \d &&&&& \d\\
-                &&& \d &&&&& \d &&&&& \d\\
-                &&&&&&&&& \\
-                &&&&&&&&&& \\
-                &&&&&&& \d &&&&& \d &&&&& \d\\
-                &&&&&&&& \d &&&&& \d &&&&& \d\\
-                &&&&&&&&& \d &&&&& \d &&&&& \d\\
-                &&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&& \d &&&&& \d &&&&& \d\\
-                &&&&&&&&&&&&&& \d &&&&& \d &&&&& \d\\
-                &&&&&&&&&&&&&&& \d &&&&& \d &&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&&&&&& \\
-                \end{smallmatrix}\right]
-            \end{align*}            
-            The sparsity pattern of $\mathbf{A_b}$ is given by, (illustration for a $5\times5$ grid) 
-            \begin{align*}
-                \mathbf{A_b} &= \left[\begin{smallmatrix} 
-                \d\\
-                & \d\\
-                && \d\\
-                &&& \d\\
-                &&&& \d\\
-                &&&&& \d\\
-                &&&&&& \\
-                &&&&&&& \\
-                &&&&&&&& \\
-                &&&&&&&&& \d\\
-                &&&&&&&&&& \d\\
-                &&&&&&&&&&& \\
-                &&&&&&&&&&&& \\
-                &&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                \end{smallmatrix}\right]
-            \end{align*}
-\subsection{2D Fourth order approximation}\label{A.2}
+% \appendix
+% \section{Sparsity patterns}\label{A}
+% \subsection{2D Second order approximation}\label{A.1}
+%         The sparsity pattern of $\mathbf{A_x}$ is given by, (illustration for a $5\times5$ grid)
+%          \begin{align*}
+%                 \mathbf{A_x} &= \left[\begin{smallmatrix} 
+%                 \\
+%                 & \\
+%                 && \\
+%                 &&& \\
+%                 &&&& \\
+%                 &&&&& \\
+%                 &&&&& \d & \d & \d\\
+%                 &&&&&& \d & \d & \d\\
+%                 &&&&&&& \d & \d & \d\\
+%                 &&&&&&&& \\
+%                 &&&&&&&&& \\
+%                 &&&&&&&&&& \d & \d & \d\\ 
+%                 &&&&&&&&&&& \d & \d & \d\\
+%                 &&&&&&&&&&&& \d & \d & \d\\
+%                 &&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&& \d & \d & \d\\
+%                 &&&&&&&&&&&&&&&& \d & \d & \d\\
+%                 &&&&&&&&&&&&&&&&& \d & \d & \d\\
+%                 &&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&&&& \\
+%                 \end{smallmatrix}\right]
+%             \end{align*}
+%             The sparsity pattern of $\mathbf{A_y}$ is given by, (illustration for a $5\times5$ grid) 
+%             \begin{align*}
+%                 \mathbf{A_y} &= \left[\begin{smallmatrix} 
+%                 \\
+%                 & \\
+%                 && \\
+%                 &&& \\
+%                 &&&& \\
+%                 &&&&& \\
+%                 & \d &&&&& \d &&&&& \d\\
+%                 && \d &&&&& \d &&&&& \d\\
+%                 &&& \d &&&&& \d &&&&& \d\\
+%                 &&&&&&&&& \\
+%                 &&&&&&&&&& \\
+%                 &&&&&&& \d &&&&& \d &&&&& \d\\
+%                 &&&&&&&& \d &&&&& \d &&&&& \d\\
+%                 &&&&&&&&& \d &&&&& \d &&&&& \d\\
+%                 &&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&& \d &&&&& \d &&&&& \d\\
+%                 &&&&&&&&&&&&&& \d &&&&& \d &&&&& \d\\
+%                 &&&&&&&&&&&&&&& \d &&&&& \d &&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&& \\
+%                 \end{smallmatrix}\right]
+%             \end{align*}            
+%             The sparsity pattern of $\mathbf{A_b}$ is given by, (illustration for a $5\times5$ grid) 
+%             \begin{align*}
+%                 \mathbf{A_b} &= \left[\begin{smallmatrix} 
+%                 \d\\
+%                 & \d\\
+%                 && \d\\
+%                 &&& \d\\
+%                 &&&& \d\\
+%                 &&&&& \d\\
+%                 &&&&&& \\
+%                 &&&&&&& \\
+%                 &&&&&&&& \\
+%                 &&&&&&&&& \d\\
+%                 &&&&&&&&&& \d\\
+%                 &&&&&&&&&&& \\
+%                 &&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 \end{smallmatrix}\right]
+%             \end{align*}
+% \subsection{2D Fourth order approximation}\label{A.2}
 
-            The sparsity pattern of $\mathbf{A_x}$ is given by, (illustration for a $7\times7$ grid)
-            \begin{align*}
-                \mathbf{A_x} &= \left[\begin{smallmatrix} 
-                \\
-                & \\
-                && \\
-                &&& \\
-                &&&& \\
-                &&&&& \\
-                &&&&&& \\
-                &&&&&& \\
-                &&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&&&& \\
-                &&&&&&&&&&& \\
-                &&&&&&&&&&&& \\ 
-                &&&&&&&&&&&& \\
-                &&&&&&&&&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&& \\ 
-                &&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&&&&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&&&&&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
-                &&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                \end{smallmatrix}\right]
-            \end{align*}
+%             The sparsity pattern of $\mathbf{A_x}$ is given by, (illustration for a $7\times7$ grid)
+%             \begin{align*}
+%                 \mathbf{A_x} &= \left[\begin{smallmatrix} 
+%                 \\
+%                 & \\
+%                 && \\
+%                 &&& \\
+%                 &&&& \\
+%                 &&&&& \\
+%                 &&&&&& \\
+%                 &&&&&& \\
+%                 &&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&&&& \\
+%                 &&&&&&&&&&& \\
+%                 &&&&&&&&&&&& \\ 
+%                 &&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&& \\ 
+%                 &&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&&&&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&& \d & \d & \d & \d & \d\\
+%                 &&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 \end{smallmatrix}\right]
+%             \end{align*}
             
-            The sparsity pattern of $\mathbf{A_y}$ is given by, (illustration for a $7\times7$ grid) 
-            \begin{align*}
-                \mathbf{A_y} &= \left[\begin{smallmatrix} 
-                \\
-                & \\
-                && \\
-                &&& \\
-                &&&& \\
-                &&&&& \\
-                &&&&&& \\
-                & \\
-                &\\
-                &\\
-                &\\
-                &&&&&&&&&&& \\
-                &&&&&&&&&&&& \\ 
-                &\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &\\
-                &&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&& \\ 
-                &&&&&&&&&&&&&&&&& \\ 
-                &&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &&&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&& \\ 
-                &&&&&&&&&&&&&&&&& \\ 
-                &&&&&&&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &&&&&&&&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &&&&&&&&&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
-                \end{smallmatrix}\right]
-            \end{align*}           
+%             The sparsity pattern of $\mathbf{A_y}$ is given by, (illustration for a $7\times7$ grid) 
+%             \begin{align*}
+%                 \mathbf{A_y} &= \left[\begin{smallmatrix} 
+%                 \\
+%                 & \\
+%                 && \\
+%                 &&& \\
+%                 &&&& \\
+%                 &&&&& \\
+%                 &&&&&& \\
+%                 & \\
+%                 &\\
+%                 &\\
+%                 &\\
+%                 &&&&&&&&&&& \\
+%                 &&&&&&&&&&&& \\ 
+%                 &\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &\\
+%                 &&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&& \\ 
+%                 &&&&&&&&&&&&&&&&& \\ 
+%                 &&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &&&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&& \\ 
+%                 &&&&&&&&&&&&&&&&& \\ 
+%                 &&&&&&&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &&&&&&&&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &&&&&&&&&&&&&&&\d&&&&&&\d&&&&&& \d &&&&&& \d&&&&&&\d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\\
+%                 \end{smallmatrix}\right]
+%             \end{align*}           
 
-            The sparsity pattern of $\mathbf{A_b}$ is given by, (illustration for a $7\times7$ grid) 
-            \begin{align*}
-                \mathbf{A_b} &= \left[\begin{smallmatrix} 
-                \d\\
-                & \d\\
-                && \d\\
-                &&& \d\\
-                &&&& \d\\
-                &&&&& \d\\
-                &&&&&& \d\\
-                &&&&&&& \d\\
-                &&&&&&&& \d\\
-                &&&&&&&&& \\
-                &&&&&&&&&& \\
-                &&&&&&&&&&& \\
-                &&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&& \\
-                &&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
-                \end{smallmatrix}\right]
-            \end{align*}
+%             The sparsity pattern of $\mathbf{A_b}$ is given by, (illustration for a $7\times7$ grid) 
+%             \begin{align*}
+%                 \mathbf{A_b} &= \left[\begin{smallmatrix} 
+%                 \d\\
+%                 & \d\\
+%                 && \d\\
+%                 &&& \d\\
+%                 &&&& \d\\
+%                 &&&&& \d\\
+%                 &&&&&& \d\\
+%                 &&&&&&& \d\\
+%                 &&&&&&&& \d\\
+%                 &&&&&&&&& \\
+%                 &&&&&&&&&& \\
+%                 &&&&&&&&&&& \\
+%                 &&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&& \\
+%                 &&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& \d\\
+%                 \end{smallmatrix}\right]
+%             \end{align*}
             
             
 \end{document}
