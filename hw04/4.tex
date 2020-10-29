@@ -678,7 +678,7 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \hline
             \texttt{Variable} & \texttt{Dimension} & \texttt{Memory}\\
             \hline
-            \texttt{T}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}\\
+            \texttt{T \& T\_old}&\texttt{2(N+1)}&\texttt{16}$\times$\texttt{(N+1)}\\
             \hline
             \texttt{q}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}\\
             \hline
@@ -692,7 +692,7 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \hline
             \texttt{k}&\texttt{1}&\texttt{8}\\
             \hline
-            &\texttt{Total} &\texttt{8(N+2)}$^2$\texttt{+20}\\ 
+            &\texttt{Total} &\texttt{8(N+1)}$^2$\texttt{+24(N+1)}\texttt{+28}\\ 
             \hline
             \end{tabular}}\\
             \end{table}   
@@ -704,7 +704,7 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \hline
             \texttt{Variable} & \texttt{Dimension} & \texttt{Memory}\\
             \hline
-            \texttt{T}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
+            \texttt{T \& T\_old}&\texttt{2(N+1)}\texttt{(N+1)}&\texttt{16}$\times$\texttt{(N+1)}$^2$\\
             \hline
             \texttt{q}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
             \hline
@@ -720,7 +720,7 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \hline
             \texttt{k}&\texttt{1}&\texttt{8}\\
             \hline
-            &\texttt{Total} &\texttt{8}\texttt{(N+1)}$^4$+\texttt{16}\texttt{(N+1)}$^2$+\texttt{36}\\ 
+            &\texttt{Total} &\texttt{8}\texttt{(N+1)}$^4$+\texttt{24}\texttt{(N+1)}$^2$+\texttt{36}\\ 
             \hline
             \end{tabular}}\\
             \end{table} 
@@ -735,7 +735,7 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \hline
             \texttt{Variable} & \texttt{Dimension} & \texttt{Memory}\\
             \hline
-            \texttt{T}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}\\
+            \texttt{T \& T\_old}&\texttt{2(N+1)}&\texttt{16}$\times$\texttt{(N+1)}\\
             \hline
             \texttt{q}&\texttt{N+1}&\texttt{8}$\times$\texttt{(N+1)}\\
             \hline
@@ -749,7 +749,7 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \hline
             \texttt{k}&\texttt{1}&\texttt{8}\\
             \hline
-            &\texttt{Total} &\texttt{8(N+2)}$^2$\texttt{+20}\\ 
+            &\texttt{Total} &\texttt{8(N+1)}$^2$\texttt{+24(N+1)}\texttt{+28}\\ 
             \hline
             \end{tabular}}\\
             \end{table}   
@@ -761,7 +761,7 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \hline
             \texttt{Variable} & \texttt{Dimension} & \texttt{Memory}\\
             \hline
-            \texttt{T}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
+            \texttt{T \& T\_old}&\texttt{2(N+1)}\texttt{(N+1)}&\texttt{16}$\times$\texttt{(N+1)}$^2$\\
             \hline
             \texttt{q}&\texttt{(N+1)}\texttt{(N+1)}&\texttt{8}$\times$\texttt{(N+1)}$^2$\\
             \hline
@@ -777,7 +777,7 @@ So we can imagine how the matrix is going to look: the terms of second derivativ
             \hline
             \texttt{k}&\texttt{1}&\texttt{8}\\
             \hline
-            &\texttt{Total} &\texttt{8}\texttt{(N+1)}$^4$+\texttt{16}\texttt{(N+1)}$^2$+\texttt{36}\\ 
+            &\texttt{Total} &\texttt{8}\texttt{(N+1)}$^4$+\texttt{24}\texttt{(N+1)}$^2$+\texttt{36}\\ 
             \hline
             \end{tabular}}\\
             \end{table}    
