@@ -1,3 +1,3 @@
 *.o
 heat_solve
-
+.DS_Store
