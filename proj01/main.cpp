@@ -26,7 +26,6 @@ int main(int argc, char *argv[]) {
 	T = jacobi(n, A, q, 0.001, 100);
 	T = gauss(n, A, q, 0.001, 100);
 	for(int i = 0; i < n; i++){
-    	delete[] A[i];
     	cout<<T[i]<<endl;
 	}
 
