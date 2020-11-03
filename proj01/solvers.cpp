@@ -17,7 +17,7 @@ double l2_norm(int n, double *x){
 
 double *jacobi(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS){
 
-	int iters = 0;
+	unsigned int iters = 0;
 	double error = 0.0;
     double* T = new double[n]; 
 	double T_old[n];
@@ -49,7 +49,7 @@ double *jacobi(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS)
 
 double *gauss(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS){
 
-	int iters = 0;
+	unsigned int iters = 0;
 	double error = 0.0;
     double* T = new double[n]; 
 	double T_old[n];
