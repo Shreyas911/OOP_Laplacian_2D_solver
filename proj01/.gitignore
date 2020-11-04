@@ -19,3 +19,5 @@ install-sh
 missing
 stamp-h1
 Makefile_noAutotools
+.configure.scan.swp
+Makefile
