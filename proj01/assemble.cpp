@@ -4,7 +4,7 @@
 using namespace std;
 
 
-double ** order2_dim1(int n){
+double ** matrix_order2_dim1(int n){
 
 	double** A = new double*[n];
 	
@@ -26,7 +26,7 @@ double ** order2_dim1(int n){
 	return A; 
 }
 
-double ** order4_dim1(int n){
+double ** matrix_order4_dim1(int n){
 
         double** A = new double*[n];
 
@@ -50,7 +50,7 @@ double ** order4_dim1(int n){
         return A;
 }
 
-double ** order2_dim2(int n){
+double ** matrix_order2_dim2(int n){
 	int nn = n*n;
         double** A = new double*[nn];
 
@@ -74,7 +74,7 @@ double ** order2_dim2(int n){
         return A;
 }
 
-double ** order4_dim2(int n){
+double ** matrix_order4_dim2(int n){
         int nn = n*n;
         double** A = new double*[nn];
 
