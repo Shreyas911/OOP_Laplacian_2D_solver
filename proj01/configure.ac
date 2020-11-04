@@ -1,13 +1,23 @@
-C_PREREQ(2.65)
-AC_INIT(grvy, 0.32.0, karl@oden.utexas.edu)
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.69])
+AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
+AC_CONFIG_SRCDIR([solvers.h])
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_HEADER(config_grvy.h)
-AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
-#------------------------------
-# Checks for required programs                                                  #------------------------------
-AC_PROG_CC
+# Checks for programs.
 AC_PROG_CXX
-AC_PROG_FC
-AC_OUTPUT( Makefilesrc/Makefileexamples/Makefiletest/Makefilegrvy.pc\
-grvy.specdoxygen/Makefilesrc/grvy.htest/F_version.F90 )
+AC_PROG_CC
+# Checks for libraries.
+AX_PATH_MASA([0.30],[yes])
+AX_PATH_GRVY([0.32],[yes])
+# Checks for header files.
+
+# Checks for typedefs, structures, and compiler characteristics.
+
+# Checks for library functions.
+AC_CHECK_FUNCS([pow])
+
+AC_OUTPUT(Makefile)
