@@ -1,9 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4
 AUTOMAKE_OPTIONS = foreign
+AM_CXXFLAGS = $(MASA_CXXFLAGS) $(GRVY_CXXFLAGS)
+AM_LIBS = $(MASA_LIBS) $(GRVY_LIBS)
 
-AM_CXXFLAGS = $(MASA_CXXFLAGS)
-LIBS = $(MASA_LIBS)
-
-
-bin_PROGRAMS = heat_solve
-heat_solve_SOURCES = main.cpp matrix_assemble.cpp solvers.cpp
+SUBDIRS = src
