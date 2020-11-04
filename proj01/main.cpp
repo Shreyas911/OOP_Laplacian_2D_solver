@@ -1,6 +1,6 @@
 #include <iostream>
 #include "solvers.h"
-#include "assemble.h"
+#include "matrix_assemble.h"
 #include <masa.h>
 
 using namespace std;
