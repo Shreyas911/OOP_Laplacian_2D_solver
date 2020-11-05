@@ -166,7 +166,7 @@ CPPFLAGS =
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = $(MASA_CXXFLAGS) $(GRVY_CXXFLAGS)
+CXXFLAGS = -g -O2
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -191,7 +191,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = $(MASA_LIBS) $(GRVY_LIBS)
+LIBS = $(GRVY_LIBS) $(MASA_LIBS)
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home1/07665/shrey911/cse380-2020-student-Shreyas911/proj01/missing makeinfo
 MASA_CXXFLAGS = -I/work/00161/karl/stampede2/public/masa-gnu7-0.50/include
@@ -257,6 +257,7 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
+AM_CXXFLAGS = $(GRVY_CFLAGS) $(MASA_CXXFLAGS)
 heat_solve_SOURCES = main.cpp matrix_assemble.cpp q_assemble.cpp solvers.cpp
 all: all-am
 
