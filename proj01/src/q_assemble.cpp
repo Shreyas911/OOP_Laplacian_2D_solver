@@ -4,13 +4,12 @@
 #include <iostream>
 using namespace std;
 
-double * q_order2_dim1(int n){
+double * q_order2_dim1(int n, double L, double k_0){
 	masa_init("heat 1D exact order 2","heateq_1d_steady_const");
-        masa_set_param("A_x",1.);
-        masa_set_param("k_0",1.);
-	double dx = masa_get_param("A_x")/(n-1);
-	double k = masa_get_param("k_0");
-	double L = masa_get_param("A_x");
+        masa_set_param("A_x",L);
+        masa_set_param("k_0",k_0);
+	double dx = L/(n-1);
+	double k = k_0;
 
         double* q = new double[n]{0.};
         for(int i = 1; i < n-1; i++){
@@ -24,13 +23,12 @@ double * q_order2_dim1(int n){
 	
 }
 
-double * q_order4_dim1(int n){
+double * q_order4_dim1(int n, double L, double k_0){
         masa_init("heat 1D exact order 4","heateq_1d_steady_const");
-        masa_set_param("A_x",1.);
-        masa_set_param("k_0",1.);
-        double dx = masa_get_param("A_x")/(n-1);
-        double k = masa_get_param("k_0");
-	double L = masa_get_param("A_x");
+        masa_set_param("A_x",L);
+        masa_set_param("k_0",k_0);
+        double dx = L/(n-1);
+        double k = k_0;
 
         double* q = new double[n]{0.};
         for(int i = 2; i < n-2; i++){
@@ -46,15 +44,14 @@ double * q_order4_dim1(int n){
         
 }
 
-double * q_order2_dim2(int n){
+double * q_order2_dim2(int n, double L, double k_0){
 
         masa_init("heat 2D exact order 2","heateq_2d_steady_const");
-        masa_set_param("A_x",1.);
-	masa_set_param("B_y",masa_get_param("A_x"));
-        masa_set_param("k_0",1.);
-        double h = masa_get_param("A_x")/(n-1);
-        double k = masa_get_param("k_0");
-        double L = masa_get_param("A_x");
+        masa_set_param("A_x",L);
+	masa_set_param("B_y",L);
+        masa_set_param("k_0",k_0);
+        double h = L/(n-1);
+        double k = k_0;
 
 	int nn = n*n;
         double* q = new double[nn];
@@ -75,15 +72,14 @@ double * q_order2_dim2(int n){
         return q;
 }
 
-double * q_order4_dim2(int n){
+double * q_order4_dim2(int n, double L, double k_0){
  
         masa_init("heat 2D exact order 2","heateq_2d_steady_const");
-        masa_set_param("A_x",1.);
-	masa_set_param("B_y",masa_get_param("A_x"));
-        masa_set_param("k_0",1.);
-        double h = masa_get_param("A_x")/(n-1);
-        double k = masa_get_param("k_0");
-        double L = masa_get_param("A_x");
+        masa_set_param("A_x",L);
+	masa_set_param("B_y",L);
+        masa_set_param("k_0",k_0);
+        double h = L/(n-1);
+        double k = k_0;
 
 	int nn = n*n;
         double* q = new double[nn];
@@ -104,10 +100,10 @@ double * q_order4_dim2(int n){
         return q;
 }
 
-double * assemble_q(int n, int order, int dimension){
-        if (order == 2 && dimension == 1) return q_order2_dim1(n);
-        else if (order == 4 && dimension == 1) return q_order4_dim1(n);
-        else if (order == 2 && dimension == 2) return q_order2_dim2(n);
-        else if (order == 4 && dimension == 2) return q_order4_dim2(n);
+double * assemble_q(int n, int order, int dimension, double L, double k_0){
+        if (order == 2 && dimension == 1) return q_order2_dim1(n, L, k_0);
+        else if (order == 4 && dimension == 1) return q_order4_dim1(n, L, k_0);
+        else if (order == 2 && dimension == 2) return q_order2_dim2(n, L, k_0);
+        else if (order == 4 && dimension == 2) return q_order4_dim2(n, L, k_0);
         else return NULL;
 }

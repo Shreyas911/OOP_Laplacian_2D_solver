@@ -1,0 +1,7 @@
+set terminal png
+
+set title "trapezoidal method compared to expected convergence rate"
+set xlabel "x"
+set ylabel "Temperature"
+set xrange [0:2]
+set output 'plot.png'; plot 'output.log' using 1:3 title 'Computed T vs x' with points, 'output.log' using 1:3 title 'Computed T vs x' with lines, 'output.log' using 1:2 title 'Exact T vs x' with lines
