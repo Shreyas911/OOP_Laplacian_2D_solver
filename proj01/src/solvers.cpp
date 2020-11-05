@@ -10,6 +10,7 @@ double l2_norm(int n, double *x){
 	for(int i=0;i<n;i++){
 		norm += pow(x[i], 2);
 	}
+	norm *= 1.0/n;
 	norm = pow(norm, 0.5);
 
 	return norm;
