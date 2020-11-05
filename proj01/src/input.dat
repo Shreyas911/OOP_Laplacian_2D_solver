@@ -1,0 +1,14 @@
+[grid]
+
+length		= 1.0		# Length of domain in each direction
+dimension	= 2		# Dimension of your domain
+grid_points	= 11		# Number of points in one direction
+
+
+[solver]
+
+
+solver_name          = 'gauss'      # Solver
+order		= 4		# Order of accuracy of stencil
+error_TOL	= 0.000001	# Tolerance
+max_iters	= 100000	# Maximum number of iterations
