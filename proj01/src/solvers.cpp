@@ -83,3 +83,11 @@ double *gauss(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS){
 	}
 	return T;
 }
+
+double *solve(const std::string& solver, int n, double** A, double *q, double TOL, unsigned int MAX_ITERS){
+	std::string str1 ("jacobi");
+	std::string str2 ("gauss");
+	if(solver.compare(str1) == 0) return jacobi(n, A, q, TOL, MAX_ITERS);
+	else if(solver.compare(str2) == 0) return gauss(n, A, q, TOL, MAX_ITERS);
+	else return NULL;	
+} 

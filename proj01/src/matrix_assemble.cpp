@@ -3,7 +3,6 @@
 #include <iostream>
 using namespace std;
 
-
 double ** matrix_order2_dim1(int n){
 
 	double** A = new double*[n];
@@ -100,3 +99,12 @@ double ** matrix_order4_dim2(int n){
         }
         return A;
 }	
+
+double ** assemble_A(int n, int order, int dimension){
+        if (order == 2 && dimension == 1) return matrix_order2_dim1(n);
+        else if (order == 4 && dimension == 1) return matrix_order4_dim1(n);
+        else if (order == 2 && dimension == 2) return matrix_order2_dim2(n);
+        else if (order == 4 && dimension == 2) return matrix_order4_dim2(n);
+        else return NULL;
+
+}

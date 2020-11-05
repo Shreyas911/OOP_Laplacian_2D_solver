@@ -103,3 +103,11 @@ double * q_order4_dim2(int n){
         }
         return q;
 }
+
+double * assemble_q(int n, int order, int dimension){
+        if (order == 2 && dimension == 1) return q_order2_dim1(n);
+        else if (order == 4 && dimension == 1) return q_order4_dim1(n);
+        else if (order == 2 && dimension == 2) return q_order2_dim2(n);
+        else if (order == 4 && dimension == 2) return q_order4_dim2(n);
+        else return NULL;
+}
