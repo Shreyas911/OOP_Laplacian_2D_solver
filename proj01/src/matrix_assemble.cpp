@@ -1,9 +1,14 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include "global_variables.h" // To bring the same GRVY_Timer_Class object into all files
+
 using namespace std;
 
+//Assembles the matrix for order 2 and dim 1
 double ** matrix_order2_dim1(int n){
+
+	gt.BeginTimer(__func__);
 
 	double** A = new double*[n];
 	
@@ -22,10 +27,15 @@ double ** matrix_order2_dim1(int n){
 	A[0][0] = 1.;
 	A[n-1][n-1] = 1.;
 
+	gt.EndTimer(__func__);
+
 	return A; 
 }
 
+//Assembles the matrix for order 4 and dim 1
 double ** matrix_order4_dim1(int n){
+
+	gt.BeginTimer(__func__);
 
         double** A = new double*[n];
 
@@ -46,10 +56,16 @@ double ** matrix_order4_dim1(int n){
 	A[n-2][n-2] = 1.;
         A[n-1][n-1] = 1.;
 
+	gt.EndTimer(__func__);
+
         return A;
 }
 
+//Assembles the matrix for order 2 and dim 2
 double ** matrix_order2_dim2(int n){
+
+        gt.BeginTimer(__func__);
+
 	int nn = n*n;
         double** A = new double*[nn];
 
@@ -70,10 +86,17 @@ double ** matrix_order2_dim2(int n){
 			A[i][i+n] = -1.;
 		}
         }
+
+        gt.EndTimer(__func__);
+
         return A;
 }
 
+//Assembles the matrix for order 4 and dim 2
 double ** matrix_order4_dim2(int n){
+
+        gt.BeginTimer(__func__);
+
         int nn = n*n;
         double** A = new double*[nn];
 
@@ -97,14 +120,36 @@ double ** matrix_order4_dim2(int n){
 			A[i][i+2*n] = 1.;
                 }
         }
+
+	gt.EndTimer(__func__);
+
         return A;
 }	
 
+// This functionn is called in the main function. It basically assembles the correct matrix with a bunch of if statements.
 double ** assemble_A(int n, int order, int dimension){
-        if (order == 2 && dimension == 1) return matrix_order2_dim1(n);
-        else if (order == 4 && dimension == 1) return matrix_order4_dim1(n);
-        else if (order == 2 && dimension == 2) return matrix_order2_dim2(n);
-        else if (order == 4 && dimension == 2) return matrix_order4_dim2(n);
-        else return NULL;
+
+	gt.BeginTimer(__func__);
+
+        if (order == 2 && dimension == 1){
+		gt.EndTimer(__func__);
+		return matrix_order2_dim1(n);
+	}
+        else if (order == 4 && dimension == 1){
+		gt.EndTimer(__func__);
+		return matrix_order4_dim1(n);
+	}
+        else if (order == 2 && dimension == 2){
+		gt.EndTimer(__func__);
+		return matrix_order2_dim2(n);
+	}
+        else if (order == 4 && dimension == 2){
+		gt.EndTimer(__func__);
+		return matrix_order4_dim2(n);
+	}
+        else {
+		gt.EndTimer(__func__);
+		return NULL;
+	}
 
 }

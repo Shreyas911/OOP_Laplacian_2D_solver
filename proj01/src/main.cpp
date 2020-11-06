@@ -7,14 +7,20 @@
 #include <masa.h>
 #include <grvy.h>
 #include "T_exact_assemble.h"
+#include "global_variables.h"
 
 using namespace std;
 using namespace MASA; 
 using namespace GRVY;
 
+GRVY_Timer_Class gt;
+
 int main(int argc, char *argv[]) {
 	
 	GRVY_Input_Class iparse;
+	gt.Init("GRVY Performance timing");
+	gt.BeginTimer(__func__);
+
 	int n, dimension, accuracy, MAX_ITERS, order, nn, q_dimensions;
 	double L, TOL, dx, k_0;
 	double** A;
@@ -75,9 +81,9 @@ int main(int argc, char *argv[]) {
 	ofstream myfile ("output.log");
 	
 	if (myfile.is_open()){
-		myfile << "#x  Exact  Computed" << endl;
+		myfile << "#x       " << std::fixed << "Exact    " << std::fixed << "Computed" << endl;
     		for(int k = 0; k < q_dimensions; k++){
-        		myfile << k*dx << "  " << T_exact[k] << "  " << T_computed[k] << endl ;
+        		myfile << k*dx << " " << std::fixed << T_exact[k] << " " << std::fixed << T_computed[k] << endl ;
   	  	}
     		myfile.close();
 	}
@@ -97,5 +103,9 @@ int main(int argc, char *argv[]) {
         } 
 	cout << "]";
 */	
-  return 0;
+	gt.EndTimer  (__func__);
+	gt.Finalize();
+	gt.Summarize();
+
+	return 0;
 }	
