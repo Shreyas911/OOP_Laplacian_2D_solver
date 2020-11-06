@@ -13,4 +13,4 @@ thermal_conductivity 	= 1.0		# Thermal conductivity k_0
 solver_name     	= 'gauss'	# Solver
 order			= 2		# Order of accuracy of stencil
 error_TOL		= 0.0		# Tolerance
-max_iters		= 1000		# Maximum number of iterations
+max_iters		= 10000		# Maximum number of iterations
