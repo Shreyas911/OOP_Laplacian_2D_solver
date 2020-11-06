@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 	else cout << "dimensions can only be 1 or 2." << endl;
 	
 	T_computed = solve(solver, q_dimensions, A, q, TOL, MAX_ITERS);
-	T_exact = assemble_T_exact(n, order, dimension, L, k_0);
+	T_exact = assemble_T_exact(q_dimensions, order, dimension, L, k_0);
 	delta_T = new double[q_dimensions];
 
 /*	cout << endl;
@@ -90,6 +90,12 @@ int main(int argc, char *argv[]) {
 		}
 		cout << ";" << endl;
 	}
+
+        cout << endl << "[";
+        for(int i = 0; i < q_dimensions; i++){
+                cout << q[i] << endl;
+        } 
+	cout << "]";
 */	
   return 0;
 }	

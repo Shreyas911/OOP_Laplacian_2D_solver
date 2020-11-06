@@ -20,13 +20,15 @@ double *jacobi(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS)
 
 	unsigned int iters = 0;
 	double error = 0.0;
-    double* T = new double[n]; 
+        double* T = new double[n]{0.}; 
 	double T_old[n];
 	double delta_T[n];
 
 	while (iters <  MAX_ITERS){
 
-		memcpy(T_old, T, sizeof(T_old));
+		for (int i = 0; i < n; i++){
+			T_old[i] = T[i];
+		}
 
 		for (int i = 0; i < n; i++){
 			T[i] = q[i];
@@ -55,13 +57,15 @@ double *gauss(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS){
 
 	unsigned int iters = 0;
 	double error = 0.0;
-    double* T = new double[n]; 
+	double* T = new double[n]{0.}; 
 	double T_old[n];
 	double delta_T[n];
 
 	while (iters <  MAX_ITERS){
 
-		memcpy(T_old, T, sizeof(T_old));
+                for (int i = 0; i < n; i++){
+                        T_old[i] = T[i];
+                }
 
 		for (int i = 0; i < n; i++){
 			T[i] = q[i];

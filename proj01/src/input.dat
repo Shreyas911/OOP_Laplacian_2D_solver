@@ -2,7 +2,7 @@ verification_mode	= 1		#Enable comparison with MASA solution?
 
 [grid]
 
-length			= 1.5		# Length of domain in each direction
+length			= 1.0		# Length of domain in each direction
 dimension		= 1		# Dimension of your domain
 grid_points		= 51		# Number of points in one direction
 
@@ -10,7 +10,7 @@ grid_points		= 51		# Number of points in one direction
 [solver]
 
 thermal_conductivity 	= 1.0		# Thermal conductivity k_0	 
-solver_name     	= 'jacobi'	# Solver
-order			= 4		# Order of accuracy of stencil
+solver_name     	= 'gauss'	# Solver
+order			= 2		# Order of accuracy of stencil
 error_TOL		= 0.0		# Tolerance
 max_iters		= 1000		# Maximum number of iterations
