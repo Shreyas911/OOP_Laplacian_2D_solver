@@ -14,7 +14,7 @@ double * q_order2_dim1(int n, double L, double k_0){
         double* q = new double[n]{0.};
         for(int i = 1; i < n-1; i++){
 		q[i] = masa_eval_1d_source_t(dx*i);
-		q[i] *= dx*dx/k;  		
+		q[i] *= pow(dx,2)/k;  		
 	}
 	q[0] = masa_eval_1d_exact_t(0);
 	q[n-1] = masa_eval_1d_exact_t(L);
@@ -33,7 +33,7 @@ double * q_order4_dim1(int n, double L, double k_0){
         double* q = new double[n]{0.};
         for(int i = 2; i < n-2; i++){
                 q[i] = masa_eval_1d_source_t(dx*i);
-                q[i] *= dx*dx/k;
+                q[i] *= 12.0*pow(dx,2)/k;
         }
         q[0] = masa_eval_1d_exact_t(0);
 	q[1] = masa_eval_1d_exact_t(dx);
@@ -66,7 +66,7 @@ double * q_order2_dim2(int n, double L, double k_0){
 		}
 		else{
 			q[k] = masa_eval_2d_source_t(i*h,j*h);
-			q[k] *= h*h/k;
+			q[k] *= pow(h,2)/k;
 		}
         }
         return q;
@@ -94,7 +94,7 @@ double * q_order4_dim2(int n, double L, double k_0){
 		}
 		else{
 			q[k] = masa_eval_2d_source_t(i*h,j*h);
-			q[k] *= h*h/k;
+			q[k] *= 12.0*pow(h,2)/k;
 		}
         }
         return q;

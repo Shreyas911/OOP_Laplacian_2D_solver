@@ -62,14 +62,15 @@ int main(int argc, char *argv[]) {
 	T_computed = solve(solver, q_dimensions, A, q, TOL, MAX_ITERS);
 	T_exact = assemble_T_exact(n, order, dimension, L, k_0);
 	delta_T = new double[q_dimensions];
-	cout << endl;
-	printf("%-11s    %-11s\n", "MASA", "Computed");
+
+/*	cout << endl;
+	printf("%-11s    %-11s    %-11s\n", "q", "MASA", "Computed");
 	for (int k = 0; k < q_dimensions; k++){
 		delta_T[k] = T_exact[k] - T_computed[k];
-		printf("%-11f    %-11f\n",T_exact[k],T_computed[k]);
+		printf("%-11f    %-11f    %-11f\n",q[k], T_exact[k],T_computed[k]);
 	}
 	printf("%-20s    %-11f\n","L2 norm of error", l2_norm(q_dimensions, delta_T));
-	
+*/	
 
 	ofstream myfile ("output.log");
 	
@@ -82,6 +83,13 @@ int main(int argc, char *argv[]) {
 	}
   	else cout << "Unable to open file";
 
-	// system(gnuplot plot.script);
+/*	cout << "[";
+	for(int i = 0; i < q_dimensions; i++){
+		for(int j = 0; j < q_dimensions; j++){
+			cout << A[i][j]<<" ";		
+		}
+		cout << ";" << endl;
+	}
+*/	
   return 0;
 }	

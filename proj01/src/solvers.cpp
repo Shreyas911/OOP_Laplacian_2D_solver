@@ -65,12 +65,14 @@ double *gauss(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS){
 
 		for (int i = 0; i < n; i++){
 			T[i] = q[i];
+			double temp_sum = 0.;
 			for (int j = 0; j < i; j++){
-				T[i] = T[i] - A[i][j]*T[j];
+				temp_sum += A[i][j]*T[j];
 			}
 			for (int j = i+1; j < n; j++){
-				T[i] = T[i] - A[i][j]*T[j];
+				temp_sum += A[i][j]*T[j];
 			}
+			T[i] = T[i] - temp_sum; 
 			T[i] = T[i]/A[i][i];
 			delta_T[i] = T[i] - T_old[i];
 		}
@@ -79,7 +81,8 @@ double *gauss(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS){
 		iters++;
 
 		if (error < TOL){
-			break;
+			cout << "Iterations FINAL " << iters << endl;
+			break;	
 		}
 	}
 	return T;
