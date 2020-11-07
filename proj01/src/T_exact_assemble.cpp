@@ -15,7 +15,6 @@ double * T_exact_order2_dim1(int n, double L, double k_0){
         masa_set_param("A_x",L);
         masa_set_param("k_0",k_0);
 	double dx = L/(n-1);
-	double k = k_0;
 
         double* T_exact = new double[n]{0.};
         for(int i = 0; i < n; i++){
@@ -37,7 +36,6 @@ double * T_exact_order4_dim1(int n, double L, double k_0){
         masa_set_param("A_x",L);
         masa_set_param("k_0",k_0);
         double dx = L/(n-1);
-        double k = k_0;
 
         double* T_exact = new double[n]{0.};
         for(int i = 0; i < n; i++){
@@ -60,7 +58,6 @@ double * T_exact_order2_dim2(int n, double L, double k_0){
 	masa_set_param("B_y",L);
         masa_set_param("k_0",k_0);
         double h = L/(n-1);
-        double k = k_0;
 
 	int nn = n*n;
         double* T_exact = new double[nn];
@@ -87,7 +84,6 @@ double * T_exact_order4_dim2(int n, double L, double k_0){
 	masa_set_param("B_y",L);
         masa_set_param("k_0",k_0);
         double h = L/(n-1);
-        double k = k_0;
 
 	int nn = n*n;
         double* T_exact = new double[nn];
@@ -97,8 +93,7 @@ double * T_exact_order4_dim2(int n, double L, double k_0){
 		int i = k % n;
 		int j = k / n;
 
-		T_exact[k] = masa_eval_2d_exact_t(i*h,j*h);			
-		
+		T_exact[k] = masa_eval_2d_exact_t(i*h,j*h);				
         }
 
 	gt.EndTimer(__func__);

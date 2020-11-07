@@ -69,7 +69,6 @@ double * q_order2_dim2(int n, double L, double k_0){
 	masa_set_param("B_y",L);
         masa_set_param("k_0",k_0);
         double h = L/(n-1);
-        double k = k_0;
 
 	int nn = n*n;
         double* q = new double[nn];
@@ -87,7 +86,7 @@ double * q_order2_dim2(int n, double L, double k_0){
 		//Source terms in the interior
 		else{
 			q[k] = masa_eval_2d_source_t(i*h,j*h);
-			q[k] *= pow(h,2)/k;
+			q[k] *= pow(h,2)/k_0;
 		}
         }
 
@@ -106,7 +105,6 @@ double * q_order4_dim2(int n, double L, double k_0){
 	masa_set_param("B_y",L);
         masa_set_param("k_0",k_0);
         double h = L/(n-1);
-        double k = k_0;
 
 	int nn = n*n;
         double* q = new double[nn];
@@ -116,7 +114,7 @@ double * q_order4_dim2(int n, double L, double k_0){
 		int i = k % n;
 		int j = k / n;
 
-		//Dirichlet condditions on the boundary
+		//Dirichlet conditions on the boundary
 		if (k % n == 0 || (k-1) % n == 0 || k < 2*n || k > nn - 1 - 2*n || (k+1) % n == 0 || (k+2) % n == 0){
 			q[k] = masa_eval_2d_exact_t(i*h,j*h);			
 		}
@@ -124,7 +122,7 @@ double * q_order4_dim2(int n, double L, double k_0){
 		//Source terms in the interior
 		else{
 			q[k] = masa_eval_2d_source_t(i*h,j*h);
-			q[k] *= 12.0*pow(h,2)/k;
+			q[k] *= 12.0*pow(h,2)/k_0;
 		}
         }
 
