@@ -8,6 +8,10 @@
 #include <grvy.h>
 #include "T_exact_assemble.h"
 #include "global_variables.h"
+#include "print.h"
+//#define BOOST_TEST_DYNN_LINK
+//#define BOOST_TEST_MODULE My Tests
+//#include <boost/test/unit_test.hpp>
 
 using namespace std;
 using namespace MASA; 
@@ -78,24 +82,12 @@ int main(int argc, char *argv[]) {
 	else cout << "dimensions can only be 1 or 2." << endl;
 	
 	T_computed = solve(solver, dim_system, A, q, TOL, MAX_ITERS);
-	delta_T = new double[dim_system];
-	
-	//// DEBUG MODE	
-	grvy_printf(GRVY_DEBUG, "\n");
-	grvy_printf(GRVY_DEBUG, "DEBUG MODE - Compare vector values\n");
-	grvy_printf(GRVY_DEBUG, "%-11s    %-11s    %-11s\n", "q", "MASA", "Computed");
-	
-	for (int k = 0; k < dim_system; k++){
-	
-		delta_T[k] = T_exact[k] - T_computed[k];
-		grvy_printf(GRVY_DEBUG, "%-11f    %-11f    %-11f\n", q[k], T_exact[k],T_computed[k]);
-	
-	}
-	//// END DEBUG MODE
 
-	if(verification_mode == 1){	
-		printf("%-20s    %-11f\n","L2 norm of error", l2_norm(dim_system, delta_T));
-	}
+	//// VERIFICATION MODE
+	
+	print_verification_mode(T_exact, T_computed, delta_T, dim_system, verification_mode);
+	
+	//// END VERIFICATION MODE	
 
 	ofstream myfile ("output.log");
 	
@@ -109,27 +101,23 @@ int main(int argc, char *argv[]) {
   	else cout << "Unable to open file";
 
 	//// DEBUG MODE
-        grvy_printf(GRVY_DEBUG, "\n");
-        grvy_printf(GRVY_DEBUG, "DEBUG MODE - printing A and q in MATLAB compatible forms\n");
-	grvy_printf(GRVY_DEBUG, "A = [");
-	for(int i = 0; i < dim_system; i++){
-		for(int j = 0; j < dim_system; j++){
-
-			grvy_printf(GRVY_DEBUG, "%.2f  ", A[i][j]);		
-
-		}
-		grvy_printf(GRVY_DEBUG, ";\n"); 
-	}
-	grvy_printf(GRVY_DEBUG, "]\n");
-
-        grvy_printf(GRVY_DEBUG, "q = [");
-        for(int i = 0; i < dim_system; i++){
-                        grvy_printf(GRVY_DEBUG, "%-2f\n", q[i]); 
-                
-        }              
-        grvy_printf(GRVY_DEBUG, "]\n");      
-	//// END DEBUG MODE
 	
+	print_matrix_A(A, dim_system);
+	print_vector_q(q, dim_system);
+	print_compare_q_Texact_Tcomputed(q, T_exact, T_computed, dim_system);
+
+        //// END DEBUG MODE
+	
+	//// DEALLOCATE MEMORY
+	delete[] q;
+	delete[] T_exact;
+	delete[] T_computed;
+	delete[] delta_T;
+	for(int i = 0; i < dim_system; i++){
+		delete[] A[i];
+	}
+	delete[] A;
+
 	gt.EndTimer  (__func__);
 	gt.Finalize();
 	gt.Summarize();
