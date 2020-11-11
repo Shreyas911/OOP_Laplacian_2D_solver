@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 	gt.Init("GRVY Performance timing");
 	gt.BeginTimer(__func__);
 
-	int n, dimension, accuracy, MAX_ITERS, order, nn, dim_system;
+	int n, dimension, accuracy, MAX_ITERS, order, nn, dim_system, verification_mode;
 	double L, TOL, dx, k_0;
 	double** A;
 	double *q, *T_exact, *T_computed, *delta_T;
@@ -30,6 +30,9 @@ int main(int argc, char *argv[]) {
 	
 	if(! iparse.Open("./input.dat"))
     		exit(1);
+
+	if( iparse.Read_Var("verification_mode",&verification_mode) )
+		printf("--> %-11s = %i\n","verification_mode",verification_mode);
 
 	if( iparse.Read_Var("mode",&mode) )
                 printf("--> %-11s = %s\n","solver",mode.c_str());
@@ -89,8 +92,10 @@ int main(int argc, char *argv[]) {
 	
 	}
 	//// END DEBUG MODE
-	
-	printf("%-20s    %-11f\n","L2 norm of error", l2_norm(dim_system, delta_T));
+
+	if(verification_mode == 1){	
+		printf("%-20s    %-11f\n","L2 norm of error", l2_norm(dim_system, delta_T));
+	}
 
 	ofstream myfile ("output.log");
 	
