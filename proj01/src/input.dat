@@ -1,10 +1,10 @@
 verification_mode	= 1		#Enable comparison with MASA solution?
-mode			= 'normal'	#To enable debug mode, use 'debug', anything else is normal mode.
+mode			= 'debug'	#To enable debug mode, use 'debug', anything else is normal mode.
 [grid]
 
 length			= 1.0		# Length of domain in each direction
-dimension		= 2		# Dimension of your domain
-grid_points		= 21		# Number of points in one direction
+dimension		= 1		# Dimension of your domain
+grid_points		= 11		# Number of points in one direction
 
 
 [solver]
