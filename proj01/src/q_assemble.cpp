@@ -12,7 +12,7 @@ double * q_order2_dim1(int n, double L, double k_0){
 	gt.BeginTimer(__func__);
 
 	masa_init("heat 1D exact order 2","heateq_1d_steady_const");
-        masa_set_param("A_x",L);
+        masa_set_param("A_x",atan(1)*8/L);
         masa_set_param("k_0",k_0);
 	double dx = L/(n-1);
 	double k = k_0;
@@ -37,7 +37,7 @@ double * q_order4_dim1(int n, double L, double k_0){
 	gt.BeginTimer(__func__);
 
         masa_init("heat 1D exact order 4","heateq_1d_steady_const");
-        masa_set_param("A_x",L);
+        masa_set_param("A_x",atan(1)*8/L);
         masa_set_param("k_0",k_0);
         double dx = L/(n-1);
         double k = k_0;
@@ -65,8 +65,8 @@ double * q_order2_dim2(int n, double L, double k_0){
 	gt.BeginTimer(__func__);
 
         masa_init("heat 2D exact order 2","heateq_2d_steady_const");
-        masa_set_param("A_x",L);
-	masa_set_param("B_y",L);
+        masa_set_param("A_x",atan(1)*8/L);
+	masa_set_param("B_y",atan(1)*8/L);
         masa_set_param("k_0",k_0);
         double h = L/(n-1);
 
@@ -101,8 +101,8 @@ double * q_order4_dim2(int n, double L, double k_0){
         gt.BeginTimer(__func__);
  
         masa_init("heat 2D exact order 2","heateq_2d_steady_const");
-        masa_set_param("A_x",L);
-	masa_set_param("B_y",L);
+        masa_set_param("A_x",atan(1)*8/L);
+	masa_set_param("B_y",atan(1)*8/L);
         masa_set_param("k_0",k_0);
         double h = L/(n-1);
 

@@ -2,3 +2,4 @@
 *.in
 heat_solve
 Makefile
+*.tmp

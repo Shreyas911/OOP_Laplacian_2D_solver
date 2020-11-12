@@ -9,7 +9,7 @@
 #include "T_exact_assemble.h"
 #include "global_variables.h"
 #include "print.h"
-#include <boost/test/unit_test.hpp>
+//#include <boost/test/unit_test.hpp>
 
 using namespace std;
 using namespace MASA; 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
                 printf("--> %-11s = %i\n","order",order);
 
         if( iparse.Read_Var("solver/error_TOL",&TOL,0.) )
-                printf("--> %-11s = %f\n","error_TOL",TOL);
+                printf("--> %-11s = %.17g\n","error_TOL",TOL);
 
         if( iparse.Read_Var("solver/thermal_conductivity",&k_0,2.) )
                 printf("--> %-11s = %f\n","thermal_conductivity",k_0);

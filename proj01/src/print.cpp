@@ -40,7 +40,7 @@ void print_vector_q(double* q, int n){
         grvy_printf(GRVY_DEBUG, "q = [");
 
         for(int i = 0; i < n; i++){
-                        grvy_printf(GRVY_DEBUG, "%-2f\n", q[i]);
+                        grvy_printf(GRVY_DEBUG, "%.17g\n", q[i]);
 
         }
         grvy_printf(GRVY_DEBUG, "]\n");
@@ -75,7 +75,7 @@ void print_verification_mode(double* T_exact, double* T_computed, double* delta_
 
         if(verification_mode == 1){
 		printf("\nVERIFICATION MODE -\n");
-                printf("%-20s    %-11f\n","L2 norm of error", l2_norm(n, delta_T));
+                printf("%-20s %-4i %-4s %.17g\n","L2 norm of error for n", n, "is", l2_norm(n, delta_T));
         }
 
 	gt.EndTimer(__func__);
