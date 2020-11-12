@@ -9,20 +9,19 @@
 #include "T_exact_assemble.h"
 #include "global_variables.h"
 #include "print.h"
-//#define BOOST_TEST_DYNN_LINK
-//#define BOOST_TEST_MODULE My Tests
-//#include <boost/test/unit_test.hpp>
+#include <boost/test/unit_test.hpp>
 
 using namespace std;
 using namespace MASA; 
 using namespace GRVY;
 
 GRVY_Timer_Class gt;
+GRVY_Input_Class iparse;
 
 int main(int argc, char *argv[]) {
+	
 	grvy_log_setlevel(GRVY_INFO);
 	
-	GRVY_Input_Class iparse;
 	gt.Init("GRVY Performance timing");
 	gt.BeginTimer(__func__);
 
@@ -77,6 +76,7 @@ int main(int argc, char *argv[]) {
 	T_exact = assemble_T_exact(n, order, dimension, L, k_0);
 	
 	// Since we don't know if the user chose 1D or 2D, the dimennsions could be n or nn
+	
 	if (dimension == 1) dim_system = n;
 	else if (dimension == 2) dim_system = nn;
 	else cout << "dimensions can only be 1 or 2." << endl;
@@ -86,29 +86,19 @@ int main(int argc, char *argv[]) {
 	//// VERIFICATION MODE
 	
 	print_verification_mode(T_exact, T_computed, delta_T, dim_system, verification_mode);
-	
-	//// END VERIFICATION MODE	
 
-	ofstream myfile ("output.log");
-	
-	if (myfile.is_open()){
-		myfile << "#x       " << std::fixed << "Exact    " << std::fixed << "Computed" << endl;
-    		for(int k = 0; k < dim_system; k++){
-        		myfile << k*dx << " " << std::fixed << T_exact[k] << " " << std::fixed << T_computed[k] << endl ;
-  	  	}
-    		myfile.close();
-	}
-  	else cout << "Unable to open file";
+	//// Write results to output.log file
+
+	write_results_output_file(dx, T_exact, T_computed, n);
 
 	//// DEBUG MODE
 	
 	print_matrix_A(A, dim_system);
 	print_vector_q(q, dim_system);
 	print_compare_q_Texact_Tcomputed(q, T_exact, T_computed, dim_system);
-
-        //// END DEBUG MODE
 	
 	//// DEALLOCATE MEMORY
+
 	delete[] q;
 	delete[] T_exact;
 	delete[] T_computed;
@@ -117,6 +107,8 @@ int main(int argc, char *argv[]) {
 		delete[] A[i];
 	}
 	delete[] A;
+
+	////End timers
 
 	gt.EndTimer  (__func__);
 	gt.Finalize();
