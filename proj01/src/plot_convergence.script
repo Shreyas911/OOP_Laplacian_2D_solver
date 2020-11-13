@@ -1,0 +1,11 @@
+set terminal png
+# Command line arguments to be given are solver, dimension, order
+
+set title sprintf("L2 error vs n for %s order %s dimension %s", solver, order, dimension)
+set xlabel "n"
+set ylabel "L2 error"
+set xrange [1:300]
+
+set logscale xy
+
+set output sprintf("convergence_%s_dim%s.png", solver, dimension);plot sprintf("output_%s_dim%s_order%s.tmp", solver, dimension, order) using 1:2 title sprintf("L2 error vs n for %s dim %s order %s", solver, dimension, order) with lines
