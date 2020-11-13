@@ -1,10 +1,9 @@
 #!/bin/bash
 
-declare -a n=(10 20 40)
-declare -a solvers=("gauss" "jacobi")
-declare -a dimensions=(1)
-declare -a orders=(2 4)
-rm output*.tmp
+declare -a n=(7 10 15 20 30)
+declare -a solvers=("gauss")
+declare -a dimensions=(2)
+declare -a orders=(2)
 
 for order in "${orders[@]}"
 do

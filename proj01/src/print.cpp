@@ -83,20 +83,36 @@ void print_verification_mode(double* T_exact, double* T_computed, double* delta_
 }
 
 // Write output.log for results
-void write_results_output_file(double dx, double* T_exact, double* T_computed, int n){
+void write_results_output_file(double dx, double* T_exact, double* T_computed, int n, int dim){
 
 	gt.BeginTimer(__func__);
 
         ofstream myfile ("output.log");
-        
+        int i,j;
         if (myfile.is_open()){
-                myfile << "#x       " << std::fixed << "Exact    " << std::fixed << "Computed" << endl;
-                for(int k = 0; k < n; k++){
-                        myfile << k*dx << " " << std::fixed << T_exact[k] << " " << std::fixed << T_computed[k] << endl ;
-                }
-                myfile.close();
-        }
-        else cout << "Unable to open file";
+		if (dim == 1){
+                	myfile << "#x       " << std::fixed << "Exact    " << std::fixed << "Computed" << endl;
+                	for(int k = 0; k < n; k++){
+                        	myfile << k*dx << " " << std::fixed << T_exact[k] << " " << std::fixed << T_computed[k] << endl ;
+                	}
+                	myfile.close();
+		}
+		else if (dim == 2){
+			int nn = n*n;
+                	myfile << "#x       " << std::fixed << "y        " << std::fixed << "Exact    " << std::fixed << "Computed" << endl;
+                	for(int k = 0; k < nn; k++)
+			{
+				i = k / n;
+				j = k % n;
+                       		myfile << i*dx << " " << std::fixed << j*dx << " " << std::fixed << T_exact[k] << " " << std::fixed << T_computed[k] << endl ;
+                	}
+                	myfile.close();			
+		}
+		else{
+			cout << "Invalid dimension, it should be 1 or 2" << endl;
+        	}
+	}
+else cout << "Unable to open file";
 
 	gt.EndTimer(__func__);
 

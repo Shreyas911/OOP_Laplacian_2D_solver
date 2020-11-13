@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
 
 	//// Write results to output.log file
 
-	write_results_output_file(dx, T_exact, T_computed, n);
+	write_results_output_file(dx, T_exact, T_computed, n, dimension);
 
 	//// DEBUG MODE
 	
