@@ -1,0 +1,5 @@
+*.o
+*.in
+heat_solve
+Makefile
+*.tmp
