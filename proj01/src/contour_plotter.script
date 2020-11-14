@@ -1,7 +1,7 @@
 set terminal png
 set hidden3d
 set dgrid3d 50,50 qnorm 2
-set output "contour.png"; plot 'output.log' with lines
+set output "contour.png"; splot 'output.log' using 1:2:3 with lines
 
 set title sprintf("Surface plot of temperature field")
 
