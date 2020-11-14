@@ -1,8 +1,8 @@
 #!/bin/bash
 
-declare -a n=(10)
+declare -a n=(7)
 declare -a solvers=("gauss" "jacobi")
-declare -a dimensions=(1)
+declare -a dimensions=(1 2)
 declare -a orders=(2 4)
 
 for dimension in "${dimensions[@]}"

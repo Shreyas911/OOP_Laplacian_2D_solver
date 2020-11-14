@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 
 	//// VERIFICATION MODE
 	
-	print_verification_mode(T_exact, T_computed, delta_T, dim_system, verification_mode);
+	print_verification_mode(T_exact, T_computed, delta_T, n, verification_mode, dimension);
 
 	//// Write results to output.log file
 

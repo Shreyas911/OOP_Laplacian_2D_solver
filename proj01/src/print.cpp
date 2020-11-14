@@ -4,7 +4,7 @@
 #include <grvy.h>
 #include "solvers.h"
 #include <fstream>
-
+#include <cmath>
 using namespace std;
 using namespace GRVY;
 
@@ -64,10 +64,13 @@ void print_compare_q_Texact_Tcomputed(double* q, double* T_exact, double* T_comp
 }
 
 // Print L2 norm of delta_T in verification mode
-void print_verification_mode(double* T_exact, double* T_computed, double* delta_T, int n, int verification_mode){
+void print_verification_mode(double* T_exact, double* T_computed, double* delta_T, int n, int verification_mode, int dimension){
 
 	gt.BeginTimer(__func__);
-
+	int n_one_direction = n;
+	if(dimension == 2) {
+		n = n*n;
+	}
         delta_T = new double[n];
         for(int i = 0; i < n; i++){
                 delta_T[i] = T_exact[i] - T_computed[i];
@@ -75,8 +78,9 @@ void print_verification_mode(double* T_exact, double* T_computed, double* delta_
 
         if(verification_mode == 1){
 		printf("\nVERIFICATION MODE -\n");
-                printf("%-20s %-4i %-4s %.17g\n","L2 norm of error for n", n, "is", l2_norm(n, delta_T));
+                printf("%-20s %-4i %-4s %.17g\n","L2 norm of error for n", n_one_direction, "is", l2_norm(n, delta_T));
         }
+
 
 	gt.EndTimer(__func__);
 
