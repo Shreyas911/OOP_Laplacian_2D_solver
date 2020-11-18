@@ -1,4 +1,4 @@
-verification_mode	= 1		#Enable comparison with MASA solution?
+verification_mode	= 1		#Comparison with MASA solution? 1 for yes; no otherwise; Always keep as 1. Otherwise a couple of regression tests might fail. 
 mode			= 'no_debug'	#To enable debug mode, use 'debug', anything else is normal mode.
 
 [grid]
