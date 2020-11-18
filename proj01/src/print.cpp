@@ -77,6 +77,8 @@ void print_verification_mode(double* T_exact, double* T_computed, double* delta_
         }
 
         if(verification_mode == 1){
+
+		// BE WARNED - Post-processing scripts grep and awk for certain strings to parse std::out properly, change prinnt statements after careful consideration
 		printf("\nVERIFICATION MODE -\n");
                 printf("%-20s %-4i %-4s %.17g\n","L2 norm of error for n", n_one_direction, "is", l2_norm(n, delta_T));
         }

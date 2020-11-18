@@ -34,6 +34,9 @@ int main(int argc, char *argv[]) {
 	if(! iparse.Open("./input.dat"))
     		exit(1);
 
+	// BE WARNED - Post-processing scripts grep and awk for certain strings to parse std::out properly, change prinnt
+statements after careful consideration
+
 	if( iparse.Read_Var("verification_mode",&verification_mode) )
 		printf("--> %-11s = %i\n","verification_mode",verification_mode);
 
@@ -75,7 +78,7 @@ int main(int argc, char *argv[]) {
 	q = assemble_q(n, order, dimension, L, k_0);
 	T_exact = assemble_T_exact(n, order, dimension, L, k_0);
 	
-	// Since we don't know if the user chose 1D or 2D, the dimennsions could be n or nn
+	// Since we don't know if the user chose 1D or 2D, the dimensions could be n or nn
 	
 	if (dimension == 1) dim_system = n;
 	else if (dimension == 2) dim_system = nn;

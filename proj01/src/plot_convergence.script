@@ -1,13 +1,20 @@
 set terminal png
-# Command line arguments to be given are solver, dimension
+### Command line arguments to be given are solver, dimension
 
+### Set title based on command line arguments
 set title sprintf("L2 error vs n for %s dimension %s", solver,dimension)
 set xlabel "n"
 set ylabel "L2 error"
+
+### Depends on the range of n given in plot_convergence.script
 set xrange [1:300]
 
+### log-log plot
 set logscale xy
 
+### Generic name of file dependent on order. We will loop over all such files
 filenames(order) = sprintf("output_%s_dim%s_order%d.tmp", solver, dimension, order)
 
+### Actually plotting L2 error for orders 2 and 4 vs n for a given solver and dimension
+### Again, both solver and dimensions are command line arguments
 set output sprintf("convergence_%s_dim%s.png", solver, dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("L2 error vs n for %s dim %s order %d", solver, dimension, order) with lines
