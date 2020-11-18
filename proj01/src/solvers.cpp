@@ -60,7 +60,7 @@ double *jacobi(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS)
 			delta_T[i] = T[i] - T_old[i];
 		}
 
-		error = l2_norm(n,delta_T)/l2_norm(n,T);
+		error = l2_norm(n,delta_T);
 		iters++;
 
 		if (error < TOL){
@@ -111,7 +111,7 @@ double *gauss(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS){
 
 		}
 		
-		error = l2_norm(n,delta_T)/l2_norm(n,T);
+		error = l2_norm(n,delta_T);
 		iters++;
 
 		if (error < TOL){
