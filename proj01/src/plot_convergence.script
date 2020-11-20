@@ -1,8 +1,8 @@
 set terminal png
-### Command line arguments to be given are solver, dimension
+### Command line arguments to be given are dimension
 
 ### Set title based on command line arguments
-set title sprintf("L2 error vs n for %s dimension %s", solver,dimension)
+set title sprintf("L2 error vs n for gauss dimension %s", dimension)
 set xlabel "n"
 set ylabel "L2 error"
 
@@ -13,8 +13,27 @@ set xrange [1:300]
 set logscale xy
 
 ### Generic name of file dependent on order. We will loop over all such files
-filenames(order) = sprintf("output_%s_dim%s_order%d.tmp", solver, dimension, order)
+filenames(order) = sprintf("output_gauss_dim%s_order%d.tmp", dimension, order)
+ 
+### Actually plotting L2 error for orders 2 and 4 vs n for a gauss solver and given dimension
+### Again, both dimension is a command line arguments
+g2(x) = m2*x + c2
+g4(x) = m4*x + c4
 
-### Actually plotting L2 error for orders 2 and 4 vs n for a given solver and dimension
-### Again, both solver and dimensions are command line arguments
-set output sprintf("convergence_%s_dim%s.png", solver, dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("L2 error vs n for %s dim %s order %d", solver, dimension, order) with lines
+fit g2(x) sprintf("output_gauss_dim%s_order2.tmp",dimension) using (log($1)):(log($2)) via m2,c2
+fit g4(x) sprintf("output_gauss_dim%s_order4.tmp",dimension) using (log($1)):(log($2)) via m4,c4
+m(order) = value("m".order)
+set output sprintf("convergence_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("gauss dim %s order %d (slope %g)", dimension, order, m(order)) with lines
+
+### Actually plotting L2 error for orders 2 vs n for a jacobi solver and given dimension
+#### Again, both dimension is a command line arguments
+
+### Set title based on command line arguments
+set title sprintf("L2 error vs n for jacobi dimension %s", dimension)
+set xlabel "n"
+set ylabel "L2 error"
+
+j2(x) = m*x + c 
+fit j2(x) sprintf("output_jacobi_dim%s_order2.tmp",dimension) using (log($1)):(log($2)) via m,c
+set output sprintf("convergence_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.tmp", dimension) using 1:2 title sprintf("jacobi dim %s order 2 (slope %g)", dimension, m) with lines
+
