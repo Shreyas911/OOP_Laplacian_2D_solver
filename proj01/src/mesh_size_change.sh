@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # Declare all configurations you want here
-declare -a n=(7)
+declare -a n=(10)
 declare -a solvers=("gauss" "jacobi")
-declare -a dimensions=(1 2)
+declare -a dimensions=(2)
 declare -a orders=(2 4)
 
+### This line is necessary to let the code know that output.log exists, we use it to create reference solutions
+> output.log
 ### This giant loop loops over dimensions, solvers, orders and finally n to produce temporary output files 
 ### which are used to plot grid convergence
 
@@ -32,7 +34,10 @@ do
 			do 
 
 				awk -v num_points=$i '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
+				### output.log also gets modified automatically
 				./heat_solve >> temp.tmp
+				### Store output.log files for reference for regression test
+				cp output.log reference_sol_${solver}_dim${dimension}_order${order}_n${i}.log
 			done
 
 			echo "n       L2_error          Time taken" >> output_${solver}_dim${dimension}_order${order}.tmp
