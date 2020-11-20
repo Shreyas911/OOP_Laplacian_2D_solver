@@ -25,7 +25,7 @@ m(order) = value("m".order)
 
 ### Actually plotting L2 error for orders 2 and 4 vs n for a gauss solver and given dimension
 #### Again, both dimension is a command line arguments
-set output sprintf("convergence_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("gauss dim %s order %d (slope %g)", dimension, order, m(order)) with lines
+set output sprintf("convergence_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("gauss dim %s order %d (slope %g)", dimension, order, m(order)) with linespoints
 
 ##################### JACOBI #######################
 ### Set title based on command line arguments
@@ -39,5 +39,5 @@ fit j2(x) sprintf("output_jacobi_dim%s_order2.tmp",dimension) using (log($1)/log
 
 ### Actually plotting L2 error for orders 2 vs n for a jacobi solver and given dimension
 ##### Again, both dimension is a command line arguments
-set output sprintf("convergence_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.tmp", dimension) using 1:2 title sprintf("jacobi dim %s order 2 (slope %g)", dimension, m) with lines
+set output sprintf("convergence_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.tmp", dimension) using 1:2 title sprintf("jacobi dim %s order 2 (slope %g)", dimension, m) with linespoints
 
