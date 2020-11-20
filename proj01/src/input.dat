@@ -4,14 +4,14 @@ mode = debug #To enable debug mode, use 'debug', anything else is normal mode.
 [grid]
 
 length			= 1.0		# Length of domain in each direction
-dimension = 2 # dimension of domain
-grid_points = 10 # Number of points in one direction
+dimension = 1 # dimension of domain
+grid_points = 200 # Number of points in one direction
 
 
 [solver]
 
 thermal_conductivity 	= 1.0			# Thermal conductivity k_0	 
 solver_name = jacobi # Use either jacobi or gauss
-order = 2 # Order of accuracy of stencil
+order = 4 # Order of accuracy of stencil, use 2 or 4
 error_TOL		= 0.00000000000000001	# Tolerance
 max_iters		= 1000000		# Maximum number of iterations
