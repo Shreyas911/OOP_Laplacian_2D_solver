@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Declare all configurations you want here
-declare -a n=(10 20)
-declare -a solvers=("gauss")
+declare -a n=(10 20 30 40 50 75 100 150 200 300)
+declare -a solvers=("gauss" "jacobi")
 declare -a dimensions=(1)
 declare -a orders=(2 4)
 
@@ -49,9 +49,7 @@ do
 
 		done
 
-		### Notice that the plotting is done outside the order loop.
-		gnuplot -e "solver = '${solver}'; dimension = '${dimension}'" plot_convergence.script
-
 	done
-
+        ### Notice that the plotting is done outside the order loop.
+        gnuplot -e "dimension = '${dimension}'" plot_convergence.script
 done
