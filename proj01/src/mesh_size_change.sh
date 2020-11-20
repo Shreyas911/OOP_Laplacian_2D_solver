@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Declare all configurations you want here
-declare -a n=(10 20 30 40 50 75 100 150 200 300)
+declare -a n=(10 20 25 30 40 50 75 100 150 200)
 declare -a solvers=("gauss" "jacobi")
 declare -a dimensions=(1)
 declare -a orders=(2 4)

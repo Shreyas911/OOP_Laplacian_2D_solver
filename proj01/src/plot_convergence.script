@@ -6,12 +6,12 @@ set title sprintf("L2 error vs n for gauss dimension %s", dimension)
 set xlabel "n"
 set ylabel "L2 error"
 
-### Depends on the range of n given in plot_convergence.script
-set xrange [10:300]
-
 ### log-log plot
 set logscale xy
-
+### Depends on the range of n given in plot_convergence.script
+### log of datapoints has to be in range in order to fit properly, a gnuplot quirk
+set xrange [1:200]
+set yrange [1e-09:1e0]
 ### Generic name of file dependent on order. We will loop over all such files
 filenames(order) = sprintf("output_gauss_dim%s_order%d.tmp", dimension, order)
  
@@ -19,8 +19,8 @@ filenames(order) = sprintf("output_gauss_dim%s_order%d.tmp", dimension, order)
 g2(x) = m2*x + c2
 g4(x) = m4*x + c4
 
-fit g2(x) sprintf("output_gauss_dim%s_order2.tmp",dimension) using (log($1)):(log($2)) via m2,c2
-fit g4(x) sprintf("output_gauss_dim%s_order4.tmp",dimension) using (log($1)):(log($2)) via m4,c4
+fit g2(x) sprintf("output_gauss_dim%s_order2.tmp",dimension) using (log($1)/log(10)):(log($2)/log(10)) via m2,c2
+fit g4(x) sprintf("output_gauss_dim%s_order4.tmp",dimension) using (log($1)/log(10)):(log($2)/log(10)) via m4,c4
 m(order) = value("m".order)
 
 ### Actually plotting L2 error for orders 2 and 4 vs n for a gauss solver and given dimension
@@ -35,7 +35,7 @@ set ylabel "L2 error"
 
 ### Linear regression to get slope
 j2(x) = m*x + c 
-fit j2(x) sprintf("output_jacobi_dim%s_order2.tmp",dimension) using (log($1)):(log($2)) via m,c
+fit j2(x) sprintf("output_jacobi_dim%s_order2.tmp",dimension) using (log($1)/log(10)):(log($2)/log(10)) via m,c
 
 ### Actually plotting L2 error for orders 2 vs n for a jacobi solver and given dimension
 ##### Again, both dimension is a command line arguments
