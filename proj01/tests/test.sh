@@ -5,6 +5,12 @@
 cd ../src/
 
 @test "verify that the code is compiling" {
+
+        awk -v dimension=1 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
+        awk -v solver='gauss' '{if($1 ~ /solver_name/){$3 = solver;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat   
+        awk -v order=2 '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
+        awk -v num_points=10 '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
+
 	run heat_solve 
 	[ "$status" -eq 0 ]
 }
