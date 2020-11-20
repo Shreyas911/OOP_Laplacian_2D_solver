@@ -21,3 +21,4 @@ stamp-h1
 Makefile_noAutotools
 .configure.scan.swp
 Makefile
+test-driver
