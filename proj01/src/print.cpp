@@ -20,7 +20,7 @@ void print_matrix_A(double** A, int n){
         for(int i = 0; i < n; i++){
                 for(int j = 0; j < n; j++){
 
-                        grvy_printf(GRVY_DEBUG, "%.2f  ", A[i][j]);
+                        grvy_printf(GRVY_DEBUG, "%.0f  ", A[i][j]);
 
                 }
                 grvy_printf(GRVY_DEBUG, ";\n");
