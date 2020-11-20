@@ -9,7 +9,31 @@ cd ../src/
 	[ "$status" -eq 0 ]
 }
 
+@test "verify that the verification mode runs fine" {
+
+        run heat_solve
+        [ "$status" -eq 0 ]
+        [ "${lines[0]}" = "--> verification_mode = 1" ]
+        
+        ./heat_solve | grep -q "VERIFICATION"
+        [ "$status" -eq 0 ]
+
+}
+
+@test "verify that the debug mode runs fine" {
+		
+	awk -F " " -v temp='debug' '{if($1 ~ /mode/){$3 = temp;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat 
+
+        run heat_solve
+        [ "$status" -eq 0 ]
+
+        ./heat_solve | grep -q "DEBUG"
+        [ "$status" -eq 0 ]	
+}
+
 ### Test that all configurations give the same output as their reference output files
+### Full of awk commands changing ../src/input.dat, followed by running heat_solve
+### followed by checking output.log against a reference log file
 @test "verify all gauss solver outputs match reference outputs" {
 	
 
@@ -75,26 +99,5 @@ cd ../src/
 
         run diff output.log reference_sol_jacobi_dim2_order2_n10.log
         [ "$status" -eq 0 ]
-}
-
-@test "verify that the debug mode runs fine" {
-		
-	awk -F " " '{if($1 ~ /\bmode\b/){$3 = 'debug';} print $0;}' input.dat > input.tmp && mv input.tmp input.dat 
-
-        run heat_solve
-        [ "$status" -eq 0 ]
-
-        ./heat_solve | grep -q "DEBUG"
-        [ "$status" -eq 0 ]	
-}
-
-@test "verify that the verification mode runs fine" {
-        run heat_solve
-        [ "$status" -eq 0 ]
-	[ "${lines[0]}" = "--> verification_mode = 1" ]
-
-        ./heat_solve | grep -q "VERIFICATION"
-        [ "$status" -eq 0 ]
-
 }
 
