@@ -7,7 +7,7 @@ set xlabel "n"
 set ylabel "L2 error"
 
 ### Depends on the range of n given in plot_convergence.script
-set xrange [1:300]
+set xrange [10:300]
 
 ### log-log plot
 set logscale xy
@@ -15,25 +15,29 @@ set logscale xy
 ### Generic name of file dependent on order. We will loop over all such files
 filenames(order) = sprintf("output_gauss_dim%s_order%d.tmp", dimension, order)
  
-### Actually plotting L2 error for orders 2 and 4 vs n for a gauss solver and given dimension
-### Again, both dimension is a command line arguments
+### Linear regression to get slope
 g2(x) = m2*x + c2
 g4(x) = m4*x + c4
 
 fit g2(x) sprintf("output_gauss_dim%s_order2.tmp",dimension) using (log($1)):(log($2)) via m2,c2
 fit g4(x) sprintf("output_gauss_dim%s_order4.tmp",dimension) using (log($1)):(log($2)) via m4,c4
 m(order) = value("m".order)
+
+### Actually plotting L2 error for orders 2 and 4 vs n for a gauss solver and given dimension
+#### Again, both dimension is a command line arguments
 set output sprintf("convergence_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("gauss dim %s order %d (slope %g)", dimension, order, m(order)) with lines
 
-### Actually plotting L2 error for orders 2 vs n for a jacobi solver and given dimension
-#### Again, both dimension is a command line arguments
-
+##################### JACOBI #######################
 ### Set title based on command line arguments
 set title sprintf("L2 error vs n for jacobi dimension %s", dimension)
 set xlabel "n"
 set ylabel "L2 error"
 
+### Linear regression to get slope
 j2(x) = m*x + c 
 fit j2(x) sprintf("output_jacobi_dim%s_order2.tmp",dimension) using (log($1)):(log($2)) via m,c
+
+### Actually plotting L2 error for orders 2 vs n for a jacobi solver and given dimension
+##### Again, both dimension is a command line arguments
 set output sprintf("convergence_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.tmp", dimension) using 1:2 title sprintf("jacobi dim %s order 2 (slope %g)", dimension, m) with lines
 
