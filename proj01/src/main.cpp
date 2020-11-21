@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
                 printf("--> %-11s = %f\n","thermal_conductivity",k_0);
 	if ( k_0 < 0. ) cerr << "Invalid value for thermal conductivity. Needs to be > 0";
 
-        if( iparse.Read_Var("solver/max_iters",&MAX_ITERS,1000000) )
+        if( iparse.Read_Var("solver/max_iters",&MAX_ITERS,10000000) )
                 printf("--> %-11s = %i\n","max_iters",MAX_ITERS);
 	if ( MAX_ITERS < 1 ) cerr << "Invalid number for maximum number of iterations. Needs to be >= 1";
 
