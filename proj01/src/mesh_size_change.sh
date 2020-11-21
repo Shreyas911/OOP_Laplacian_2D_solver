@@ -28,7 +28,7 @@ do
 		
 			### Create empty files (temporary) to store the output - n L2_error Time	
 			>temp.tmp
-			> output_${solver}_dim${dimension}_order${order}.tmp	
+			> output_${solver}_dim${dimension}_order${order}.dat	
 			
 			for i in "${n[@]}"
 			do 
@@ -38,11 +38,12 @@ do
 				./heat_solve >> temp.tmp
 				### Store output.log files for reference for regression test
 				## cp output.log reference_sol_${solver}_dim${dimension}_order${order}_n${i}.log
+				## echo "${i}" 
 			done
 
-			echo "n       L2_error          Time taken" >> output_${solver}_dim${dimension}_order${order}.tmp
+			echo "n       L2_error          Time taken" >> output_${solver}_dim${dimension}_order${order}.dat
 			
-			awk '{if($1 == "L2"){printf("%s %s ", $7, $9);}if($1 == "Total"){print $5;}}' temp.tmp >> output_${solver}_dim${dimension}_order${order}.tmp
+			awk '{if($1 == "L2"){printf("%s %s ", $7, $9);}if($1 == "Total"){print $5;}}' temp.tmp >> output_${solver}_dim${dimension}_order${order}.dat
 
 			### Remove the temporary file
 			rm temp.tmp
