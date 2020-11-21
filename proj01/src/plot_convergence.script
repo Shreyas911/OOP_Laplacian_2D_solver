@@ -28,7 +28,7 @@ m(order) = value("m".order)
 set output sprintf("convergence_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("gauss dim %s order %d (slope %g)", dimension, order, m(order)) with linespoints
 
 #### Plot time data
-set output sprintf("time_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("time for gauss dim %s order %d", dimension, order) with linespoints
+set output sprintf("time_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:3 title sprintf("time for gauss dim %s order %d", dimension, order) with linespoints
 
 ##################### JACOBI #######################
 ### Set title based on command line arguments
@@ -45,4 +45,4 @@ fit j2(x) sprintf("output_jacobi_dim%s_order2.tmp",dimension) using (log($1)/log
 set output sprintf("convergence_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.tmp", dimension) using 1:2 title sprintf("jacobi dim %s order 2 (slope %g)", dimension, m) with linespoints
 
 #### Plot time data
-set output sprintf("time_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.tmp",dimension) using 1:2 title sprintf("time for jacobi dim %s order 2", dimension) with linespoints
+set output sprintf("time_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.tmp",dimension) using 1:3 title sprintf("time for jacobi dim %s order 2", dimension) with linespoints
