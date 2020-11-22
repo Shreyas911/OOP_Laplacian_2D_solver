@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Declare all configurations you want here
-declare -a n=(10 20 25 30 40 50 75 100 150 200)
-declare -a solvers=("gauss" "jacobi")
-declare -a dimensions=(1)
-declare -a orders=(2 4)
+declare -a n=(7 8 9 10 15 20 25 40 50 75)
+declare -a solvers=("jacobi")
+declare -a dimensions=(2)
+declare -a orders=(2)
 
 ### This line is necessary to let the code know that output.log exists, we use it to create reference solutions
 > output.log
@@ -38,7 +38,7 @@ do
 				./heat_solve >> temp.tmp
 				### Store output.log files for reference for regression test
 				## cp output.log reference_sol_${solver}_dim${dimension}_order${order}_n${i}.log
-				## echo "${i}" 
+				echo "${i}" 
 			done
 
 			echo "n       L2_error          Time taken" >> output_${solver}_dim${dimension}_order${order}.dat
