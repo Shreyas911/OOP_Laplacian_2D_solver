@@ -827,7 +827,10 @@ $ make check
         \texttt{mesh\_size\_change.sh} is a script to run all configurations you want in a for loop. All you have to do is change the array variables inside. It uses \texttt{plot\_convergence.script} to create convergence plots. It stores outputs of time and error in \texttt{output\_*.dat}.
         
         \texttt{curve\_1D\_plotter.script} and \texttt{surface\_2D\_plotter.script} create 1D curves (\texttt{plot.png}) and 2D surfaces (\texttt{surface.png}) for the temperature fields that get stored in \texttt{output.log} or \texttt{output\_100x100.log}.
-    
+        
+        \item \underline{Tex files and report}
+        The tex files and figures can be found in the \texttt{tex\_report} subdir. One can use \texttt{pdflatex proj01.tex} to build the report \texttt{proj01.pdf}.
+        
     \item \underline{Various output files}
     
     \texttt{reference\_sol\_*.log} contain reference solutions created using \texttt{mesh\_size\_change.sh} for regression testing using \texttt{TOL = 1e-17} and \texttt{MAX\_ITERS= 1000000}.
@@ -853,18 +856,18 @@ mode = debug                    #To enable debug mode, use 'debug', anything els
 
 [grid]
 
-length			= 1.0		    # Length of domain in each direction
+length          = 1.0           # Length of domain in each direction
 dimension = 1                   # dimension of domain
 grid_points = 200               # Number of points in one direction
 
 
 [solver]
 
-thermal_conductivity 	= 1.0	            # Thermal conductivity k_0	 
+thermal_conductivity    = 1.0               # Thermal conductivity k_0   
 solver_name = jacobi                        # Use either jacobi or gauss
 order = 2                                   # Order of accuracy of stencil, use 2 or 4
-error_TOL		= 0.00000000000000001	    # Tolerance
-max_iters		= 1000000		            # Maximum number of iterations
+error_TOL       = 0.00000000000000001       # Tolerance
+max_iters       = 1000000                   # Maximum number of iterations
     \end{lstlisting}
     \begin{itemize}
         \item \underline{Modes}
