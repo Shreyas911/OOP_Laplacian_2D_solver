@@ -21,10 +21,11 @@ GRVY_Input_Class iparse;
 int main(int argc, char *argv[]) {
 	
 	grvy_log_setlevel(GRVY_INFO);
-	
+	// Initialize timer function
 	gt.Init("GRVY Performance timing");
 	gt.BeginTimer(__func__);
-
+	
+	// Declare and read variables
 	int n, dimension, accuracy, MAX_ITERS, order, nn, dim_system, verification_mode;
 	double L, TOL, dx, k_0;
 	double** A;
@@ -82,13 +83,16 @@ int main(int argc, char *argv[]) {
 	std::string str2 ("jacobi"), str3 ("gauss");
 	if ( solver.compare(str2) != 0 && solver.compare(str3) != 0 ) cerr << "Invalid solver name. Use either gauss or jacobi.";
 
+	// nn is useful for 2D
 	nn = n*n;
 	dx = L/(n-1);
 	
+	// Assemble the linear system
 	A = assemble_A(n, order, dimension);
 	q = assemble_q(n, order, dimension, L, k_0);
 	T_exact = assemble_T_exact(n, order, dimension, L, k_0);
 
+	// Defensive checks
 	if(A == NULL) cerr << "The matrix A formation has an error, NULL pointer returned." << endl;
 	if(q == NULL) cerr << "The vector q formation has an error, NULL pointer returned." << endl;
 	if(T_exact == NULL) cerr << "The vector T_exact formation has an error, NULL pointer returned." << endl;
@@ -98,6 +102,7 @@ int main(int argc, char *argv[]) {
 	else if (dimension == 2) dim_system = nn;
 	else cout << "dimensions can only be 1 or 2." << endl;
 	
+	// Solve the linear system
 	T_computed = solve(solver, dim_system, A, q, TOL, MAX_ITERS);
 	if(T_computed == NULL) cerr << "The vector T_computed formation has an error, NULL pointer returned." << endl;
 	//// VERIFICATION MODE
