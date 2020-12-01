@@ -1,0 +1,9 @@
+tests
+*.o
+*.in
+heat_solve
+Makefile
+*.tmp
+test-suite.log
+test.sh.log
+test.sh.trs

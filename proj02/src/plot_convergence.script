@@ -1,0 +1,54 @@
+set terminal png
+### Command line arguments to be given are dimension
+
+### Set title based on command line arguments
+set title sprintf("L2 error vs n for gauss dimension %s", dimension)
+set xlabel "n"
+set ylabel "L2 error"
+
+### log-log plot
+set logscale xy
+### Depends on the range of n given in plot_convergence.script
+### log of datapoints has to be in range in order to fit properly, a gnuplot quirk
+set xrange [0.8:100]
+set yrange [1e-09:1e0]
+### Generic name of file dependent on order. We will loop over all such files
+filenames(order) = sprintf("output_gauss_dim%s_order%d.dat", dimension, order)
+ 
+### Linear regression to get slope
+g2(x) = m2*x + c2
+g4(x) = m4*x + c4
+
+fit g2(x) sprintf("output_gauss_dim%s_order2.dat",dimension) using (log($1)/log(10)):(log($2)/log(10)) via m2,c2
+fit g4(x) sprintf("output_gauss_dim%s_order4.dat",dimension) using (log($1)/log(10)):(log($2)/log(10)) via m4,c4
+m(order) = value("m".order)
+
+### Actually plotting L2 error for orders 2 and 4 vs n for a gauss solver and given dimension
+#### Again, both dimension is a command line arguments
+set output sprintf("convergence_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:2 title sprintf("gauss dim %s order %d (slope %g)", dimension, order, m(order)) with linespoints
+
+#### Plot time data
+set title sprintf("Time vs n for gauss dimension %s", dimension)
+set ylabel "time"
+set yrange [1e-09:1e4]
+set output sprintf("time_gauss_dim%s.png", dimension); plot for [order=2:4:2] filenames(order) using 1:3 title sprintf("time for gauss dim %s order %d", dimension, order) with linespoints
+
+##################### JACOBI #######################
+### Set title based on command line arguments
+set title sprintf("L2 error vs n for jacobi dimension %s", dimension)
+set xlabel "n"
+set ylabel "L2 error"
+set yrange [1e-09:1e0]
+### Linear regression to get slope
+j2(x) = m*x + c 
+fit j2(x) sprintf("output_jacobi_dim%s_order2.dat",dimension) using (log($1)/log(10)):(log($2)/log(10)) via m,c
+
+### Actually plotting L2 error for orders 2 vs n for a jacobi solver and given dimension
+##### Again, both dimension is a command line arguments
+set output sprintf("convergence_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.dat", dimension) using 1:2 title sprintf("jacobi dim %s order 2 (slope %g)", dimension, m) with linespoints
+
+#### Plot time data
+set yrange [1e-09:1e5]
+set title sprintf("Time vs n for jacobi dimension %s", dimension)
+set ylabel "time"
+set output sprintf("time_jacobi_dim%s.png", dimension); plot sprintf("output_jacobi_dim%s_order2.dat",dimension) using 1:3 title sprintf("time for jacobi dim %s order 2", dimension) with linespoints

@@ -1,0 +1,10 @@
+set terminal png
+### This snippet interpolates to form a smooth surface from the data points
+set hidden3d
+set dgrid3d 50,50 qnorm 2
+
+### Surface plot
+set output "surface_T_exact.png"; splot 'output_100x100.log' using 1:2:3 with lines
+set output "surface_T_computed.png"; splot 'output_100x100.log' using 1:2:4 with lines
+set title sprintf("Surface plot of temperature field")
+
