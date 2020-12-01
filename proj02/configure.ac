@@ -16,6 +16,10 @@ AC_PROG_INSTALL
 AX_PATH_MASA([0.30],[yes])
 AX_PATH_GRVY([0.32],[yes])
 
+# check for code coverage
+
+AX_CODE_COVERAGE
+
 # Checks for header files.
 
 # Checks for typedefs, structures, and compiler characteristics.
