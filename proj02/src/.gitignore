@@ -4,3 +4,5 @@ heat_solve
 Makefile
 *.tmp
 fit.log
+*.gcda
+*.gcno
