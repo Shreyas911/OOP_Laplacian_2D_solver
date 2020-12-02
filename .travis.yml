@@ -9,8 +9,7 @@ before_install:
         -export DOCKER_RUN="docker run -v ${TRAVIS_BUILD_DIR}:/home/test/ shreyas911/my_docker_image:v1.0"
 
 script:
-        -cd proj02/
-        -${DOCKER_RUN} /bin/bash -l -c "module load hdf5 && autoreconf -f -i && ./configure && make && make check"
+        -${DOCKER_RUN} /bin/bash -l -c "cd proj02/ && module load hdf5 && autoreconf -f -i && export PKGPATH=/work/00161/karl/stampede2/public && ./configure --with-masa=$PKGPATH/masa-gnu7-0.50 --with-grvy=$PKGPATH/grvy-gnu7-0.34 --with-hdf5=$TACC_HDF5_DIR --enable-coverage && make && make check"
 
 notifications:
         email: false
