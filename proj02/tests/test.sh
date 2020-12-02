@@ -12,13 +12,13 @@ cd ../src/
         awk -v order=2 '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v num_points=10 '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
 
-	run heat_solve 
+	run ./heat_solve 
 	[ "$status" -eq 0 ]
 }
 
 @test "verify that the verification mode runs fine" {
 
-        run heat_solve
+        run ./heat_solve
         [ "$status" -eq 0 ]
         [ "${lines[0]}" = "--> verification_mode = 1" ]
         
@@ -37,7 +37,7 @@ cd ../src/
 	awk -v solver='gauss' '{if($1 ~ /solver_name/){$3 = solver;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat	
 	awk -v order=2 '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
 	awk -v num_points=100 '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
-        run heat_solve 
+        run ./heat_solve 
 	[ "$status" -eq 0 ]
 
 	run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim1_order2_n100.h5 "temperature/Numerical Temperature"
@@ -47,7 +47,7 @@ cd ../src/
         awk -v solver='gauss' '{if($1 ~ /solver_name/){$3 = solver;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v order=4 '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v num_points=100 '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
-        run heat_solve
+        run ./heat_solve
         [ "$status" -eq 0 ]
 
         run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim1_order4_n100.h5 "temperature/Numerical Temperature"
@@ -57,7 +57,7 @@ cd ../src/
         awk -v solver='gauss' '{if($1 ~ /solver_name/){$3 = solver;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v order=2 '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v num_points=10 '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
-        run heat_solve
+        run ./heat_solve
         [ "$status" -eq 0 ]
 
         run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim2_order2_n10.h5 "temperature/Numerical Temperature"
@@ -67,7 +67,7 @@ cd ../src/
         awk -v solver='gauss' '{if($1 ~ /solver_name/){$3 = solver;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v order=4 '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v num_points=10 '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
-        run heat_solve
+        run ./heat_solve
         [ "$status" -eq 0 ]
 
         run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim2_order4_n10.h5 "temperature/Numerical Temperature"
@@ -80,7 +80,7 @@ cd ../src/
         awk -v solver='jacobi' '{if($1 ~ /solver_name/){$3 = solver;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v order=2 '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v num_points=100 '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
-        run heat_solve
+        run ./heat_solve
         [ "$status" -eq 0 ]
 
         run h5diff -p 0.000000000000001 data.h5 reference_sol_jacobi_dim1_order2_n100.h5 "temperature/Numerical Temperature"
@@ -90,7 +90,7 @@ cd ../src/
         awk -v solver='jacobi' '{if($1 ~ /solver_name/){$3 = solver;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v order=2 '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
         awk -v num_points=10 '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
-        run heat_solve
+        run ./heat_solve
         [ "$status" -eq 0 ]
 
         run h5diff -p 0.000000000000001 data.h5 reference_sol_jacobi_dim2_order2_n10.h5 "temperature/Numerical Temperature"
@@ -101,7 +101,7 @@ cd ../src/
 		
 	awk -F " " -v temp='debug' '{if($1 ~ /mode/){$3 = temp;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat 
 
-        run heat_solve
+        run ./heat_solve
         [ "$status" -eq 0 ]
 
         ./heat_solve | grep -q "DEBUG"
