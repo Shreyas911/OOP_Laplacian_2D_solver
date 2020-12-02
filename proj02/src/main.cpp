@@ -6,6 +6,7 @@
 #include "q_assemble.h"
 #include <masa.h>
 #include <grvy.h>
+#include <hdf5.h>
 #include "T_exact_assemble.h"
 #include "global_variables.h"
 #include "print.h"
@@ -26,6 +27,7 @@ int main(int argc, char *argv[]) {
 	gt.BeginTimer(__func__);
 	
 	// Declare and read variables
+
 	int n, dimension, accuracy, MAX_ITERS, order, nn, dim_system, verification_mode;
 	double L, TOL, dx, k_0;
 	double** A;
@@ -109,9 +111,9 @@ int main(int argc, char *argv[]) {
 	
 	print_verification_mode(T_exact, T_computed, delta_T, n, verification_mode, dimension);
 
-	//// Write results to output.log file
+	//// Write results in hdf5 format
 
-	write_results_output_file(dx, T_exact, T_computed, n, dimension);
+	write_to_hdf5(dimension, n, dim_system, dx, T_exact, T_computed);
 
 	//// DEBUG MODE
 	

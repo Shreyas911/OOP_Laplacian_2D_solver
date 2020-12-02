@@ -2,6 +2,7 @@
 #include <iostream>
 #include "global_variables.h" // To bring the same GRVY_Timer_Class object into all files
 #include <grvy.h>
+#include <hdf5.h>
 #include "solvers.h"
 #include <fstream>
 #include <cmath>
@@ -88,38 +89,65 @@ void print_verification_mode(double* T_exact, double* T_computed, double* delta_
 
 }
 
-// Write output.log for results
-void write_results_output_file(double dx, double* T_exact, double* T_computed, int n, int dim){
 
-	gt.BeginTimer(__func__);
 
-        ofstream myfile ("output.log");
-        int i,j;
-        if (myfile.is_open()){
-		if (dim == 1){
-                	myfile << "#x       " << std::fixed << "Exact    " << std::fixed << "Computed" << endl;
-                	for(int k = 0; k < n; k++){
-                        	myfile << k*dx << " " << std::fixed << T_exact[k] << " " << std::fixed << T_computed[k] << endl ;
-                	}
-                	myfile.close();
-		}
-		else if (dim == 2){
-			int nn = n*n;
-                	myfile << "#x       " << std::fixed << "y        " << std::fixed << "Exact    " << std::fixed << "Computed" << endl;
-                	for(int k = 0; k < nn; k++)
-			{
-				i = k / n;
-				j = k % n;
-                       		myfile << i*dx << " " << std::fixed << j*dx << " " << std::fixed << T_exact[k] << " " << std::fixed << T_computed[k] << endl ;
-                	}
-                	myfile.close();			
-		}
-		else{
-			cout << "Invalid dimension, it should be 1 or 2" << endl;
-        	}
+
+//// Write results in hdf5 format
+
+void write_to_hdf5(int dimension, int n, int dim_system, double dx, double* T_exact, double* T_computed){
+
+	hid_t group_temperature, group_coordinates, file, numerical_T_data, analytical_T_data, x_data, y_data, dataspace; /* file and dataset handles */
+	hsize_t dimsf[1]; /* dataset dimensions */
+	herr_t status[2 + dim_system];
+	double x[dim_system], y[dim_system];
+	
+	// create arrays for x and y co-ordinates depending on dimension
+	if (dimension == 1){
+		for(int k = 0; k < dim_system; k++) x[k] = k*dx;
 	}
-else cout << "Unable to open file";
+	else if (dimension == 2){
+		for(int k = 0; k < dim_system; k++){
+			int i = k % n;
+			int j = k / n;
+			x[k] = i*dx;
+			y[k] = j*dx;
+		}
+	}
+	else{
+		cout << "Invalid dimensions, should be 1 or 2" << endl;
+	}
 
-	gt.EndTimer(__func__);
+	// Create a new HDF5 file with default properties
 
+	file = H5Fcreate("data.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+	group_coordinates = H5Gcreate(file, "/coordinates", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+   	group_temperature = H5Gcreate(file, "/temperature", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+	// create dataspace for fixed size dataset
+
+	dimsf[0] = dim_system;
+	dataspace = H5Screate_simple(1, dimsf, NULL);
+
+	// create dataset using defined dataspace
+	numerical_T_data = H5Dcreate2(group_temperature, "Numerical Temperature", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+	analytical_T_data = H5Dcreate2(group_temperature, "Analytical Temperature", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+	x_data = H5Dcreate(group_coordinates, "x data", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+	if(dimension == 2) y_data = H5Dcreate(group_coordinates, "y data", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+	// Write the data to the dataset using default transfer properties.
+	status[0] = H5Dwrite(numerical_T_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, T_computed);
+	status[1] = H5Dwrite(analytical_T_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, T_exact);
+	status[2] = H5Dwrite(x_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, x);
+	if(dimension == 2) status[3] = H5Dwrite(y_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, y);
+
+	// Close/release resources.
+
+	H5Dclose(numerical_T_data);
+	H5Dclose(analytical_T_data);
+	H5Dclose(x_data);
+	if(dimension == 2) H5Dclose(y_data);
+	H5Gclose(group_coordinates);
+	H5Gclose(group_temperature);
+	H5Sclose(dataspace);
+	H5Fclose(file);
 }

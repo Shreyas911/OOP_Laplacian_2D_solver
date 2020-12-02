@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Declare all configurations you want here
-declare -a n=(7 8 9 10 15 20 25 40 50 75)
-declare -a solvers=("jacobi")
-declare -a dimensions=(2)
+declare -a n=(100)
+declare -a solvers=("gauss" "jacobi")
+declare -a dimensions=(1)
 declare -a orders=(2)
 
-### This line is necessary to let the code know that output.log exists, we use it to create reference solutions
-> output.log
+### This line is necessary to let the code know that data.hdf5 exists, we use it to create reference solutions
+> data.h5
 ### This giant loop loops over dimensions, solvers, orders and finally n to produce temporary output files 
 ### which are used to plot grid convergence
 
@@ -26,31 +26,16 @@ do
 		
 			awk -v order=$order '{if($1 ~ /order/){$3 = order;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
 		
-			### Create empty files (temporary) to store the output - n L2_error Time	
-			>temp.tmp
-			> output_${solver}_dim${dimension}_order${order}.dat	
-			
 			for i in "${n[@]}"
 			do 
 
 				awk -v num_points=$i '{if($1 ~ /grid_points/){$3 = num_points;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
-				### output.log also gets modified automatically
-				./heat_solve >> temp.tmp
-				### Store output.log files for reference for regression test
-				## cp output.log reference_sol_${solver}_dim${dimension}_order${order}_n${i}.log
-				echo "${i}" 
+				./heat_solve
+				### Store reference outputs for regression test
+				cp  data.h5 reference_sol_${solver}_dim${dimension}_order${order}_n${i}.h5
 			done
-
-			echo "n       L2_error          Time taken" >> output_${solver}_dim${dimension}_order${order}.dat
-			
-			awk '{if($1 == "L2"){printf("%s %s ", $7, $9);}if($1 == "Total"){print $5;}}' temp.tmp >> output_${solver}_dim${dimension}_order${order}.dat
-
-			### Remove the temporary file
-			rm temp.tmp
-
 		done
 
 	done
         ### Notice that the plotting is done outside the order loop.
-        gnuplot -e "dimension = '${dimension}'" plot_convergence.script
 done

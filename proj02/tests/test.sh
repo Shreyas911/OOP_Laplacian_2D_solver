@@ -1,6 +1,7 @@
 #!/usr/bin/env bats
 # To use bats, type - export  PATH=/work/00161/karl/stampede2/public/bats/bin/:$PATH
 ### Basic test that the code is working and is in verification mode 
+### Also ensure that module hdf5 is loaded
 
 cd ../src/
 
@@ -26,20 +27,9 @@ cd ../src/
 
 }
 
-@test "verify that the debug mode runs fine" {
-		
-	awk -F " " -v temp='debug' '{if($1 ~ /mode/){$3 = temp;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat 
-
-        run heat_solve
-        [ "$status" -eq 0 ]
-
-        ./heat_solve | grep -q "DEBUG"
-        [ "$status" -eq 0 ]	
-}
-
 ### Test that all configurations give the same output as their reference output files
 ### Full of awk commands changing ../src/input.dat, followed by running heat_solve
-### followed by checking output.log against a reference log file
+### followed by checking data.h5 against a reference log file
 @test "verify all gauss solver outputs match reference outputs" {
 	
 
@@ -50,7 +40,7 @@ cd ../src/
         run heat_solve 
 	[ "$status" -eq 0 ]
 
-	run diff output.log reference_sol_gauss_dim1_order2_n100.log
+	run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim1_order2_n100.h5 "temperature/Numerical Temperature"
 	[ "$status" -eq 0 ]
 
         awk -v dimension=1 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
@@ -60,7 +50,7 @@ cd ../src/
         run heat_solve
         [ "$status" -eq 0 ]
 
-        run diff output.log reference_sol_gauss_dim1_order4_n100.log
+        run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim1_order4_n100.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 
         awk -v dimension=2 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
@@ -70,7 +60,7 @@ cd ../src/
         run heat_solve
         [ "$status" -eq 0 ]
 
-        run diff output.log reference_sol_gauss_dim2_order2_n10.log
+        run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim2_order2_n10.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 
         awk -v dimension=2 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
@@ -80,7 +70,7 @@ cd ../src/
         run heat_solve
         [ "$status" -eq 0 ]
 
-        run diff output.log reference_sol_gauss_dim2_order4_n10.log
+        run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim2_order4_n10.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 }
 
@@ -93,7 +83,7 @@ cd ../src/
         run heat_solve
         [ "$status" -eq 0 ]
 
-        run diff output.log reference_sol_jacobi_dim1_order2_n100.log
+        run h5diff -p 0.000000000000001 data.h5 reference_sol_jacobi_dim1_order2_n100.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 
         awk -v dimension=2 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
@@ -103,7 +93,17 @@ cd ../src/
         run heat_solve
         [ "$status" -eq 0 ]
 
-        run diff output.log reference_sol_jacobi_dim2_order2_n10.log
+        run h5diff -p 0.000000000000001 data.h5 reference_sol_jacobi_dim2_order2_n10.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 }
 
+@test "verify that the debug mode runs fine" {
+		
+	awk -F " " -v temp='debug' '{if($1 ~ /mode/){$3 = temp;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat 
+
+        run heat_solve
+        [ "$status" -eq 0 ]
+
+        ./heat_solve | grep -q "DEBUG"
+        [ "$status" -eq 0 ]	
+}
