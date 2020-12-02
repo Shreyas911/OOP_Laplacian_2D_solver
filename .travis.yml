@@ -9,6 +9,7 @@ before_install:
         -export DOCKER_RUN="docker run -v ${TRAVIS_BUILD_DIR}:/home/test/ koomietx/class-ci:v1.3"
 
 script:
+        -cd proj02/
         -${DOCKER_RUN} /bin/bash -l -c "module load hdf5 && autoreconf -f -i && ./configure && make && make check"
 
 notifications:
