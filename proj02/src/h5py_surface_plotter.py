@@ -1,7 +1,12 @@
 import h5py
 import numpy as np
+import os
+import matplotlib as mpl
+### Use non-interactive backend on stampede2 since te DISPLAY env variable is not set
+if os.environ.get('DISPLAY','') == '':
+    print('no display found. Using non-interactive Agg backend')
+    mpl.use('Agg')
 import matplotlib.pyplot as plt
-
 
 f = h5py.File('data.h5', 'r')
 
