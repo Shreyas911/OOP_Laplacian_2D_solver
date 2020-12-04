@@ -8,7 +8,7 @@ if os.environ.get('DISPLAY','') == '':
     mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-f = h5py.File('data.h5', 'r')
+f = h5py.File('output_100x100.h5', 'r')
 
 coordinates = f['coordinates']
 temperature = f['temperature']
@@ -29,6 +29,6 @@ for i in range(n):
 		T_computed_matrix[i,j] = T_computed_vector[i+j*n]
 		T_exact_matrix[i,j] = T_exact_vector[i+j*n]
 
-plt.contourf(grid_vector, grid_vector, T_computed_matrix, 1000, cmap = "RdBu")
+plt.contourf(grid_vector, grid_vector, T_computed_matrix, 100, cmap = "RdBu")
 plt.colorbar()
 plt.savefig('hdf5_surface_plot.png')
