@@ -84,7 +84,7 @@ void print_verification_mode(double* T_exact, double* T_computed, double* delta_
                 printf("%-20s %-4i %-4s %.17g\n","L2 norm of error for n", n_one_direction, "is", l2_norm(n, delta_T));
         }
 
-
+	delete[] delta_T;
 	gt.EndTimer(__func__);
 
 }
