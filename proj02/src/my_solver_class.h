@@ -7,6 +7,6 @@ public:
         void deallocate_memory(my_inputfile_parser&);
 
 	#ifdef INCLUDE_PETSC
-        void petsc_assemble_linear_system(my_inputfile_parser&, int, char**);
+        void petsc_solve_linear_system(my_inputfile_parser&, int, char**);
         #endif
 };

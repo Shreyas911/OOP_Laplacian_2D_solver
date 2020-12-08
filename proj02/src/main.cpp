@@ -20,8 +20,7 @@ int main(int argc, char *argv[]) {
 	Solver.assemble_linear_system(parser);
         
 	#ifdef INCLUDE_PETSC
-	Solver.petsc_assemble_linear_system(parser, argc, argv);
-	//Solver.petsc_solve_linear_system(parser);
+	Solver.petsc_solve_linear_system(parser, argc, argv);
 	#else        
 	Solver.solve_linear_system(parser);
 	
