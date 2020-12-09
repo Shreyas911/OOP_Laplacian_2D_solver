@@ -17,6 +17,7 @@ cd ../src/
 }
 
 @test "verify that the verification mode runs fine" {
+	skip "no workie"
         run ./heat_solve
         [ "$status" -eq 0 ]
         [ "${lines[0]}" = "--> verification_mode = 1" ]
@@ -30,7 +31,6 @@ cd ../src/
 ### Full of awk commands changing ../src/input.dat, followed by running heat_solve
 ### followed by checking data.h5 against a reference log file
 @test "verify all gauss solver outputs match reference outputs" {
-	skip "no workie"
 
 	awk -v dimension=1 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
 	awk -v solver='gauss' '{if($1 ~ /solver_name/){$3 = solver;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat	
