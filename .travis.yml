@@ -9,7 +9,7 @@ before_install:
         - export DOCKER_RUN="docker run -v ${TRAVIS_BUILD_DIR}:/home/test/ shreyas911/my_docker_image:v1.0"
 
 script:
-        - ${DOCKER_RUN} /bin/bash -l -c "module load petsc && cd proj02 && autoreconf -f -i && ./configure --enable-coverage && make && make check"
+        - ${DOCKER_RUN} /bin/bash -l -c "module load petsc && cd proj02 && autoreconf -f -i && ./configure CC=mpicc CXX=mpicxx --enable-coverage && make && make check"
 
 notifications:
         email: false
