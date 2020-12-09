@@ -171,8 +171,8 @@ double * petsc(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS)
 	ierr = KSPCreate(PETSC_COMM_WORLD,&petsc_solver); 
 	ierr = KSPSetOperators(petsc_solver,petsc_A,petsc_A); 
 	ierr = KSPSetType(petsc_solver,KSPGMRES); 
-	ierr = KSPGetPC(petsc_solver,&Prec); 
-	ierr = PCSetType(Prec,PCJACOBI); 
+	//ierr = KSPGetPC(petsc_solver,&Prec); 
+	//ierr = PCSetType(Prec,PCJACOBI); 
 	ierr = KSPSetTolerances(petsc_solver, tol, tol, PETSC_DEFAULT, max_its);
 	ierr = KSPSolve(petsc_solver,petsc_q,petsc_T); 
 	ierr = KSPGetConvergedReason(petsc_solver,&reason); 
@@ -186,12 +186,6 @@ double * petsc(int n, double** A, double *q, double TOL, unsigned int MAX_ITERS)
 	ierr = VecDestroy(&petsc_T); 
 	ierr = MatDestroy(&petsc_A); 
 	ierr = PetscFinalize(); 
-
-	
-	
-	
-	
-	cout << "Hey man, I ran to completion" << endl;
 	
 	gt.EndTimer(__func__);
 	return T;

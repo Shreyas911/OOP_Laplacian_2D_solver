@@ -1,6 +1,10 @@
 #include <iostream>
 #include "grvy.h"
+
+#ifdef INCLUDE_PETSC
 #include "petsc.h"
+#endif
+
 #include "my_inputfile_parser.h"
 #include "my_solver_class.h"
 
@@ -22,8 +26,8 @@ int main(int argc, char *argv[]) {
 	#ifdef INCLUDE_PETSC
 	PetscInitialize(&argc,&argv,0,0);
 	#endif        
-	Solver.solve_linear_system(parser);
 
+	Solver.solve_linear_system(parser);
 	Solver.print_and_write_all(parser);
 	Solver.deallocate_memory(parser);
 
