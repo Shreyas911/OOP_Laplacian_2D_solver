@@ -40,7 +40,7 @@ cd ../src/
         run ./heat_solve 
 	[ "$status" -eq 0 ]
 
-	run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim1_order2_n100.h5 "temperature/Numerical Temperature"
+	run h5diff -p 1.e-8 data.h5 reference_sol_gauss_dim1_order2_n100.h5 "temperature/Numerical Temperature"
 	[ "$status" -eq 0 ]
 
         awk -v dimension=1 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
@@ -50,7 +50,7 @@ cd ../src/
         run ./heat_solve
         [ "$status" -eq 0 ]
 
-        run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim1_order4_n100.h5 "temperature/Numerical Temperature"
+        run h5diff -p 1.e-8 data.h5 reference_sol_gauss_dim1_order4_n100.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 
         awk -v dimension=2 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
@@ -60,7 +60,7 @@ cd ../src/
         run ./heat_solve
         [ "$status" -eq 0 ]
 
-        run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim2_order2_n10.h5 "temperature/Numerical Temperature"
+        run h5diff -p 1.e-8 data.h5 reference_sol_gauss_dim2_order2_n10.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 
         awk -v dimension=2 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
@@ -70,7 +70,7 @@ cd ../src/
         run ./heat_solve
         [ "$status" -eq 0 ]
 
-        run h5diff -p 0.000000000000001 data.h5 reference_sol_gauss_dim2_order4_n10.h5 "temperature/Numerical Temperature"
+        run h5diff -p 1.e-8 data.h5 reference_sol_gauss_dim2_order4_n10.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 }
 
@@ -83,7 +83,7 @@ cd ../src/
         run ./heat_solve
         [ "$status" -eq 0 ]
 
-        run h5diff -p 0.000000000000001 data.h5 reference_sol_jacobi_dim1_order2_n100.h5 "temperature/Numerical Temperature"
+        run h5diff -p 1.e-8 data.h5 reference_sol_jacobi_dim1_order2_n100.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 
         awk -v dimension=2 '{if($1 ~ /dimension/){$3 = dimension;} print $0;}' input.dat > input.tmp && mv input.tmp input.dat
@@ -93,7 +93,7 @@ cd ../src/
         run ./heat_solve
         [ "$status" -eq 0 ]
 
-        run h5diff -p 0.000000000000001 data.h5 reference_sol_jacobi_dim2_order2_n10.h5 "temperature/Numerical Temperature"
+        run h5diff -p 1.e-8 data.h5 reference_sol_jacobi_dim2_order2_n10.h5 "temperature/Numerical Temperature"
         [ "$status" -eq 0 ]
 }
 
