@@ -17,7 +17,6 @@ cd ../src/
 }
 
 @test "verify that the verification mode runs fine" {
-	skip "no workie"
         run ./heat_solve
         [ "$status" -eq 0 ]
         [ "${lines[0]}" = "--> verification_mode = 1" ]
