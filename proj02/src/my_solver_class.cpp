@@ -27,9 +27,6 @@ public:
 	void solve_linear_system(my_inputfile_parser&);
 	void print_and_write_all(my_inputfile_parser&);
 	void deallocate_memory(my_inputfile_parser&);
-	#ifdef INCLUDE_PETSC
-	void petsc_solve_linear_system(my_inputfile_parser&, int, char**);
-	#endif
 };
 
 void my_solver_class::assemble_linear_system(my_inputfile_parser& parser){
@@ -97,74 +94,3 @@ void my_solver_class::deallocate_memory(my_inputfile_parser& parser){
 	gt.EndTimer(__func__);
 }
 
-#ifdef INCLUDE_PETSC
-void my_solver_class::petsc_solve_linear_system(my_inputfile_parser& parser, int argc, char *argv[]){
-        
-	PetscErrorCode ierr;
-        KSP petsc_solver; PC Prec; Mat A; Vec q, T_exact, T_computed, Res;
-        PetscInt max_its = (PetscInt) parser.MAX_ITERS; PetscReal norm;
-	PetscScalar v;
-        ierr = PetscInitialize(&argc,&argv,0,0); CHKERRV(ierr);
-        
-	ierr = MatCreate(PETSC_COMM_WORLD, &A); CHKERRV(ierr);
-	ierr = VecCreate(PETSC_COMM_WORLD, &T_exact); CHKERRV(ierr);
-	ierr = VecCreate(PETSC_COMM_WORLD, &T_computed); CHKERRV(ierr);
-	ierr = VecCreate(PETSC_COMM_WORLD, &q); CHKERRV(ierr);
-        ierr = VecCreate(PETSC_COMM_WORLD, &Res); CHKERRV(ierr);
-	ierr = MatSetSizes(A, PETSC_DECIDE, PETSC_DECIDE, parser.dim_system, parser.dim_system); CHKERRV(ierr);
-	ierr = VecSetSizes(T_exact, PETSC_DECIDE, parser.dim_system); CHKERRV(ierr);
-	ierr = VecSetSizes(T_computed, PETSC_DECIDE, parser.dim_system); CHKERRV(ierr);
-	ierr = VecSetSizes(q, PETSC_DECIDE, parser.dim_system); CHKERRV(ierr);
-	ierr = VecSetSizes(Res, PETSC_DECIDE, parser.dim_system); CHKERRV(ierr);
-	ierr = MatSetUp(A); CHKERRV(ierr);
-	ierr = VecSetUp(T_exact); CHKERRV(ierr);
-	ierr = VecSetUp(T_computed); CHKERRV(ierr);
-	ierr = VecSetUp(q); CHKERRV(ierr);
-	ierr = VecSetUp(Res); CHKERRV(ierr);
-        for(int i=0; i < parser.dim_system;i++){
-		v = (PetscScalar) parser.q[i];
-		ierr = VecSetValues(q,1,&i,&v,INSERT_VALUES); CHKERRV(ierr);
-		v = (PetscScalar) parser.T_exact[i];
-                ierr = VecSetValues(T_exact,1,&i,&v,INSERT_VALUES); CHKERRV(ierr);
-                v = (PetscScalar) parser.T_computed[i];
-                ierr = VecSetValues(T_computed,1,&i,&v,INSERT_VALUES); CHKERRV(ierr);
-
-		for(int j=0; j < parser.dim_system; j++){
-			v = (PetscScalar) parser.A[i][j];
-                	ierr = MatSetValues(A,1,&i,1,&j,&v,INSERT_VALUES); CHKERRV(ierr);
-       		}
-	}
-        ierr = MatAssemblyBegin(A,MAT_FINAL_ASSEMBLY); CHKERRV(ierr);
-        ierr = MatAssemblyEnd(A,MAT_FINAL_ASSEMBLY); CHKERRV(ierr);
-       	ierr = VecAssemblyBegin(q); CHKERRV(ierr);
-	ierr = VecAssemblyEnd(q); CHKERRV(ierr);
-        ierr = VecAssemblyBegin(T_exact); CHKERRV(ierr);
-        ierr = VecAssemblyEnd(T_exact); CHKERRV(ierr);
-        ierr = VecAssemblyBegin(T_computed); CHKERRV(ierr);
-        ierr = VecAssemblyEnd(T_computed); CHKERRV(ierr);
-	ierr = VecAssemblyBegin(Res); CHKERRV(ierr);
-        ierr = VecAssemblyEnd(Res); CHKERRV(ierr);
-	ierr = KSPCreate(PETSC_COMM_WORLD,&petsc_solver); CHKERRV(ierr);
-	ierr = KSPSetOperators(petsc_solver,A,A); CHKERRV(ierr);
-	ierr = KSPSetType(petsc_solver,KSPGMRES); CHKERRV(ierr);
-	//ierr = KSPGetPC(petsc_solver,&Prec); CHKERRV(ierr);
-	//ierr = PCSetType(Prec,PCJACOBI); CHKERRV(ierr);
-	ierr = KSPSetTolerances(petsc_solver,1.e-17, 1.e-17, PETSC_DEFAULT, max_its);
-	ierr = KSPSolve(petsc_solver,q,T_computed); CHKERRV(ierr);
-	KSPConvergedReason reason;
-	ierr = KSPGetConvergedReason(petsc_solver,&reason); CHKERRV(ierr);
-
-	ierr = VecCopy(T_exact,Res); CHKERRV(ierr);
-	ierr = VecAXPY(Res,-1,T_computed); CHKERRV(ierr);
-	ierr = VecNorm(Res,NORM_2,&norm); CHKERRV(ierr);
-	norm = norm/PetscSqrtReal((PetscReal) parser.dim_system);
-	
-	ierr = PetscPrintf(MPI_COMM_WORLD,"residual norm: %e\n", norm);
-	ierr = KSPDestroy(&petsc_solver); CHKERRV(ierr);
-	ierr = VecDestroy(&q); CHKERRV(ierr);
-	ierr = VecDestroy(&T_exact); CHKERRV(ierr);
-	ierr = VecDestroy(&T_computed); CHKERRV(ierr);
-	ierr = MatDestroy(&A); CHKERRV(ierr);
-	ierr = PetscFinalize(); CHKERRV(ierr);
-}
-#endif

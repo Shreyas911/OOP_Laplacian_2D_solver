@@ -73,7 +73,17 @@ void my_inputfile_parser::parse_input_file(){
                 	printf("--> %-11s = %s\n","solver",solver.c_str());
 
 		std::string str2 ("jacobi"), str3 ("gauss");
-		if ( solver.compare(str2) != 0 && solver.compare(str3) != 0 ) cerr << "Invalid solver name. Use either gauss or jacobi.";
+
+		#ifdef INCLUDE_PETSC 
+		std::string str4 ("petsc");
+		#endif
+		if ( solver.compare(str2) != 0 && solver.compare(str3) != 0 
+		#ifdef INCLUDE_PETSC 
+		 && solver.compare(str4) != 0
+		#endif
+		) 
+		cerr << "Invalid solver name. Use either gauss or jacobi.";
+
 		// nn is useful for 2D
 		nn = n*n;
 		dx = L/(n-1);

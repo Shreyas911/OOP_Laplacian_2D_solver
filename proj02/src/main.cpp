@@ -20,14 +20,12 @@ int main(int argc, char *argv[]) {
 	Solver.assemble_linear_system(parser);
         
 	#ifdef INCLUDE_PETSC
-	Solver.petsc_solve_linear_system(parser, argc, argv);
-	#else        
+	PetscInitialize(&argc,&argv,0,0);
+	#endif        
 	Solver.solve_linear_system(parser);
-	
-	#endif
 
-	//Solver.print_and_write_all(parser);
-	//Solver.deallocate_memory(parser);
+	Solver.print_and_write_all(parser);
+	Solver.deallocate_memory(parser);
 
 	gt.EndTimer  (__func__);
 	gt.Finalize();
