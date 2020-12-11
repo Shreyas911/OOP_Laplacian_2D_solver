@@ -94,11 +94,11 @@ void print_verification_mode(double* T_exact, double* T_computed, double* delta_
 
 //// Write results in hdf5 format
 
-void write_to_hdf5(int dimension, int n, int dim_system, double dx, double* T_exact, double* T_computed){
+void write_to_hdf5(int dimension, int order, int n, int dim_system, double dx, double* T_exact, double* T_computed){
 
-	hid_t group_temperature, group_coordinates, file, numerical_T_data, analytical_T_data, x_data, y_data, dataspace; /* file and dataset handles */
-	hsize_t dimsf[1]; /* dataset dimensions */
-	herr_t status[2 + dim_system];
+	hid_t group_metadata, group_temperature, group_coordinates, file, numerical_T_data, analytical_T_data, x_data, y_data, dataspace, dataspace_metadata, dim_data, n_data, order_data; /* file and dataset handles */
+	hsize_t dimsf[1], dimsf_metadata[1]; /* dataset dimensions */
+	herr_t status[5 + dim_system];
 	double x[dim_system], y[dim_system];
 	
 	// create arrays for x and y co-ordinates depending on dimension
@@ -122,32 +122,43 @@ void write_to_hdf5(int dimension, int n, int dim_system, double dx, double* T_ex
 	file = H5Fcreate("data.h5", H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 	group_coordinates = H5Gcreate(file, "/coordinates", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
    	group_temperature = H5Gcreate(file, "/temperature", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-
+	group_metadata = H5Gcreate(file, "/metadata", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 	// create dataspace for fixed size dataset
 
 	dimsf[0] = dim_system;
+	dimsf_metadata[0] = 1;
 	dataspace = H5Screate_simple(1, dimsf, NULL);
-
+	dataspace_metadata = H5Screate_simple(1, dimsf_metadata, NULL);
 	// create dataset using defined dataspace
 	numerical_T_data = H5Dcreate2(group_temperature, "Numerical Temperature", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 	analytical_T_data = H5Dcreate2(group_temperature, "Analytical Temperature", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 	x_data = H5Dcreate(group_coordinates, "x data", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 	if(dimension == 2) y_data = H5Dcreate(group_coordinates, "y data", H5T_NATIVE_DOUBLE, dataspace, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-
+	dim_data = H5Dcreate(group_metadata, "dimensions", H5T_NATIVE_INT, dataspace_metadata, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+	n_data = H5Dcreate(group_metadata, "grid_points", H5T_NATIVE_INT, dataspace_metadata, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+	order_data = H5Dcreate(group_metadata, "order", H5T_NATIVE_INT, dataspace_metadata, H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 	// Write the data to the dataset using default transfer properties.
 	status[0] = H5Dwrite(numerical_T_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, T_computed);
 	status[1] = H5Dwrite(analytical_T_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, T_exact);
 	status[2] = H5Dwrite(x_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, x);
-	if(dimension == 2) status[3] = H5Dwrite(y_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, y);
-
+	status[3] = H5Dwrite(dim_data, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, &dimension);
+	status[4] = H5Dwrite(order_data, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, &order);
+	status[5] = H5Dwrite(n_data, H5T_NATIVE_INT, H5S_ALL, H5S_ALL, H5P_DEFAULT, &n);
+	if(dimension == 2) status[6] = H5Dwrite(y_data, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT, y);
+	
 	// Close/release resources.
 
 	H5Dclose(numerical_T_data);
 	H5Dclose(analytical_T_data);
 	H5Dclose(x_data);
+	H5Dclose(dim_data);
+	H5Dclose(order_data);
+	H5Dclose(n_data);
 	if(dimension == 2) H5Dclose(y_data);
 	H5Gclose(group_coordinates);
 	H5Gclose(group_temperature);
+	H5Gclose(group_metadata);
+	H5Sclose(dataspace_metadata);
 	H5Sclose(dataspace);
 	H5Fclose(file);
 }

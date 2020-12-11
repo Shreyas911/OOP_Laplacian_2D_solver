@@ -66,7 +66,7 @@ void my_solver_class::print_and_write_all(my_inputfile_parser& parser){
 
 	//// Write results in hdf5 format
 
-	write_to_hdf5(parser.dimension, parser.n, parser.dim_system, parser.dx, parser.T_exact, parser.T_computed);
+	write_to_hdf5(parser.dimension, parser.order, parser.n, parser.dim_system, parser.dx, parser.T_exact, parser.T_computed);
 
 	//// DEBUG MODE						
 	print_matrix_A(parser.A, parser.dim_system);
