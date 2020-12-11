@@ -1,0 +1,350 @@
+% Imports =====================================================================
+
+\usepackage{amsfonts,amssymb,amsthm,amsmath,mathrsfs,mathtools}
+\usepackage{algorithmicx}
+\usepackage[plain]{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{bigstrut}
+\usepackage{blkarray}
+\usepackage{cancel}
+\usepackage{color}
+\usepackage{comment}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[customcolors]{hf-tikz}
+\usepackage{ifdraft}
+\usepackage{listings}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[inline]{showlabels}
+\usepackage{subcaption}
+\usepackage{textcomp}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{xparse}
+\usepackage{url}
+
+% Page setup ==================================================================
+
+\pagestyle{plain} \setlength{\headheight}{0in}
+\setlength{\topmargin}{0in} \setlength{\headsep}{0in}
+\setlength{\voffset}{0 in} \setlength{\textheight}{9in}
+\setlength{\oddsidemargin}{0 in} \setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in} \setlength{\headheight}{0in}
+\setlength{\headsep}{0in} \setlength{\hoffset}{0in}
+\setlength{\parsep}{6pt}
+\setlength{\parskip}{6pt}
+\theoremstyle{plain}
+\linespread{1.1}
+
+% Environments ================================================================
+
+% Use o for second-level nested itemized.
+\renewcommand{\labelitemii}{$\circ$}
+
+% Display labels and color tags.
+\newtagform{red}{\color{red}(}{)}
+\newtagform{orange}{\color{orange}(}{)}
+\newtagform{green}{\color{green}(}{)}
+\newtagform{yellow}{\color{yellow}(}{)}
+\newtagform{blue}{\color{blue}(}{)}
+\newtagform{purple}{\color{purple}(}{)}
+
+\renewcommand{\showlabelfont}{\small\ttfamily\color{orange}}
+
+% Tikzpicture tools
+\usetikzlibrary{arrows, automata, backgrounds, calendar, chains, decorations,
+    matrix, mindmap, patterns, petri, positioning, shadows, shapes.geometric,
+    trees, shapes, decorations.pathreplacing}
+\usetikzlibrary{circuits.ee.IEC}
+
+% Theorems
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{remark*}{Remark}
+
+% Problem set
+\newenvironment{problems}{\begin{list}{}{\setlength{\itemsep}{12pt}\setlength{\labelwidth}{.5in}\leftmargin=0in}}{\end{list}}
+\newcounter{problempart}
+\newenvironment{parts}{\begin{list}{$\bullet$}{\setlength{\itemsep}{6pt}\setlength{\parsep}{6pt}\setlength{\parskip}{6pt}\usecounter{problempart}\setlength{\labelwidth}{.5in}\leftmargin=.25in}}{\end{list}}
+% \setlist[problems]{leftmargin=1in}
+
+% Equation labeling by section (TODO: by problem).
+% \numberwithin{equation}{section}
+
+% Syntax highlighting
+\definecolor{brightred}{rgb}{1, 0, 0}           % bright red
+\definecolor{red}{cmyk}{0, 1.00, 0.62,0}        % red
+\definecolor{blue}{cmyk}{1.00, .34, .0 .02 }    % blue
+\definecolor{green}{cmyk}{0.7, 0, 1.0, 0.09 }   % greenish
+\definecolor{yellow}{cmyk}{0, 0.16, 1.0, 0}     % yellow
+\definecolor{gray}{cmyk}{0, 0, 0, 0.65}         % gray
+\definecolor{purple}{cmyk}{.333, .867, 0, .059} % purple
+\colorlet{shadecolor}{blue!10}
+\colorlet{warning}{red!20!}
+\colorlet{warnline}{red}
+\colorlet{information}{green!20}
+\colorlet{infoline}{green}
+\colorlet{codebase}{yellow!5!}
+\colorlet{codekeyword}{blue}
+\colorlet{codecomment}{green}
+\colorlet{codestring}{red}
+
+% Code boxes
+\lstset{
+  language=Python,
+  backgroundcolor=\color{codebase},
+  tabsize=4,
+  basewidth=.5em,
+  rulecolor=\color{yellow},
+  basicstyle=\linespread{0.85}\small\ttfamily,    % code text size
+  upquote=true,
+  columns=fixed,
+  extendedchars=true,
+  breaklines=true,
+  prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+  frame=lrtb,
+  % xleftmargin=0pt,
+  % xrightmargin=0pt,
+  framesep=4pt,
+  framerule=2pt,
+  showtabs=false,
+  showspaces=false,
+  showstringspaces=false,
+  morestring=[s]{"""}{"""},
+  morestring=[s]{'''}{'''},
+  keywordstyle=\color{codekeyword},
+  commentstyle=\color{codecomment},
+  stringstyle=\color{codestring},
+  title=\lstname,
+  captionpos=b,
+  abovecaptionskip=-5pt,
+  belowcaptionskip=-5pt,
+  moredelim=[is][\color{black}]{<<}{>>},
+  moredelim=[is][\color{red}]{<r<}{>r>},
+  moredelim=[is][\color{blue}]{<b<}{>b>},
+  moredelim=[is][\color{green}]{<g<}{>g>},
+  moredelim=[is][\color{purple}]{<p<}{>p>},
+  morekeywords={assert, bytes, self, super, with, as, yield, True, False,
+    None, NotImplemented, BaseException, Exception, AssertionError,
+    AttributeError, ImportError, IndexError, KeyError, KeyboardInterrupt,
+    MemoryError, NameError, NotImplementedError, OSError, OverflowError,
+    RecursionError, RuntimeError, StopIteration, SyntaxError,
+    IndentationError, TabError, StandardError, SystemError, SystemExit,
+    TypeError, ValueError, ZeroDivisionError, IOError, Warning,
+    RuntimeWarning, FileExistsError, FileNotFoundError,
+    SELECT, FROM, AS, INNER, JOIN, LEFT, OUTER,
+    CROSS, ON, WHERE, CASE, IF, MIN, MAX, SUM, AVG, COUNT, TEXT, REAL
+  },
+  deletekeywords={compile, format}
+}
+
+\newcommand{\li}[1]{\lstinline[prebreak=]!#1!}          % Inline code
+
+% Algorithmic environment commands
+\lstdefinestyle{pseudo}{basicstyle=\rmfamily,
+                        upquote=true,
+                        keywordstyle=\color{black}\bfseries,
+                        commentstyle=\color[rgb]{0.133,0.545,0.133},
+                        stringstyle=\color[rgb]{0.627,0.126,0.941},
+                        }
+\newcommand{\pseudoli}[1]{\lstinline[style=pseudo]!#1!}
+\NewDocumentCommand\allocate{m+g}{                      % Empty array
+  \IfNoValueTF{#2}
+    {\mathrm{empty}(#1)}                                % 1 dimension
+    {\mathrm{empty}(#1, #2)}                            % 2 dimensions
+}
+\NewDocumentCommand\zeros{m+g}{                         % Zero array
+  \IfNoValueTF{#2}
+    {\mathrm{zeros}(#1)}
+    {\mathrm{zeros}((#1, #2))}
+}
+\newcommand{\Id}[1]{\mathrm{Id}(#1)}                    % Identity array
+\newcommand{\makecopy}[1]{\mathrm{copy}(#1)}            % Copy an array
+\newcommand{\shape}[1]{\mathrm{shape}(#1)}
+\newcommand{\size}[1]{\mathrm{size}(#1)}
+
+% Shortcuts ===================================================================
+
+% Bold letters / numbers
+\newcommand{\bfa}{\mathbf{a}}
+\newcommand{\bfA}{\mathbf{A}}
+\newcommand{\bfb}{\mathbf{b}}
+\newcommand{\bfB}{\mathbf{B}}
+\newcommand{\bfc}{\mathbf{c}}
+\newcommand{\bfC}{\mathbf{C}}
+\newcommand{\bfd}{\mathbf{d}}
+\newcommand{\bfD}{\mathbf{D}}
+\newcommand{\bfe}{\mathbf{e}}
+\newcommand{\bfE}{\mathbf{E}}
+\newcommand{\bff}{\mathbf{f}}
+\newcommand{\bfF}{\mathbf{F}}
+\newcommand{\bfg}{\mathbf{g}}
+\newcommand{\bfG}{\mathbf{G}}
+\newcommand{\bfh}{\mathbf{h}}
+\newcommand{\bfH}{\mathbf{H}}
+\newcommand{\bfi}{\mathbf{i}}
+\newcommand{\bfI}{\mathbf{I}}
+\newcommand{\bfj}{\mathbf{j}}
+\newcommand{\bfJ}{\mathbf{J}}
+\newcommand{\bfk}{\mathbf{k}}
+\newcommand{\bfK}{\mathbf{K}}
+\newcommand{\bfl}{\boldsymbol{\ell}}
+\newcommand{\bfL}{\mathbf{L}}
+\newcommand{\bfm}{\mathbf{m}}
+\newcommand{\bfM}{\mathbf{M}}
+\newcommand{\bfn}{\mathbf{n}}
+\newcommand{\bfN}{\mathbf{N}}
+\newcommand{\bfo}{\mathbf{o}}
+\newcommand{\bfO}{\mathbf{O}}
+\newcommand{\bfp}{\mathbf{p}}
+\newcommand{\bfP}{\mathbf{P}}
+\newcommand{\bfq}{\mathbf{q}}
+\newcommand{\bfQ}{\mathbf{Q}}
+\newcommand{\bfr}{\mathbf{r}}
+\newcommand{\bfR}{\mathbf{R}}
+\newcommand{\bfs}{\mathbf{s}}
+\newcommand{\bfS}{\mathbf{S}}
+\newcommand{\bft}{\mathbf{t}}
+\newcommand{\bfT}{\mathbf{T}}
+\newcommand{\bfu}{\mathbf{u}}
+\newcommand{\bfU}{\mathbf{U}}
+\newcommand{\bfv}{\mathbf{v}}
+\newcommand{\bfV}{\mathbf{V}}
+\newcommand{\bfw}{\mathbf{w}}
+\newcommand{\bfW}{\mathbf{W}}
+\newcommand{\bfx}{\mathbf{x}}
+\newcommand{\bfX}{\mathbf{X}}
+\newcommand{\bfy}{\mathbf{y}}
+\newcommand{\bfY}{\mathbf{Y}}
+\newcommand{\bfz}{\mathbf{z}}
+\newcommand{\bfZ}{\mathbf{Z}}
+
+\newcommand{\e}{\bfe}
+\newcommand{\E}{\bfE}
+\newcommand{\f}{\bff}
+\newcommand{\F}{\bfF}
+\newcommand{\g}{\bfg}
+\newcommand{\G}{\bfG}
+\newcommand{\h}{\bfh}
+\newcommand{\w}{\bfw}
+\newcommand{\W}{\bfW}
+\newcommand{\x}{\bfx}
+\newcommand{\X}{\bfX}
+\newcommand{\y}{\bfy}
+\newcommand{\Y}{\bfY}
+\newcommand{\z}{\bfz}
+\newcommand{\Z}{\bfZ}
+\newcommand{\0}{\mathbf{0}}
+
+% Bold Greek letters
+\newcommand{\bfalpha}{\boldsymbol{\alpha}}
+\newcommand{\bfbeta}{\boldsymbol{\beta}}
+\newcommand{\bfgamma}{\boldsymbol{\gamma}}
+\newcommand{\bfdelta}{\boldsymbol{\delta}}
+\newcommand{\bfepsilon}{\boldsymbol{\epsilon}}
+\newcommand{\bfzeta}{\boldsymbol{\zeta}}
+\newcommand{\bfeta}{\boldsymbol{\eta}}
+\newcommand{\bftheta}{\boldsymbol{\theta}}
+\newcommand{\bfiota}{\boldsymbol{\iota}}
+\newcommand{\bfkappa}{\boldsymbol{\kappa}}
+\newcommand{\bflambda}{\boldsymbol{\lambda}}
+\newcommand{\bfmu}{\boldsymbol{\mu}}
+\newcommand{\bfnu}{\boldsymbol{\nu}}
+\newcommand{\bfxi}{\boldsymbol{\xi}}
+\newcommand{\bfomicron}{\boldsymbol{\omicron}}
+\newcommand{\bfpi}{\boldsymbol{\pi}}
+\newcommand{\bfrho}{\boldsymbol{\rho}}
+\newcommand{\bfsigma}{\boldsymbol{\sigma}}
+\newcommand{\bftau}{\boldsymbol{\tau}}
+\newcommand{\bfupsilon}{\boldsymbol{\upsilon}}
+\newcommand{\bfphi}{\boldsymbol{\phi}}
+\newcommand{\bfchi}{\boldsymbol{\chi}}
+\newcommand{\bfpsi}{\boldsymbol{\psi}}
+\newcommand{\bfomega}{\boldsymbol{\omega}}
+\newcommand{\bfvarepsilon}{\boldsymbol{\varepsilon}}
+\newcommand{\bfvartheta}{\boldsymbol{\vartheta}}
+\newcommand{\bfvarkappa}{\boldsymbol{\varkappa}}
+\newcommand{\bfvarpi}{\boldsymbol{\varpi}}
+\newcommand{\bfvarrho}{\boldsymbol{\varrho}}
+\newcommand{\bfvarphi}{\boldsymbol{\varphi}}
+\newcommand{\bfvarsigma}{\boldsymbol{\varsigma}}
+\newcommand{\bfGamma}{\boldsymbol{\Gamma}}
+\newcommand{\bfDelta}{\boldsymbol{\Delta}}
+\newcommand{\bfTheta}{\boldsymbol{\Theta}}
+\newcommand{\bfLambda}{\boldsymbol{\Lambda}}
+\newcommand{\bfUpsilon}{\boldsymbol{\Upsilon}}
+\newcommand{\bfXi}{\boldsymbol{\Xi}}
+\newcommand{\bfPhi}{\boldsymbol{\Phi}}
+\newcommand{\bfPi}{\boldsymbol{\Pi}}
+\newcommand{\bfPsi}{\boldsymbol{\Psi}}
+\newcommand{\bfSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bfOmega}{\boldsymbol{\Omega}}
+
+% Common spaces
+\renewcommand{\AA}{\mathbb{A}}
+\newcommand{\BB}{\mathbb{B}}
+\newcommand{\CC}{\mathbb{C}}                    % complex numbers
+\newcommand{\DD}{\mathbb{D}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\FF}{\mathbb{F}}                    % the complex or real field
+\newcommand{\GG}{\mathbb{G}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\II}{\mathbb{I}}
+\newcommand{\JJ}{\mathbb{J}}
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\LL}{\mathbb{L}}
+\newcommand{\MM}{\mathbb{M}}
+\newcommand{\NN}{\mathbb{N}}                    % natural numbers
+\newcommand{\OO}{\mathbb{O}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}                    % real numbers
+\renewcommand{\SS}{\mathbb{S}}
+\newcommand{\TT}{\mathbb{T}}
+\newcommand{\UU}{\mathbb{U}}
+\newcommand{\VV}{\mathbb{V}}
+\newcommand{\WW}{\mathbb{W}}
+\newcommand{\XX}{\mathbb{X}}
+\newcommand{\YY}{\mathbb{Y}}
+\newcommand{\ZZ}{\mathbb{Z}}                    % integers
+
+% Integrals
+\newcommand{\dr}{\:dr}                          % 1-d integral in r
+\newcommand{\ds}{\:ds}                          % 1-d integral in s
+\newcommand{\dt}{\:dt}                          % 1-d integral in t
+\newcommand{\dx}{\:dx}                          % 1-d integral in x
+\newcommand{\dX}{\:d\bfx}                       % n-d integral in x
+\newcommand{\dy}{\:dy}                          % 1-d integral in y
+\newcommand{\dY}{\:d\bfy}                       % n-d integral in y
+\newcommand{\dz}{\:dz}                          % 1-d integral in z
+\newcommand{\dZ}{\:d\bfz}                       % n-d integral in z
+\newcommand{\dA}{\:dA}                          % area integral
+\newcommand{\dS}{\:dS}                          % surface integral
+\newcommand{\dV}{\:dV}                          % volume integral
+\newcommand{\dXi}{\:d\bfxi}                     % Lagrangian volume integral
+
+% Matrix operations
+\newcommand{\inv}{^{-1}}                        % matrix inverse
+\newcommand{\trp}{^{\mathsf T}}                 % matrix transpose
+\newcommand{\invtrp}{^{\mathsf{-T}}}            % matrix inverse transpose
+\newcommand{\hrm}{^{\mathsf H}}                 % matrix Hermitian
+\newcommand{\invhrm}{^{\mathsf{-H}}}            % matrix inverse Hermitian
+
+% Inner product angle braces
+\newcommand{\<}{\left\langle}
+\renewcommand{\>}{\right\rangle}
+
+% Other
+\newcommand{\weakto}{\rightharpoonup}           % weak convergence
+\DeclareMathOperator*{\esssup}{ess\,sup}        % essential supremum
+\DeclareMathOperator*{\argmax}{arg\,max}        % argmax
+\DeclareMathOperator*{\argmin}{arg\,min}        % argmin
+\renewcommand{\CancelColor}{\color{lightgray}}  % color for \cancelto{}{}.
+\newcommand{\TODO}[1][]{\textcolor{brightred}{\text{\textbf{TODO}#1}}}
