@@ -1,4 +1,5 @@
 import h5py
+from mpl_toolkits import mplot3d
 import numpy as np
 import os
 import matplotlib as mpl
@@ -31,4 +32,21 @@ for i in range(n):
 
 plt.contourf(grid_vector, grid_vector, T_computed_matrix, 100, cmap = "RdBu")
 plt.colorbar()
-plt.savefig('hdf5_surface_plot.png')
+plt.title('Computed temperature field Gauss 4th order 100x100')
+plt.savefig('hdf5_contourf_computed_plot.png')
+plt.contourf(grid_vector, grid_vector, T_exact_matrix, 100, cmap = "RdBu")
+plt.colorbar()
+plt.title('Exact temperature field 100x100')
+plt.savefig('hdf5_contourf_exact_plot.png')
+
+
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+
+ax.plot_surface(grid_vector, grid_vector, T_computed_matrix, cmap='RdBu', edgecolor='none')
+ax.set_title('Computed temperature field Gauss 4th order 100x100')
+plt.savefig('hdf5_surface_computed_plot.png')
+
+ax.plot_surface(grid_vector, grid_vector, T_exact_matrix, cmap='RdBu', edgecolor='none')
+ax.set_title('Exact temperature field 100x100')
+plt.savefig('hdf5_surface_exact_plot.png')
