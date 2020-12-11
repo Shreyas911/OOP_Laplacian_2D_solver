@@ -12,7 +12,7 @@ n = []
 l2norm = []
 time = []
 orders = [2, 4]
-dimensions = [1]
+dimensions = [1, 2]
 
 ### Compare error norms for gauss and petsc solvers
 solvers = ['gauss', 'petsc']
