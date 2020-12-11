@@ -23,7 +23,7 @@ n = int(np.sqrt(nn))
 T_computed_matrix = np.zeros((n,n))
 T_exact_matrix = np.zeros((n,n))
 grid_vector = np.zeros(n)
-
+grid_matrix = np.zeros((n,n))
 for i in range(n):
 	grid_vector[i] = x_vector[i]
 	for j in range(n):
@@ -42,11 +42,11 @@ plt.savefig('hdf5_contourf_exact_plot.png')
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-
-ax.plot_surface(grid_vector, grid_vector, T_computed_matrix, cmap='RdBu', edgecolor='none')
+grid_matrix = np.tile(grid_vector, (n,1))
+ax.plot_surface(grid_matrix, grid_matrix.transpose(), T_computed_matrix, cmap='RdBu', edgecolor='none')
 ax.set_title('Computed temperature field Gauss 4th order 100x100')
 plt.savefig('hdf5_surface_computed_plot.png')
 
-ax.plot_surface(grid_vector, grid_vector, T_exact_matrix, cmap='RdBu', edgecolor='none')
+ax.plot_surface(grid_matrix, grid_matrix.transpose(), T_exact_matrix, cmap='RdBu', edgecolor='none')
 ax.set_title('Exact temperature field 100x100')
 plt.savefig('hdf5_surface_exact_plot.png')
