@@ -17,8 +17,11 @@ int main(int argc, char *argv[]) {
 	gt.Init("GRVY Performance timing");
 	gt.BeginTimer(__func__);
 
+	//Object of parser class
 	my_inputfile_parser parser;
 	parser.parse_input_file();
+
+	//Object of solver class
 	my_solver_class Solver;
 
 	Solver.assemble_linear_system(parser);

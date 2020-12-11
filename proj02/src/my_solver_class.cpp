@@ -29,6 +29,7 @@ public:
 	void deallocate_memory(my_inputfile_parser&);
 };
 
+//Assembler of all components of our linear system
 void my_solver_class::assemble_linear_system(my_inputfile_parser& parser){
 
 	gt.BeginTimer(__func__);
@@ -50,6 +51,7 @@ void my_solver_class::assemble_linear_system(my_inputfile_parser& parser){
 	gt.EndTimer(__func__);
 }
 
+// solver function 
 void my_solver_class::solve_linear_system(my_inputfile_parser& parser){
 	
 	gt.BeginTimer(__func__);
@@ -58,6 +60,7 @@ void my_solver_class::solve_linear_system(my_inputfile_parser& parser){
 	gt.EndTimer(__func__);
 }
 
+// print to std::out depending on input file options, also write to data.h5
 void my_solver_class::print_and_write_all(my_inputfile_parser& parser){
 
 	gt.BeginTimer(__func__);	
@@ -76,6 +79,7 @@ void my_solver_class::print_and_write_all(my_inputfile_parser& parser){
 	gt.EndTimer(__func__);
 }
 
+//Deallocate all allocated memory
 void my_solver_class::deallocate_memory(my_inputfile_parser& parser){
 	
 	gt.BeginTimer(__func__);

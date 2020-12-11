@@ -68,6 +68,7 @@ for order in orders:
 		plt.savefig('time_all_solvers_order_'+str(order)+'_dimension_'+str(dimension))
 		plt.clf()
 
+### Jacobi and order 4 do not go together
 solvers = ['gauss', 'petsc']
 orders = [4]
 for order in orders:
