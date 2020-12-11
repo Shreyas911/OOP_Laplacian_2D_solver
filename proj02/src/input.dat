@@ -11,7 +11,7 @@ grid_points = 10 # Number of points in one direction
 [solver]
 
 thermal_conductivity 	= 1.0			# Thermal conductivity k_0	 
-solver_name = jacobi # Use either jacobi or gauss
+solver_name = jacobi # Use either jacobi or gauss or petsc (if petsc, then ensure that you build properly with petsc)
 order = 2 # Order of accuracy of stencil, use 2 or 4
-error_TOL		= 0.00000000000000001	# Tolerance
+error_TOL		= 1.e-17	# Tolerance
 max_iters		= 1000000		# Maximum number of iterations
