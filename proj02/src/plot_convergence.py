@@ -69,7 +69,7 @@ for order in orders:
 		plt.clf()
 
 solvers = ['gauss', 'petsc']
-orders = [2, 4]
+orders = [4]
 for order in orders:
 	for dimension in dimensions:
 		for solver in solvers:
