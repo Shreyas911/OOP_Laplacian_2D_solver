@@ -12,7 +12,7 @@ n = []
 l2norm = []
 time = []
 orders = [2, 4]
-dimensions = [1]
+dimensions = [1, 2]
 
 ### Compare error norms for gauss and petsc solvers
 solvers = ['gauss', 'petsc']
@@ -69,7 +69,7 @@ for order in orders:
 		plt.clf()
 
 solvers = ['gauss', 'petsc']
-orders = [4]
+orders = [2, 4]
 for order in orders:
 	for dimension in dimensions:
 		for solver in solvers:
