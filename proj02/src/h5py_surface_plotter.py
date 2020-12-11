@@ -35,7 +35,6 @@ plt.colorbar()
 plt.title('Computed temperature field Gauss 4th order 100x100')
 plt.savefig('hdf5_contourf_computed_plot.png')
 plt.contourf(grid_vector, grid_vector, T_exact_matrix, 100, cmap = "RdBu")
-plt.colorbar()
 plt.title('Exact temperature field 100x100')
 plt.savefig('hdf5_contourf_exact_plot.png')
 
